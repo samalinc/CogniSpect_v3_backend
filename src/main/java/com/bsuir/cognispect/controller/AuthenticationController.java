@@ -32,9 +32,4 @@ public class AuthenticationController {
 
         return authenticationService.authenticateUser(loginDto);
     }
-
-    @GetMapping("/hi")
-    public String getHi() {
-        return "Hello world";
-    }
 }
