@@ -1,6 +1,7 @@
-package com.bsuir.cognispect.security;
+package com.bsuir.cognispect.security.provider;
 
 
+import com.bsuir.cognispect.security.details.UserDetailsImpl;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,13 +25,13 @@ public class JwtTokenProvider {
 
     public String generateToken(Authentication authentication) {
 
-        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        UserDetailsImpl userDetailsImpl = (UserDetailsImpl) authentication.getPrincipal();
 
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
         return Jwts.builder()
-                .setSubject(userPrincipal.getId().toString())
+                .setSubject(userDetailsImpl.getAccount().getId().toString())
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS256, jwtSecret)

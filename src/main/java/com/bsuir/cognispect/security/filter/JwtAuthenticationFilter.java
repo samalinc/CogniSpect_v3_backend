@@ -1,5 +1,7 @@
-package com.bsuir.cognispect.security;
+package com.bsuir.cognispect.security.filter;
 
+import com.bsuir.cognispect.security.provider.JwtTokenProvider;
+import com.bsuir.cognispect.security.details.UserDetailsServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private JwtTokenProvider tokenProvider;
 
     @Autowired
-    private CustomUserDetailsService customUserDetailsService;
+    private UserDetailsServiceImpl userDetailsServiceImpl;
 
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
@@ -35,7 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
                 UUID userId = tokenProvider.getUserIdFromJWT(jwt);
 
-                UserDetails userDetails = customUserDetailsService.loadUserById(userId);
+                UserDetails userDetails = userDetailsServiceImpl.loadUserById(userId);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
@@ -51,7 +53,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private String getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7, bearerToken.length());
+            return bearerToken.substring(7);
         }
         return null;
     }

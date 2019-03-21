@@ -5,6 +5,7 @@ import com.bsuir.cognispect.dto.UserDto;
 import com.bsuir.cognispect.entity.Account;
 import com.bsuir.cognispect.entity.Role;
 import com.bsuir.cognispect.entity.User;
+import com.bsuir.cognispect.entity.enums.RoleEnum;
 import com.bsuir.cognispect.repository.AccountRepository;
 import com.bsuir.cognispect.repository.RoleRepository;
 import com.bsuir.cognispect.repository.UserRepository;
@@ -49,7 +50,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         account.setHashedPassword(passwordEncoder.encode(signUpDto.getPassword()));
         account.setEmail(signUpDto.getEmail());
 
-        Role userRole = roleRepository.findByRoleName(signUpDto.getRole()).get();
+        Role userRole = roleRepository.findByRoleName(RoleEnum.STUDENT).get();
 
         account.setRole(userRole);
         accountRepository.save(account);
