@@ -1,6 +1,7 @@
 package com.bsuir.cognispect.controller;
 
 
+import com.bsuir.cognispect.dto.SignInDto;
 import com.bsuir.cognispect.dto.SignUpDto;
 import com.bsuir.cognispect.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,16 @@ public class AuthenticationController {
     AuthenticationService authenticationService;
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpDto signUpDto) {
+    public ResponseEntity<?> registerUser(
+            @Valid @RequestBody SignUpDto signUpDto) {
+
         return authenticationService.registerUser(signUpDto);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> authenticateUser(
+            @Valid @RequestBody SignInDto signInDto) {
+
+        return authenticationService.authenticateUser(signInDto);
     }
 }

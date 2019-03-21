@@ -9,8 +9,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.UUID;
-
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -27,17 +25,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                         .orElseThrow(() -> new UsernameNotFoundException(
                                 "User not found with username or email: "
                                         + loginOrEmail))
-        );
-    }
-
-    // This method is used by JWTAuthenticationFilter
-    @Transactional
-    public UserDetails loadUserById(UUID id) {
-
-        return UserDetailsImpl.create(accountRepository.findById(id)
-                .orElseThrow(
-                        () -> new UsernameNotFoundException(
-                                "User not found with id: " + id))
         );
     }
 }

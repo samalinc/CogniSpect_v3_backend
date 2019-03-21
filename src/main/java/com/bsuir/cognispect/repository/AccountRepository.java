@@ -15,4 +15,6 @@ public interface AccountRepository extends JpaRepository<Account, UUID> {
     boolean existsByEmail(String email);
 
     Optional<Account> findByLoginOrEmail(String login, String email);
+
+    Optional<Account> findByLogin(String login);
 }
