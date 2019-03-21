@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -19,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+
 
 @Configuration
 @EnableWebSecurity
@@ -42,7 +41,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private TokenAuthenticationProvider tokenAuthenticationProvider;
 
     @Override
-    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder)
+    public void configure(
+            final AuthenticationManagerBuilder authenticationManagerBuilder)
             throws Exception {
 
         authenticationManagerBuilder
@@ -51,7 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(final WebSecurity web) {
         web.ignoring().antMatchers("/v2/api-docs",
                 "/swagger-resources/configuration/ui",
                 "/swagger-resources",
@@ -61,24 +61,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(final HttpSecurity http) throws Exception {
         http
                 .exceptionHandling()
-                    .authenticationEntryPoint(unauthorizedHandler)
+                .authenticationEntryPoint(unauthorizedHandler)
                 .and()
-                    .sessionManagement() // dont create a session for this configuration
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilterBefore(tokenAuthenticationFilter, BasicAuthenticationFilter.class)
+                .addFilterBefore(tokenAuthenticationFilter,
+                        BasicAuthenticationFilter.class)
                 .antMatcher("/**")
-                    .authenticationProvider(tokenAuthenticationProvider)
+                .authenticationProvider(tokenAuthenticationProvider)
                 .authorizeRequests()
                 .antMatchers("/api/auth/login")
-                    .permitAll()
+                .permitAll()
                 .antMatchers("/api/auth/signup")
-                    .permitAll()
+                .permitAll()
                 .anyRequest()
-                    .authenticated();
+                .authenticated();
 
         http.csrf().disable();
 

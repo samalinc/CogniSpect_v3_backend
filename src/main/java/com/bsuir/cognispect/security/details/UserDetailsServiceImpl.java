@@ -9,15 +9,16 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    AccountRepository accountRepository;
+    private AccountRepository accountRepository;
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String loginOrEmail)
+    public UserDetails loadUserByUsername(final String loginOrEmail)
             throws UsernameNotFoundException {
 
         return UserDetailsImpl.create(

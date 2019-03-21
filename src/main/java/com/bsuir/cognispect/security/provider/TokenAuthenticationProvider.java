@@ -1,6 +1,5 @@
 package com.bsuir.cognispect.security.provider;
 
-
 import com.bsuir.cognispect.security.token.TokenAuthentication;
 import com.bsuir.cognispect.security.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -13,19 +12,21 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
+
 @Component
 @Slf4j
 public class TokenAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
-    JwtUtil jwtUtil;
+    private JwtUtil jwtUtil;
 
     @Qualifier("userDetailsServiceImpl")
     @Autowired
     private UserDetailsService userDetailsService;
 
     @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    public Authentication authenticate(final Authentication authentication)
+            throws AuthenticationException {
         TokenAuthentication tokenAuthentication = (TokenAuthentication) authentication;
 
         if (jwtUtil.validateToken(tokenAuthentication.getName())) {
@@ -42,7 +43,7 @@ public class TokenAuthenticationProvider implements AuthenticationProvider {
     }
 
     @Override
-    public boolean supports(Class<?> aClass) {
+    public boolean supports(final Class<?> aClass) {
         return TokenAuthentication.class.equals(aClass);
     }
 }

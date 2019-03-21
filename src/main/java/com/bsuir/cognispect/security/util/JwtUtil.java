@@ -18,7 +18,7 @@ public class JwtUtil {
     @Value("${app.jwtExpirationInMs}")
     private int jwtExpirationInMs;
 
-    public String generateToken(Account account) {
+    public String generateToken(final Account account) {
 
         Claims claims = Jwts.claims().setSubject(account.getLogin());
         claims.put("userId", account.getId());
@@ -27,12 +27,13 @@ public class JwtUtil {
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(new Date().getTime() + jwtExpirationInMs))
+                .setExpiration(
+                        new Date(new Date().getTime() + jwtExpirationInMs))
                 .signWith(SignatureAlgorithm.HS256, jwtSecret)
                 .compact();
     }
 
-    public String getUsernameFromJWT(String token) {
+    public String getUsernameFromJWT(final String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(jwtSecret)
                 .parseClaimsJws(token)
@@ -41,7 +42,7 @@ public class JwtUtil {
         return claims.getSubject();
     }
 
-    public boolean validateToken(String authToken) {
+    public boolean validateToken(final String authToken) {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
             return true;

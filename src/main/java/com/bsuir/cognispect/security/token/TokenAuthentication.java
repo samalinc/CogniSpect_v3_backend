@@ -6,13 +6,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+
 public class TokenAuthentication implements Authentication {
 
     private UserDetails userDetails;
     private String token;
     private boolean isAuthenticated;
 
-    public TokenAuthentication(String token) {
+    public TokenAuthentication(final String token) {
         this.token = token;
     }
 
@@ -42,7 +43,7 @@ public class TokenAuthentication implements Authentication {
     }
 
     @Override
-    public void setAuthenticated(boolean b) throws IllegalArgumentException {
+    public void setAuthenticated(final boolean b) throws IllegalArgumentException {
         this.isAuthenticated = b;
     }
 
@@ -51,11 +52,7 @@ public class TokenAuthentication implements Authentication {
         return token;
     }
 
-    public void setUserDetails(UserDetails userDetails) {
+    public void setUserDetails(final UserDetails userDetails) {
         this.userDetails = userDetails;
-    }
-
-    public UserDetails getUserDetails() {
-        return userDetails;
     }
 }

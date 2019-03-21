@@ -5,7 +5,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+
 
 public class UserDetailsImpl implements UserDetails {
 
@@ -13,13 +17,13 @@ public class UserDetailsImpl implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(Account account,
-                           Collection<? extends GrantedAuthority> authorities) {
+    public UserDetailsImpl(final Account account,
+                           final Collection<? extends GrantedAuthority> authorities) {
         this.account = account;
         this.authorities = authorities;
     }
 
-    public static UserDetailsImpl create(Account account) {
+    public static UserDetailsImpl create(final Account account) {
         List<GrantedAuthority> authorities = Collections
                 .singletonList(new SimpleGrantedAuthority(
                         account.getRole().getRoleName().name()));
@@ -70,11 +74,12 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserDetailsImpl otherUserDetails = (UserDetailsImpl) o;
-        return Objects.equals(account.getId(), otherUserDetails.getAccount().getId());
+        return Objects.equals(
+                account.getId(), otherUserDetails.getAccount().getId());
     }
 
     @Override

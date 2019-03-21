@@ -15,6 +15,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.List;
 
+
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {

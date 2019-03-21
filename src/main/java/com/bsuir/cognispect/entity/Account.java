@@ -41,7 +41,3 @@ public class Account {
     @JoinColumn(name = "id_role", nullable = false)
     private Role role;
 }
-
-
-
-

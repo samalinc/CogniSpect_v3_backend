@@ -1,11 +1,9 @@
 package com.bsuir.cognispect.service.impl;
 
 import com.bsuir.cognispect.dto.AuthorizationResponseDto;
-import com.bsuir.cognispect.dto.SignInDto;
+import com.bsuir.cognispect.dto.LoginDto;
 import com.bsuir.cognispect.dto.SignUpDto;
-import com.bsuir.cognispect.dto.AccountDto;
 import com.bsuir.cognispect.entity.Account;
-import com.bsuir.cognispect.entity.Role;
 import com.bsuir.cognispect.entity.User;
 import com.bsuir.cognispect.entity.enums.RoleEnum;
 import com.bsuir.cognispect.mapper.AccountMapper;
@@ -48,7 +46,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private AccountMapper accountMapper;
 
     @Override
-    public ResponseEntity<?> registerUser(SignUpDto signUpDto) throws RoleNotFoundException {
+    public ResponseEntity<?> registerUser(final SignUpDto signUpDto)
+            throws RoleNotFoundException {
         if (accountRepository.existsByLogin(signUpDto.getLogin())) {
             return new ResponseEntity<>(
                     "User with this login already exists",
@@ -63,7 +62,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         Account account = new Account();
         account.setLogin(signUpDto.getLogin());
-        account.setHashedPassword(passwordEncoder.encode(signUpDto.getPassword()));
+        account.setHashedPassword(
+                passwordEncoder.encode(signUpDto.getPassword()));
         account.setEmail(signUpDto.getEmail());
 
         account.setRole(roleRepository.findByRoleName(RoleEnum.STUDENT)
@@ -81,10 +81,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public ResponseEntity<?> authenticateUser(SignInDto signInDto) {
+    public ResponseEntity<?> authenticateUser(final LoginDto loginDto) {
         try {
             Optional<Account> account = accountRepository.findByLoginOrEmail(
-                    signInDto.getLogin(), signInDto.getLogin());
+                    loginDto.getLogin(), loginDto.getLogin());
 
             if (!account.isPresent()) {
                 return new ResponseEntity<>(
