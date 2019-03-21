@@ -1,41 +1,27 @@
 package com.bsuir.cognispect.security.filter;
 
-import com.bsuir.cognispect.security.provider.JwtTokenProvider;
-import com.bsuir.cognispect.security.details.UserDetailsServiceImpl;
+import com.bsuir.cognispect.security.token.TokenAuthentication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.UUID;
 
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+@Component
+public class TokenAuthenticationFilter implements Filter {
 
-    @Autowired
-    private JwtTokenProvider tokenProvider;
+    private static final Logger logger = LoggerFactory.getLogger(TokenAuthenticationFilter.class);
 
-    @Autowired
-    private UserDetailsServiceImpl userDetailsServiceImpl;
-
-    private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
-
-    @Override
+   /* @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-            String jwt = getJwtFromRequest(request);
 
             if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
-                UUID userId = tokenProvider.getUserIdFromJWT(jwt);
+                UUID userId = tokenProvider.getUsernameFromJWT(jwt);
 
                 UserDetails userDetails = userDetailsServiceImpl.loadUserById(userId);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
@@ -48,6 +34,32 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
+    }*/
+
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+
+    }
+
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
+
+        String token = getJwtFromRequest(httpServletRequest);
+
+        TokenAuthentication tokenAuthentication = new TokenAuthentication(token);
+
+        if (!StringUtils.hasText(token)) {
+            tokenAuthentication.setAuthenticated(false);
+        } else {
+            SecurityContextHolder.getContext().setAuthentication(tokenAuthentication);
+        }
+    }
+
+    @Override
+    public void destroy() {
+
     }
 
     private String getJwtFromRequest(HttpServletRequest request) {
