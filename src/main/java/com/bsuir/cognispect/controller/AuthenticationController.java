@@ -6,11 +6,9 @@ import com.bsuir.cognispect.dto.SignUpDto;
 import com.bsuir.cognispect.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.management.relation.RoleNotFoundException;
 import javax.validation.Valid;
 
 @RestController
@@ -21,7 +19,8 @@ public class AuthenticationController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(
-            @Valid @RequestBody SignUpDto signUpDto) {
+            @Valid @RequestBody SignUpDto signUpDto)
+            throws RoleNotFoundException {
 
         return authenticationService.registerUser(signUpDto);
     }
@@ -31,5 +30,10 @@ public class AuthenticationController {
             @Valid @RequestBody SignInDto signInDto) {
 
         return authenticationService.authenticateUser(signInDto);
+    }
+
+    @GetMapping("/hi")
+    public String getHi() {
+        return "Hello world";
     }
 }

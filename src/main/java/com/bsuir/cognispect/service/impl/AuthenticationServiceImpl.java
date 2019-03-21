@@ -1,30 +1,29 @@
 package com.bsuir.cognispect.service.impl;
 
+import com.bsuir.cognispect.dto.AuthorizationResponseDto;
 import com.bsuir.cognispect.dto.SignInDto;
 import com.bsuir.cognispect.dto.SignUpDto;
-import com.bsuir.cognispect.dto.UserDto;
+import com.bsuir.cognispect.dto.AccountDto;
 import com.bsuir.cognispect.entity.Account;
 import com.bsuir.cognispect.entity.Role;
 import com.bsuir.cognispect.entity.User;
 import com.bsuir.cognispect.entity.enums.RoleEnum;
+import com.bsuir.cognispect.mapper.AccountMapper;
 import com.bsuir.cognispect.repository.AccountRepository;
 import com.bsuir.cognispect.repository.RoleRepository;
 import com.bsuir.cognispect.repository.UserRepository;
-import com.bsuir.cognispect.security.provider.TokenAuthenticationProvider;
 import com.bsuir.cognispect.security.token.TokenAuthentication;
 import com.bsuir.cognispect.security.util.JwtUtil;
 import com.bsuir.cognispect.service.AuthenticationService;
-import io.swagger.annotations.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.management.relation.RoleNotFoundException;
 import java.util.Optional;
 
 @Service
@@ -43,13 +42,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private TokenAuthenticationProvider tokenAuthenticationProvider;
-
-    @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
+    private AccountMapper accountMapper;
+
     @Override
-    public ResponseEntity<?> registerUser(SignUpDto signUpDto) {
+    public ResponseEntity<?> registerUser(SignUpDto signUpDto) throws RoleNotFoundException {
         if (accountRepository.existsByLogin(signUpDto.getLogin())) {
             return new ResponseEntity<>(
                     "User with this login already exists",
@@ -67,27 +66,25 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         account.setHashedPassword(passwordEncoder.encode(signUpDto.getPassword()));
         account.setEmail(signUpDto.getEmail());
 
-        Role userRole = roleRepository.findByRoleName(RoleEnum.STUDENT).get();
-
-        account.setRole(userRole);
+        account.setRole(roleRepository.findByRoleName(RoleEnum.STUDENT)
+                .orElseThrow(() -> new RoleNotFoundException(
+                        "Role not found in the system")));
         accountRepository.save(account);
 
         User user = new User();
         user.setAccount(account);
         userRepository.save(user);
 
-        UserDto userDto = new UserDto();
-        userDto.setId(account.getId());
-        userDto.setLogin(account.getLogin());
-        userDto.setEmail(account.getEmail());
-
-        return new ResponseEntity<>(userDto, HttpStatus.OK);
+        return new ResponseEntity<>(
+                accountMapper.accountToAccountDto(account),
+                HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<?> authenticateUser(SignInDto signInDto) {
         try {
-            Optional<Account> account = accountRepository.findByLogin(signInDto.getLogin());
+            Optional<Account> account = accountRepository.findByLoginOrEmail(
+                    signInDto.getLogin(), signInDto.getLogin());
 
             if (!account.isPresent()) {
                 return new ResponseEntity<>(
@@ -95,12 +92,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                         HttpStatus.BAD_REQUEST);
             }
 
-            SecurityContextHolder.getContext().setAuthentication(
-                    new TokenAuthentication(
-                            jwtUtil.generateToken(account.get())
-                    ));
+            TokenAuthentication tokenAuthentication = new TokenAuthentication(
+                    jwtUtil.generateToken(account.get()));
 
-            return ResponseEntity.ok("asasf");
+            SecurityContextHolder.getContext()
+                    .setAuthentication(tokenAuthentication);
+
+            return ResponseEntity.ok(new AuthorizationResponseDto(
+                    tokenAuthentication.getName(),
+                    accountMapper.accountToAccountDto(account.get())
+            ));
 
         } catch (AuthenticationException ex) {
             return new ResponseEntity<>("Incorrect login or password",
