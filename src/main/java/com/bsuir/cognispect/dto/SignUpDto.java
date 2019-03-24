@@ -1,6 +1,7 @@
 package com.bsuir.cognispect.dto;
 
 import com.bsuir.cognispect.entity.enums.RoleEnum;
+import com.bsuir.cognispect.validation.annotation.Enum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,5 +30,6 @@ public class SignUpDto {
     @Size(min = 6, max = 20)
     private String password;
 
+    @Enum(enumClass = RoleEnum.class, ignoreCase = true)
     private RoleEnum role;
 }
