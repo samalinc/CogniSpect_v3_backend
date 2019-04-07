@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
@@ -30,6 +31,6 @@ public class SignUpDto {
     @Size(min = 6, max = 20)
     private String password;
 
-    @Enum(enumClass = RoleEnum.class, ignoreCase = true)
+    @NotNull
     private RoleEnum role;
 }
