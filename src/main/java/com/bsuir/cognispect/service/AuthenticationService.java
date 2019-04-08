@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 
 import javax.management.relation.RoleNotFoundException;
 
+
 public interface AuthenticationService {
     ResponseEntity<?> registerUser(SignUpDto signUpDto)
             throws RoleNotFoundException;
