@@ -2,6 +2,7 @@ package com.bsuir.cognispect.mapper;
 
 import com.bsuir.cognispect.dto.QuestionDto;
 import com.bsuir.cognispect.entity.Question;
+import com.bsuir.cognispect.exception.QuestionTypeNotFoundException;
 import com.bsuir.cognispect.repository.QuestionTypeRepository;
 import com.bsuir.cognispect.service.SubjectService;
 import com.bsuir.cognispect.service.TopicService;
@@ -39,7 +40,11 @@ public abstract class QuestionMapper {
                 .id(UUID.randomUUID())
                 .type(questionTypeRepository
                         .findQuestionTypeByQuestionType(questionDto.getType())
-                        .orElseThrow(RuntimeException::new))
+                        .orElseThrow(() -> new QuestionTypeNotFoundException(
+                                "Question type: "
+                                        + questionDto.getType() + "not found"
+                        ))
+                )
                 .subject(subjectService
                         .getSubjectByName(questionDto.getSubject()))
                 .topic(topicService
