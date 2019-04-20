@@ -1,6 +1,6 @@
 package com.bsuir.cognispect.repository;
 
-import com.bsuir.cognispect.entity.AnswerVariant;
+import com.bsuir.cognispect.entity.Teacher;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,6 +8,5 @@ import java.util.UUID;
 
 
 @Repository
-public interface AnswerVariantRepository
-        extends JpaRepository<AnswerVariant, UUID> {
+public interface TeacherRepository extends JpaRepository<Teacher, UUID> {
 }
