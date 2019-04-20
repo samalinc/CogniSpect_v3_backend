@@ -14,24 +14,23 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "teacher")
-public class Teacher {
+@Table(name = "test_template")
+public class TestTemplate {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @Column(name = "first_name")
-    private String firstName;
+    private String name;
 
-    @Column(name = "last_name")
-    private String lastName;
+    @ManyToOne
+    @JoinColumn(name = "creator_id")
+    private Teacher creator;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_id", nullable = false)
-    private Account account;
+    @OneToMany(mappedBy = "testTemplate")
+    private List<TestTemplateQuestion> testTemplateQuestions;
 
-    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
-    private List<TestTemplate> testTemplates;
+    @OneToMany(mappedBy = "testTemplate")
+    private List<TestTemplateTopic> testTemplateTopics;
 }

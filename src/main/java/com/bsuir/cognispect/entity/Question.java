@@ -43,4 +43,7 @@ public class Question {
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Substitution> substitutions;
+
+    @OneToMany(mappedBy = "question")
+    private List<TestTemplateQuestion> testTemplateQuestions;
 }
