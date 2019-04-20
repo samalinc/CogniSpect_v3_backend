@@ -8,7 +8,6 @@ import com.bsuir.cognispect.entity.Student;
 import com.bsuir.cognispect.entity.enums.RoleEnum;
 import com.bsuir.cognispect.mapper.AccountMapper;
 import com.bsuir.cognispect.repository.AccountRepository;
-import com.bsuir.cognispect.repository.RoleRepository;
 import com.bsuir.cognispect.security.token.TokenAuthentication;
 import com.bsuir.cognispect.security.util.JwtUtil;
 import com.bsuir.cognispect.service.AuthenticationService;
@@ -28,9 +27,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Autowired
     private AccountRepository accountRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -62,9 +58,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 passwordEncoder.encode(signUpDto.getPassword()));
         account.setEmail(signUpDto.getEmail());
 
-        account.setRole(roleRepository.findByRoleName(RoleEnum.STUDENT)
-                .orElseThrow(() -> new RoleNotFoundException(
-                        "Role not found in the system")));
+        account.setRole(RoleEnum.STUDENT);
         accountRepository.save(account);
 
         Student student = new Student();

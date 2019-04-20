@@ -32,12 +32,16 @@ public class QuestionVariant {
     @JoinColumn(name = "topic_id", nullable = false)
     private Topic topic;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    @ManyToOne
+    @JoinColumn(name = "test_variant_id")
+    private TestVariant testVariant;
+
+    @OneToMany(mappedBy = "questionVariant", cascade = CascadeType.ALL)
     private List<AnswerVariant> answers;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "questionVariant", cascade = CascadeType.ALL)
     private List<MatchAnswerVariant> matchAnswers;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "questionVariant", cascade = CascadeType.ALL)
     private List<SortAnswerVariant> sortAnswers;
 }

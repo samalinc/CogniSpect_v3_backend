@@ -15,19 +15,17 @@ import java.util.UUID;
 @Entity
 @Table(name = "test_template_question")
 public class TestTemplateQuestion {
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator")
-    private UUID id;
-
+    @EmbeddedId
+    private TestTemplateQuestionId testTemplateQuestionId;
 
     @ManyToOne
-    @JoinColumn(name = "test_template_id")
+    @MapsId("testTemplateId")
+    // @JoinColumn(name = "test_template_id")
     private TestTemplate testTemplate;
 
     @ManyToOne
-    @JoinColumn(name = "question_id")
+    @MapsId("questionId")
+    // @JoinColumn(name = "question_id")
     private Question question;
 
     @Column(name = "question_cost")

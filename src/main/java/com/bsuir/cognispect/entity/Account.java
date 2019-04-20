@@ -1,5 +1,6 @@
 package com.bsuir.cognispect.entity;
 
+import com.bsuir.cognispect.entity.enums.RoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,6 +33,10 @@ public class Account {
     @Email
     private String email;
 
+    @Column(name = "role_name")
+    @Enumerated(EnumType.STRING)
+    private RoleEnum role;
+
     @OneToOne(mappedBy = "account",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
@@ -41,8 +46,4 @@ public class Account {
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
     private Teacher teacher;
-
-    @ManyToOne
-    @JoinColumn(name = "id_role", nullable = false)
-    private Role role;
 }

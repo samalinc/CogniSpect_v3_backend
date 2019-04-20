@@ -4,8 +4,6 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.UUID;
-
 
 @Builder
 @AllArgsConstructor
@@ -15,17 +13,16 @@ import java.util.UUID;
 @Entity
 @Table(name = "test_template_topic")
 public class TestTemplateTopic {
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator")
-    private UUID id;
+    @EmbeddedId
+    private TestTemplateTopicId testTemplateTopicId;
 
     @ManyToOne
-    @JoinColumn(name = "test_template_id")
+    // @JoinColumn(name = "test_template_id")
+    @MapsId("testTemplateId")
     private TestTemplate testTemplate;
 
     @ManyToOne
-    @JoinColumn(name = "topic_id")
+    @MapsId("topicId")
+    // @JoinColumn(name = "topic_id")
     private Topic topic;
 }

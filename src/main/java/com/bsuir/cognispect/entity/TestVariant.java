@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -31,4 +32,7 @@ public class TestVariant {
     @ManyToOne
     @JoinColumn(name = "student_id")
     private Student student;
+
+    @OneToMany(mappedBy = "testVariant")
+    private List<QuestionVariant> questionVariants;
 }
