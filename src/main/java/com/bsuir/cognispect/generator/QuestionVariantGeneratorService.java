@@ -14,11 +14,11 @@ import java.util.Random;
 public class QuestionVariantGeneratorService {
     private static final String SUBSTITUTION_SIGNAL_VALUE = "%substitution%";
 
-
     public QuestionVariant generateQuestionVariant(Question question) {
 
         Random rand = new Random();
         int substitutionsIndex = rand.nextInt(question.getSubstitutions().size());
+        question.setDescription(generateDescription(question, substitutionsIndex));
 
         AnswerFactory answerFactory = new AnswerFactory();
         AnswerGenerator answerGenerator = answerFactory.getAnswerGeneratorType(question);
@@ -26,7 +26,6 @@ public class QuestionVariantGeneratorService {
         QuestionVariantGeneratorFactory questionVariantGeneratorFactory = new QuestionVariantGeneratorFactory();
         QuestionVariantGenerator questionVariantGenerator = questionVariantGeneratorFactory.
                 getQuestionVariantType(question.getType());
-
         return questionVariantGenerator.createQuestionVariant(answerGenerator.generateAnswer(question,
                 substitutionsIndex), question);
     }
