@@ -15,19 +15,18 @@ public class QuestionVariantChooseGeneratorImpl implements QuestionVariantGenera
     public QuestionVariant createQuestionVariant(List<Answer> answers, Question question) {
         QuestionVariant questionVariant = new QuestionVariant();
         List<AnswerVariant> answerVariants = new ArrayList<>();
+        questionVariant.setDescription(question.getDescription());
+        questionVariant.setTopic(question.getTopic());
 
-        for (Answer answer : answers) {
+        answers.forEach(answer -> {
             AnswerVariant answerVariant = new AnswerVariant();
-            answerVariant.setQuestionVariant(questionVariant);
             answerVariant.setPosition(answers.indexOf(answer));
             answerVariant.setCorrect(answer.isCorrect());
             answerVariant.setText(answer.getText());
             answerVariants.add(answerVariant);
-        }
+        });
 
         questionVariant.setAnswers(answerVariants);
-        questionVariant.setDescription(question.getDescription());
-        questionVariant.setTopic(question.getTopic());
         return questionVariant;
     }
 }
