@@ -19,7 +19,7 @@ public class JwtUtil {
 
         Claims claims = Jwts.claims().setSubject(account.getLogin());
         claims.put("userId", account.getId());
-        claims.put("role", account.getRole().getRoleName());
+        claims.put("role", account.getRole().name());
 
         return Jwts.builder()
                 .setClaims(claims)

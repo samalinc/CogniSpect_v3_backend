@@ -31,5 +31,5 @@ public class SortAnswerVariant {
 
     @ManyToOne
     @JoinColumn(name = "question_variant_id", nullable = false)
-    private Question question;
+    private QuestionVariant questionVariant;
 }
