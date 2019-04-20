@@ -17,6 +17,13 @@ import java.util.UUID;
 public abstract class QuestionMapper {
     @Autowired
     private AnswerMapper answerMapper;
+
+    @Autowired
+    private MatchAnswerMapper matchAnswerMapper;
+
+    @Autowired
+    private SortAnswerMapper sortAnswerMapper;
+
     @Autowired
     private TopicService topicService;
 
