@@ -23,6 +23,7 @@ public class Question {
             strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @Enumerated(EnumType.STRING)

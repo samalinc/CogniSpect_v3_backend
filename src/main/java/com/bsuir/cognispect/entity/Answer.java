@@ -21,6 +21,7 @@ public class Answer {
             strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
+    @Column(columnDefinition = "TEXT")
     private String text;
 
     @Column(name = "is_correct")

@@ -21,8 +21,10 @@ public class MatchAnswerVariant {
             strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
+    @Column(columnDefinition = "TEXT")
     private String key;
 
+    @Column(columnDefinition = "TEXT")
     private String value;
 
     @Column(name = "key_position")

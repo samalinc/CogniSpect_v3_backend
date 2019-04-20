@@ -22,13 +22,13 @@ public class Student {
             strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @Column(name = "first_name")
+    @Column(name = "first_name", columnDefinition = "TEXT")
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = "last_name", columnDefinition = "TEXT")
     private String lastName;
 
-    @Column(name = "study_group")
+    @Column(name = "study_group", columnDefinition = "TEXT")
     private String studyGroup;
 
     @OneToOne(fetch = FetchType.LAZY)

@@ -25,7 +25,7 @@ public class Topic {
             strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @Size(max = 50)
+    @Column(columnDefinition = "TEXT")
     private String name;
 
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL)

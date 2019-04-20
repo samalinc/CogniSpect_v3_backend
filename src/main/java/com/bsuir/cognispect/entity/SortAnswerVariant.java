@@ -21,6 +21,7 @@ public class SortAnswerVariant {
             strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
+    @Column(columnDefinition = "TEXT")
     private String text;
 
     @Column(name = "right_position")

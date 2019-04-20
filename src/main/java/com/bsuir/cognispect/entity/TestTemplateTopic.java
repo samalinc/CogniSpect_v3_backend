@@ -1,7 +1,6 @@
 package com.bsuir.cognispect.entity;
 
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -17,12 +16,10 @@ public class TestTemplateTopic {
     private TestTemplateTopicId testTemplateTopicId;
 
     @ManyToOne
-    // @JoinColumn(name = "test_template_id")
     @MapsId("testTemplateId")
     private TestTemplate testTemplate;
 
     @ManyToOne
     @MapsId("topicId")
-    // @JoinColumn(name = "topic_id")
     private Topic topic;
 }

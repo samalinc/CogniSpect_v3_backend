@@ -25,9 +25,10 @@ public class Account {
             strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
+    @Column(columnDefinition = "TEXT")
     private String login;
 
-    @Column(name = "hashed_password")
+    @Column(name = "hashed_password", columnDefinition = "TEXT")
     private String hashedPassword;
 
     @Email
