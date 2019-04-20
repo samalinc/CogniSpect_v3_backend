@@ -7,18 +7,12 @@ import com.bsuir.cognispect.generator.answers.AnswerFactory;
 import com.bsuir.cognispect.generator.answers.AnswerGenerator;
 import com.bsuir.cognispect.generator.question.QuestionVariantGenerator;
 import com.bsuir.cognispect.generator.question.QuestionVariantGeneratorFactory;
-import com.bsuir.cognispect.repository.QuestionVariantRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Random;
 
 public class QuestionVariantGeneratorService {
     private static final String SUBSTITUTION_SIGNAL_VALUE = "%substitution%";
-
-    @Autowired
-    private QuestionVariantRepository questionVariantRepository;
-
 
     public QuestionVariant generateQuestionVariant(Question question) {
 
@@ -32,10 +26,8 @@ public class QuestionVariantGeneratorService {
         QuestionVariantGeneratorFactory questionVariantGeneratorFactory = new QuestionVariantGeneratorFactory();
         QuestionVariantGenerator questionVariantGenerator = questionVariantGeneratorFactory.
                 getQuestionVariantType(question.getType());
-        QuestionVariant questionVariant = questionVariantGenerator.createQuestionVariant(answerGenerator.generateAnswer(question,
+        return questionVariantGenerator.createQuestionVariant(answerGenerator.generateAnswer(question,
                 substitutionsIndex), question);
-        questionVariantRepository.save(questionVariant);
-        return questionVariant;
     }
 
 
