@@ -1,9 +1,11 @@
 package com.bsuir.cognispect.entity;
 
+import com.bsuir.cognispect.entity.enums.QuestionTypeEnum;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -24,18 +26,22 @@ public class Question {
 
     private String description;
 
+    @Enumerated(EnumType.STRING)
+    private QuestionTypeEnum type;
+
     @ManyToOne
-    @JoinColumn(name = "id_type", nullable = false)
-    private QuestionType type;
+    @JoinColumn(name = "topic_id", nullable = false)
+    private Topic topic;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private Set<Answer> answers;
 
-    @ManyToOne
-    @JoinColumn(name = "id_topic", nullable = false)
-    private Topic topic;
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    private List<MatchAnswer> matchAnswers;
 
-    @ManyToOne
-    @JoinColumn(name = "id_subject", nullable = false)
-    private Subject subject;
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    private List<SortAnswer> sortAnswers;
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    private List<Substitution> substitutions;
 }

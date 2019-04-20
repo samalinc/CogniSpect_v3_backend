@@ -13,23 +13,19 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "answer")
-public class Answer {
+@Table(name = "match_answer")
+public class MatchAnswer {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    private String text;
+    private String key;
 
-    @Column(name = "is_correct")
-    boolean isCorrect;
+    private String value;
 
     @ManyToOne
     @JoinColumn(name = "question_id", nullable = false)
     private Question question;
-
-    @OneToOne(mappedBy = "rightAnswer")
-    private Substitution substitution;
 }

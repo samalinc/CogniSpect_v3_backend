@@ -32,16 +32,6 @@ public class QuestionServiceImpl implements QuestionService {
         );
     }
 
-    @Override
-    public List<Question> getQuestionsBySubject(final String subjectName) {
-        return questionRepository.findQuestionsBySubject(
-                subjectRepository.findSubjectByName(subjectName)
-                        .orElseThrow(() -> new SubjectNotFoundException(
-                                "Subject with name: " + subjectName
-                                        + "not found")
-                        )
-        );
-    }
 
     @Override
     public Question createQuestion(final Question question) {

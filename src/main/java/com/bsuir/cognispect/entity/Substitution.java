@@ -13,8 +13,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "answer")
-public class Answer {
+@Table(name = "match_answer")
+public class Substitution {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID",
@@ -23,13 +23,11 @@ public class Answer {
 
     private String text;
 
-    @Column(name = "is_correct")
-    boolean isCorrect;
-
     @ManyToOne
     @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 
-    @OneToOne(mappedBy = "rightAnswer")
-    private Substitution substitution;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "right_answer_id", nullable = false)
+    private Answer rightAnswer;
 }

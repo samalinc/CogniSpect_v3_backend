@@ -1,7 +1,6 @@
 package com.bsuir.cognispect.dto;
 
-import com.bsuir.cognispect.entity.QuestionType;
-import com.bsuir.cognispect.entity.enums.QuestionEnum;
+import com.bsuir.cognispect.entity.enums.QuestionTypeEnum;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -23,7 +22,7 @@ public class QuestionDto {
     @Size(max = 40)
     private String description;
 
-    private QuestionEnum type;
+    private QuestionTypeEnum type;
 
     @NotNull
     private List<AnswerDto> answers;

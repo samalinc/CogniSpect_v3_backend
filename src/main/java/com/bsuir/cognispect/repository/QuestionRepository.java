@@ -15,7 +15,5 @@ import java.util.UUID;
 public interface QuestionRepository extends JpaRepository<Question, UUID> {
     Optional<Question> findQuestionById(UUID questionId);
 
-    List<Question> findQuestionsBySubject(Subject subject);
-
     List<Question> findQuestionsByTopic(Topic topic);
 }

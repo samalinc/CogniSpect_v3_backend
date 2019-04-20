@@ -1,11 +1,12 @@
 package com.bsuir.cognispect.entity.enums;
 
-public enum QuestionEnum {
+public enum QuestionTypeEnum {
     CHOOSE,
+    MULTICHOOSE,
     SORT,
     MATCH,
     SUBSTITUTION;
 
-    QuestionEnum(){
+    QuestionTypeEnum(){
     }
 }

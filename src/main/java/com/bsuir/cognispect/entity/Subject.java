@@ -8,7 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -28,6 +28,6 @@ public class Subject {
     @Size(max = 50)
     private String name;
 
-    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
-    private Set<Question> questions;
+    @OneToMany(mappedBy = "subject")
+    private List<Topic> topics;
 }
