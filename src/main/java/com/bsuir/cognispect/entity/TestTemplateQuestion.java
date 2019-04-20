@@ -1,8 +1,10 @@
 package com.bsuir.cognispect.entity;
 
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 
 @Builder
