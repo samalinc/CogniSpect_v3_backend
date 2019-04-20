@@ -29,6 +29,8 @@ public class QuestionDto {
 
     private List<SortAnswerDto> sortAnswers;
 
+    private List<SubstitutionDto> substitutions;
+
     @NotBlank
     @Size(max = 40)
     private String topic;

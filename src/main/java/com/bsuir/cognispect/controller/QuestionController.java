@@ -26,11 +26,12 @@ public class QuestionController {
     public ResponseEntity<?> createQuestion(
             @Valid @RequestBody final QuestionDto questionDto) {
 
-        return new ResponseEntity<>(
+        /*return new ResponseEntity<>(
                 questionService.createQuestion(
                         questionMapper.questionDtoToQuestion(questionDto)
                 ),
                 HttpStatus.CREATED
-        );
+        );*/
+        return null;
     }
 }

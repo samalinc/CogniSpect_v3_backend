@@ -1,5 +1,6 @@
 package com.bsuir.cognispect.service;
 
+import com.bsuir.cognispect.dto.QuestionDto;
 import com.bsuir.cognispect.entity.Question;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
 public interface QuestionService {
     List<Question> getQuestionsByTopic(String topicName);
 
-    Question createQuestion(Question question);
+    Question createQuestion(QuestionDto questionDto);
 
     Question updateQuestion(Question question);
 }
