@@ -32,4 +32,12 @@ public class SignUpDto {
 
     @NotNull
     private RoleEnum role;
+
+    @NotBlank
+    private String firstName;
+
+    @NotBlank
+    private String lastName;
+
+    private String studyGroup;
 }

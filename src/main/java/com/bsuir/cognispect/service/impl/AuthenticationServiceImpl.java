@@ -5,9 +5,12 @@ import com.bsuir.cognispect.dto.LoginDto;
 import com.bsuir.cognispect.dto.SignUpDto;
 import com.bsuir.cognispect.entity.Account;
 import com.bsuir.cognispect.entity.Student;
+import com.bsuir.cognispect.entity.Teacher;
 import com.bsuir.cognispect.entity.enums.RoleEnum;
 import com.bsuir.cognispect.mapper.AccountMapper;
 import com.bsuir.cognispect.repository.AccountRepository;
+import com.bsuir.cognispect.repository.StudentRepository;
+import com.bsuir.cognispect.repository.TeacherRepository;
 import com.bsuir.cognispect.security.token.TokenAuthentication;
 import com.bsuir.cognispect.security.util.JwtUtil;
 import com.bsuir.cognispect.service.AuthenticationService;
@@ -19,7 +22,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.management.relation.RoleNotFoundException;
 import java.util.Optional;
 
 @Service
@@ -37,9 +39,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Autowired
     private AccountMapper accountMapper;
 
+    @Autowired
+    private StudentRepository studentRepository;
+
+    @Autowired
+    private TeacherRepository teacherRepository;
+
     @Override
-    public ResponseEntity<?> registerUser(final SignUpDto signUpDto)
-            throws RoleNotFoundException {
+    public ResponseEntity<?> registerUser(final SignUpDto signUpDto) {
         if (accountRepository.existsByLogin(signUpDto.getLogin())) {
             return new ResponseEntity<>(
                     "User with this login already exists",
@@ -58,12 +65,25 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 passwordEncoder.encode(signUpDto.getPassword()));
         account.setEmail(signUpDto.getEmail());
 
-        account.setRole(RoleEnum.STUDENT);
+        account.setRole(signUpDto.getRole());
         accountRepository.save(account);
 
-        Student student = new Student();
-        student.setAccount(account);
-        // userRepository.save(user);
+        if (signUpDto.getRole().name().equals(RoleEnum.STUDENT.name())) {
+            Student student = new Student();
+            student.setFirstName(signUpDto.getFirstName());
+            student.setLastName(signUpDto.getLastName());
+            student.setStudyGroup(signUpDto.getStudyGroup());
+            student.setAccount(account);
+            // account.setStudent(student);
+            studentRepository.save(student);
+        } else {
+            Teacher teacher = new Teacher();
+            teacher.setFirstName(signUpDto.getFirstName());
+            teacher.setLastName(signUpDto.getLastName());
+            teacher.setAccount(account);
+            // account.setTeacher(teacher);
+            teacherRepository.save(teacher);
+        }
 
         return new ResponseEntity<>(
                 accountMapper.accountToAccountDto(account),
