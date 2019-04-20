@@ -4,7 +4,6 @@ import com.bsuir.cognispect.entity.enums.QuestionTypeEnum;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.UUID;
@@ -24,8 +23,11 @@ public class QuestionDto {
 
     private QuestionTypeEnum type;
 
-    @NotNull
     private List<AnswerDto> answers;
+
+    private List<MatchAnswerDto> matchAnswers;
+
+    private List<SortAnswerDto> sortAnswers;
 
     @NotBlank
     @Size(max = 40)

@@ -15,5 +15,5 @@ import java.util.UUID;
 public class AnswerDto {
     private UUID id;
     private String text;
-    boolean correct;
+    boolean isCorrect;
 }

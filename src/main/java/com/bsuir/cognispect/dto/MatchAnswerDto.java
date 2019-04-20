@@ -1,6 +1,5 @@
 package com.bsuir.cognispect.dto;
 
-import com.bsuir.cognispect.entity.enums.RoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,9 +12,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-public class AccountDto {
+public class MatchAnswerDto {
     private UUID id;
-    private String login;
-    private RoleEnum role;
-    private String email;
+    private String key;
+    private String value;
 }
