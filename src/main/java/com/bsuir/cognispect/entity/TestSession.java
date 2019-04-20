@@ -1,5 +1,6 @@
 package com.bsuir.cognispect.entity;
 
+import com.bsuir.cognispect.entity.enums.TestSessionStatusEnum;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -14,27 +15,21 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "student")
-public class Student {
+@Table(name = "test_session")
+public class TestSession {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @Column(name = "first_name")
-    private String firstName;
+    @Enumerated(EnumType.STRING)
+    private TestSessionStatusEnum testSessionStatusEnum;
 
-    @Column(name = "last_name")
-    private String lastName;
+    @ManyToOne
+    @JoinColumn(name = "teacher_id")
+    private Teacher teacher;
 
-    @Column(name = "study_group")
-    private String studyGroup;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_id", nullable = false)
-    private Account account;
-
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "testSession")
     private List<TestVariant> testVariants;
 }

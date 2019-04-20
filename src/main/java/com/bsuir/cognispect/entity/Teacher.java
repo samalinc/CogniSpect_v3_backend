@@ -34,4 +34,7 @@ public class Teacher {
 
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
     private List<TestTemplate> testTemplates;
+
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
+    private List<TestSession> testSessions;
 }
