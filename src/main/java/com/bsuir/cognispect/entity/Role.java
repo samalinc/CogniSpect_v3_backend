@@ -8,7 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -17,7 +17,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "roles")
+@Table(name = "role")
 public class Role {
     @Id
     @GeneratedValue(generator = "UUID")
@@ -30,5 +30,5 @@ public class Role {
     private RoleEnum roleName;
 
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
-    private Set<Account> accounts;
+    private List<Account> accounts;
 }

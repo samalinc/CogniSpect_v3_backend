@@ -7,7 +7,10 @@ import com.bsuir.cognispect.service.TopicService;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
 
 
 @Mapper(componentModel = "spring")
@@ -16,8 +19,6 @@ public abstract class QuestionMapper {
     private AnswerMapper answerMapper;
     @Autowired
     private TopicService topicService;
-    @Autowired
-    private SubjectService subjectService;
 
     public QuestionDto questionToQuestionDto(Question question) {
         return QuestionDto.builder()
@@ -38,7 +39,7 @@ public abstract class QuestionMapper {
                 .topic(topicService
                         .getTopicByName(questionDto.getTopic()))
                 .description(questionDto.getDescription())
-                .answers(new HashSet<>(answerMapper
+                .answers(new ArrayList<>(answerMapper
                         .answersDtoToAnswers(questionDto.getAnswers())))
                 .build();
     }

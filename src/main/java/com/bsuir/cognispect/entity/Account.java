@@ -16,7 +16,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "accounts")
+@Table(name = "account")
 public class Account {
     @Id
     @GeneratedValue(generator = "UUID")
@@ -35,7 +35,12 @@ public class Account {
     @OneToOne(mappedBy = "account",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
-    private User user;
+    private Student student;
+
+    @OneToOne(mappedBy = "account",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    private Teacher teacher;
 
     @ManyToOne
     @JoinColumn(name = "id_role", nullable = false)

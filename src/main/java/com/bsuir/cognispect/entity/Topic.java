@@ -8,7 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -17,7 +17,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "topics")
+@Table(name = "topic")
 public class Topic {
     @Id
     @GeneratedValue(generator = "UUID")
@@ -29,7 +29,7 @@ public class Topic {
     private String name;
 
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL)
-    private Set<Question> questions;
+    private List<Question> questions;
 
     @ManyToOne
     @JoinColumn(name = "subject_id", nullable = false)

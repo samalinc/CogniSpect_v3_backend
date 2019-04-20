@@ -4,12 +4,11 @@ import com.bsuir.cognispect.dto.AuthorizationResponseDto;
 import com.bsuir.cognispect.dto.LoginDto;
 import com.bsuir.cognispect.dto.SignUpDto;
 import com.bsuir.cognispect.entity.Account;
-import com.bsuir.cognispect.entity.User;
+import com.bsuir.cognispect.entity.Student;
 import com.bsuir.cognispect.entity.enums.RoleEnum;
 import com.bsuir.cognispect.mapper.AccountMapper;
 import com.bsuir.cognispect.repository.AccountRepository;
 import com.bsuir.cognispect.repository.RoleRepository;
-import com.bsuir.cognispect.repository.UserRepository;
 import com.bsuir.cognispect.security.token.TokenAuthentication;
 import com.bsuir.cognispect.security.util.JwtUtil;
 import com.bsuir.cognispect.service.AuthenticationService;
@@ -29,9 +28,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Autowired
     private AccountRepository accountRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -71,9 +67,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                         "Role not found in the system")));
         accountRepository.save(account);
 
-        User user = new User();
-        user.setAccount(account);
-        userRepository.save(user);
+        Student student = new Student();
+        student.setAccount(account);
+        // userRepository.save(user);
 
         return new ResponseEntity<>(
                 accountMapper.accountToAccountDto(account),

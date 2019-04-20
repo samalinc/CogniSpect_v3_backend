@@ -13,7 +13,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "match_answer")
+@Table(name = "sort_answer")
 public class SortAnswer {
     @Id
     @GeneratedValue(generator = "UUID")

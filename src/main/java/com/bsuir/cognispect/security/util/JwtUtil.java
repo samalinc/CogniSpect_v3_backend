@@ -15,9 +15,6 @@ public class JwtUtil {
     @Value("${app.jwtSecret}")
     private String jwtSecret;
 
-    @Value("${app.jwtExpirationInMs}")
-    private int jwtExpirationInMs;
-
     public String generateToken(final Account account) {
 
         Claims claims = Jwts.claims().setSubject(account.getLogin());

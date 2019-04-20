@@ -1,33 +1,33 @@
 package com.bsuir.cognispect.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
-import java.util.List;
 import java.util.UUID;
 
 
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "subject")
-public class Subject {
+@Table(name = "teacher")
+public class Teacher {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @Size(max = 50)
-    private String name;
+    @Column(name = "first_name")
+    private String firstName;
 
-    @OneToMany(mappedBy = "subject")
-    private List<Topic> topics;
+    @Column(name = "last_name")
+    private String lastName;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_id", nullable = false)
+    private Account account;
 }

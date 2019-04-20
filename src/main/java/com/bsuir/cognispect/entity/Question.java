@@ -6,7 +6,6 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 
@@ -16,7 +15,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "questions")
+@Table(name = "question")
 public class Question {
     @Id
     @GeneratedValue(generator = "UUID")
@@ -34,7 +33,7 @@ public class Question {
     private Topic topic;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
-    private Set<Answer> answers;
+    private List<Answer> answers;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<MatchAnswer> matchAnswers;
