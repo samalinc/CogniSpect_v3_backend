@@ -1,8 +1,11 @@
 package com.bsuir.cognispect.entity;
 
 import com.bsuir.cognispect.entity.enums.QuestionTypeEnum;
+import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 import java.util.List;
@@ -16,6 +19,10 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "question")
+@TypeDef(
+        name = "pgsql_enum",
+        typeClass = PostgreSQLEnumType.class
+)
 public class Question {
     @Id
     @GeneratedValue(generator = "UUID")
@@ -27,6 +34,8 @@ public class Question {
     private String description;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "type", columnDefinition = "QUESTION_TYPE")
+    @Type(type = "pgsql_enum")
     private QuestionTypeEnum type;
 
     @ManyToOne

@@ -3,6 +3,7 @@ package com.bsuir.cognispect.entity;
 import com.bsuir.cognispect.entity.enums.QuestionTypeEnum;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.List;
@@ -27,6 +28,8 @@ public class QuestionVariant {
     private String description;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "type", columnDefinition = "QUESTION_TYPE")
+    @Type(type = "pgsql_enum")
     private QuestionTypeEnum type;
 
     @ManyToOne
