@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface QuestionVariantGenerator<T> {
 
-    QuestionVariant createQuestionVariant(List<T> answers, Question question, TestVariant testVariant);
+    QuestionVariant createQuestionVariant(List<T> answers, Question question);
 }
