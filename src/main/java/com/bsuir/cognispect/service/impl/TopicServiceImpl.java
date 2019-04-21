@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
@@ -16,8 +17,10 @@ public class TopicServiceImpl implements TopicService {
     private TopicRepository topicRepository;
 
     @Override
-    public Optional<Topic> getTopicByName(String topicName) {
-        return topicRepository.findTopicByName(topicName);
+    public Optional<Topic> getTopicByNameAndSubjectId(
+            String topicName, UUID subjectId) {
+        return topicRepository
+                .findTopicByNameAndSubjectId(topicName, subjectId);
     }
 
     @Override

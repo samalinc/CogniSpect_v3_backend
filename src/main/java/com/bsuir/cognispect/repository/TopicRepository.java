@@ -10,7 +10,8 @@ import java.util.UUID;
 
 @Repository
 public interface TopicRepository extends JpaRepository<Topic, UUID> {
-    Optional<Topic> findTopicByName(String topicName);
+    Optional<Topic> findTopicByNameAndSubjectId(
+            String topicName, UUID subjectId);
 
     boolean existsByName(String topicName);
 }
