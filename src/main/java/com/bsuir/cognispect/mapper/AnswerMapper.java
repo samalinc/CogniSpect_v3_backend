@@ -2,6 +2,7 @@ package com.bsuir.cognispect.mapper;
 
 import com.bsuir.cognispect.dto.AnswerDto;
 import com.bsuir.cognispect.entity.Answer;
+import com.bsuir.cognispect.entity.Question;
 import org.mapstruct.Mapper;
 
 import java.util.Collection;

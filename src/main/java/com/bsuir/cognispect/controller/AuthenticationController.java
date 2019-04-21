@@ -32,6 +32,6 @@ public class AuthenticationController {
     public ResponseEntity<?> authenticateUser(
             @Valid @RequestBody final LoginDto loginDto) {
 
-        return null;
+        return authenticationService.authenticateUser(loginDto);
     }
 }

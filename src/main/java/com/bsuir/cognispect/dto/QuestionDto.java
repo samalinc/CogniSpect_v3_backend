@@ -31,11 +31,5 @@ public class QuestionDto {
 
     private List<SubstitutionDto> substitutions;
 
-    @NotBlank
-    @Size(max = 40)
-    private String topic;
-
-    @NotBlank
-    @Size(max = 40)
-    private String subject;
+    private TopicDto topic;
 }

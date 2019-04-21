@@ -6,6 +6,7 @@ import com.bsuir.cognispect.entity.Subject;
 import com.bsuir.cognispect.entity.Topic;
 import com.bsuir.cognispect.exception.TopicNotFoundException;
 import com.bsuir.cognispect.repository.QuestionRepository;
+import com.bsuir.cognispect.service.AnswerService;
 import com.bsuir.cognispect.service.QuestionService;
 import com.bsuir.cognispect.service.SubjectService;
 import com.bsuir.cognispect.service.TopicService;
@@ -23,6 +24,8 @@ public class QuestionServiceImpl implements QuestionService {
     private TopicService topicService;
     @Autowired
     private SubjectService subjectService;
+    @Autowired
+    private AnswerService answerService;
 
     @Override
     public List<Question> getQuestionsByTopic(final String topicName) {
@@ -40,13 +43,35 @@ public class QuestionServiceImpl implements QuestionService {
         Question question = new Question();
 
         question.setDescription(questionDto.getDescription());
-        Subject subject = subjectService.getSubjectByName(questionDto.getSubject())
-                .orElse(subjectService.createSubject(questionDto.getSubject()));
+        Subject subject = subjectService
+                .getSubjectByName(
+                        questionDto.getTopic().getSubject().getName())
+                .orElse(subjectService.createSubject(
+                        questionDto.getTopic().getSubject().getName()));
 
-        Topic topic = topicService.getTopicByName(questionDto.getTopic())
-                .orElse(topicService.createTopic(questionDto.getTopic(), subject));
+        Topic topic = topicService
+                .getTopicByName(
+                        questionDto.getTopic().getName())
+                .orElse(topicService.createTopic(
+                        questionDto.getTopic().getName(), subject));
 
         question.setTopic(topic);
+        question.setType(questionDto.getType());
+        question.setAnswers(
+                answerService.createAnswersWithQuestion(
+                        questionDto.getAnswers(),
+                        questionDto.getSubstitutions(),
+                        question));
+        question.setMatchAnswers(
+                answerService.createMatchAnswerWithQuestion(
+                        questionDto.getMatchAnswers(),
+                        question
+                ));
+        question.setSortAnswers(
+                answerService.createSortAnswerWithQuestion(
+                        questionDto.getSortAnswers(),
+                        question
+                ));
 
         return questionRepository.save(question);
     }

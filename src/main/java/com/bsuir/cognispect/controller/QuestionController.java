@@ -4,7 +4,6 @@ import com.bsuir.cognispect.dto.QuestionDto;
 import com.bsuir.cognispect.mapper.QuestionMapper;
 import com.bsuir.cognispect.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,6 +31,7 @@ public class QuestionController {
                 ),
                 HttpStatus.CREATED
         );*/
-        return null;
+        return ResponseEntity.ok(questionMapper.questionToQuestionDto(
+                questionService.createQuestion(questionDto)));
     }
 }
