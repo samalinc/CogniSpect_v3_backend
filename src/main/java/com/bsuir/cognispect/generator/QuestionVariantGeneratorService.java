@@ -3,6 +3,7 @@ package com.bsuir.cognispect.generator;
 import com.bsuir.cognispect.entity.Question;
 import com.bsuir.cognispect.entity.QuestionVariant;
 import com.bsuir.cognispect.entity.Substitution;
+import com.bsuir.cognispect.entity.TestVariant;
 import com.bsuir.cognispect.generator.answers.AnswerFactory;
 import com.bsuir.cognispect.generator.answers.AnswerGenerator;
 import com.bsuir.cognispect.generator.question.QuestionVariantGenerator;
@@ -14,7 +15,7 @@ import java.util.Random;
 public class QuestionVariantGeneratorService {
     private static final String SUBSTITUTION_SIGNAL_VALUE = "%substitution%";
 
-    public QuestionVariant generateQuestionVariant(Question question) {
+    public QuestionVariant generateQuestionVariant(Question question, TestVariant testVariant) {
 
         Random rand = new Random();
         int substitutionsIndex = rand.nextInt(question.getSubstitutions().size());
@@ -27,7 +28,7 @@ public class QuestionVariantGeneratorService {
         QuestionVariantGenerator questionVariantGenerator = questionVariantGeneratorFactory.
                 getQuestionVariantType(question.getType());
         return questionVariantGenerator.createQuestionVariant(answerGenerator.generateAnswer(question,
-                substitutionsIndex), question);
+                substitutionsIndex), question, testVariant);
     }
 
 
