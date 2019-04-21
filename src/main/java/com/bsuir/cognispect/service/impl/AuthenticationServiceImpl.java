@@ -104,6 +104,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
             TokenAuthentication tokenAuthentication = new TokenAuthentication(
                     jwtUtil.generateToken(account.get()));
+            tokenAuthentication.setAuthenticated(true);
 
             SecurityContextHolder.getContext()
                     .setAuthentication(tokenAuthentication);

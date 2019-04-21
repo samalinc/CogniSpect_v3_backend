@@ -29,7 +29,7 @@ public class TokenAuthentication implements Authentication {
 
     @Override
     public Object getDetails() {
-        return null;
+        return userDetails;
     }
 
     @Override

@@ -4,28 +4,23 @@ import com.bsuir.cognispect.security.token.TokenAuthentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.servlet.*;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
 @Component
-public class TokenAuthenticationFilter implements Filter {
+public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
-    public void init(final FilterConfig filterConfig) {
-    }
-
-    @Override
-    public void doFilter(final ServletRequest servletRequest,
-                         final ServletResponse servletResponse,
-                         final FilterChain filterChain)
-            throws IOException, ServletException {
-
-        HttpServletRequest httpServletRequest =
-                (HttpServletRequest) servletRequest;
-
+    protected void doFilterInternal(
+            HttpServletRequest httpServletRequest,
+            HttpServletResponse httpServletResponse,
+            FilterChain filterChain) throws ServletException, IOException {
         String token = getJwtFromRequest(httpServletRequest);
 
         TokenAuthentication tokenAuthentication =
@@ -38,11 +33,7 @@ public class TokenAuthenticationFilter implements Filter {
                     .setAuthentication(tokenAuthentication);
         }
 
-        filterChain.doFilter(servletRequest, servletResponse);
-    }
-
-    @Override
-    public void destroy() {
+        filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 
     private String getJwtFromRequest(HttpServletRequest request) {
