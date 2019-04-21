@@ -23,7 +23,7 @@ public abstract class QuestionMapper {
                 .id(UUID.randomUUID())
                 .type(questionDto.getType())
                 *//*  .topic(topicService
-                          .getTopicByName(questionDto.getTopic()))*//*
+                          .getTopicByNameAndSubjectId(questionDto.getTopic()))*//*
                 .description(questionDto.getDescription())
                 .answers(new ArrayList<>(answerMapper
                         .answersDtoToAnswers(questionDto.getAnswers())))

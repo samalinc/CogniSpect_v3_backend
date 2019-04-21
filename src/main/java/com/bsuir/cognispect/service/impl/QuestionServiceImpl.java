@@ -4,7 +4,6 @@ import com.bsuir.cognispect.dto.QuestionDto;
 import com.bsuir.cognispect.entity.Question;
 import com.bsuir.cognispect.entity.Subject;
 import com.bsuir.cognispect.entity.Topic;
-import com.bsuir.cognispect.exception.TopicNotFoundException;
 import com.bsuir.cognispect.repository.QuestionRepository;
 import com.bsuir.cognispect.service.AnswerService;
 import com.bsuir.cognispect.service.QuestionService;
@@ -29,12 +28,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public List<Question> getQuestionsByTopic(final String topicName) {
-        return questionRepository.findQuestionsByTopic(
-                topicService.getTopicByName(topicName)
-                        .orElseThrow(() -> new TopicNotFoundException(
-                                "Topic with name: " + topicName + "not found")
-                        )
-        );
+        return null;
     }
 
 
@@ -46,13 +40,13 @@ public class QuestionServiceImpl implements QuestionService {
         Subject subject = subjectService
                 .getSubjectByName(
                         questionDto.getTopic().getSubject().getName())
-                .orElse(subjectService.createSubject(
+                .orElseGet(() -> subjectService.createSubject(
                         questionDto.getTopic().getSubject().getName()));
 
         Topic topic = topicService
-                .getTopicByName(
-                        questionDto.getTopic().getName())
-                .orElse(topicService.createTopic(
+                .getTopicByNameAndSubjectId(
+                        questionDto.getTopic().getName(), subject.getId())
+                .orElseGet(() -> topicService.createTopic(
                         questionDto.getTopic().getName(), subject));
 
         question.setTopic(topic);
@@ -79,5 +73,19 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public Question updateQuestion(final Question question) {
         return null;
+    }
+
+    @Override
+    public List<Question> getQuestionsByFilter(
+            String subjectName, String topicName) {
+        if (subjectName == null) {
+            subjectName = "";
+        }
+        if (topicName == null) {
+            topicName = "";
+        }
+
+        return questionRepository
+                .findQuestionsBySubjectAndTopic(subjectName, topicName);
     }
 }

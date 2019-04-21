@@ -12,4 +12,6 @@ public interface QuestionService {
     Question createQuestion(QuestionDto questionDto);
 
     Question updateQuestion(Question question);
+
+    List<Question> getQuestionsByFilter(String subjectName, String topicName);
 }
