@@ -41,31 +41,46 @@ public class QuestionServiceImpl implements QuestionService {
                 .getSubjectByName(
                         questionDto.getTopic().getSubject().getName())
                 .orElseGet(() -> subjectService.createSubject(
-                        questionDto.getTopic().getSubject().getName()));
+                        questionDto.getTopic().getSubject()));
 
         Topic topic = topicService
                 .getTopicByNameAndSubjectId(
                         questionDto.getTopic().getName(), subject.getId())
-                .orElseGet(() -> topicService.createTopic(
+                .orElseGet(() -> topicService.createTopicFromNameAndSubject(
                         questionDto.getTopic().getName(), subject));
 
         question.setTopic(topic);
         question.setType(questionDto.getType());
-        question.setAnswers(
-                answerService.createAnswersWithQuestion(
-                        questionDto.getAnswers(),
-                        questionDto.getSubstitutions(),
-                        question));
-        question.setMatchAnswers(
-                answerService.createMatchAnswerWithQuestion(
-                        questionDto.getMatchAnswers(),
-                        question
-                ));
-        question.setSortAnswers(
-                answerService.createSortAnswerWithQuestion(
-                        questionDto.getSortAnswers(),
-                        question
-                ));
+
+        switch (questionDto.getType()) {
+            case CHOOSE:
+            case MULTICHOOSE:
+                question.setAnswers(
+                        answerService.createAnswersWithQuestion(
+                                questionDto.getAnswers(),
+                                question));
+                break;
+            case MATCH:
+                question.setMatchAnswers(
+                        answerService.createMatchAnswerWithQuestion(
+                                questionDto.getMatchAnswers(),
+                                question));
+                break;
+            case SORT:
+                question.setSortAnswers(
+                        answerService.createSortAnswerWithQuestion(
+                                questionDto.getSortAnswers(),
+                                question));
+                break;
+            case SUBSTITUTION:
+                question.setAnswers(
+                        answerService.createSubstitutionAnswersWithQuestion(
+                                questionDto.getAnswers(),
+                                questionDto.getSubstitutions(),
+                                question));
+                break;
+        }
+
 
         return questionRepository.save(question);
     }

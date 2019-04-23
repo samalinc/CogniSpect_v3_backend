@@ -37,12 +37,22 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     public List<Answer> createAnswersWithQuestion(
             List<AnswerDto> answersDto,
-            List<SubstitutionDto> substitutionsDto,
             Question question) {
         if (answersDto == null || question == null) {
             return null;
         }
 
+        List<Answer> answerList = answerMapper.answersDtoToAnswers(answersDto);
+        answerList.forEach(answer -> answer.setQuestion(question));
+
+        return answerList;
+    }
+
+    @Override
+    public List<Answer> createSubstitutionAnswersWithQuestion(
+            List<AnswerDto> answersDto,
+            List<SubstitutionDto> substitutionsDto,
+            Question question) {
         List<Answer> answerList = answerMapper.answersDtoToAnswers(answersDto);
         answerList.forEach(answer -> answer.setQuestion(question));
 

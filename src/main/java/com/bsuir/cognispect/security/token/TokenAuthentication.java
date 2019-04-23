@@ -28,7 +28,7 @@ public class TokenAuthentication implements Authentication {
     }
 
     @Override
-    public Object getDetails() {
+    public UserDetails getDetails() {
         return userDetails;
     }
 

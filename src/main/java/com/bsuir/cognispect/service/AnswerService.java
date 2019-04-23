@@ -8,8 +8,13 @@ import com.bsuir.cognispect.entity.*;
 
 import java.util.List;
 
+
 public interface AnswerService {
     List<Answer> createAnswersWithQuestion(
+            List<AnswerDto> answersDto,
+            Question question);
+
+    List<Answer> createSubstitutionAnswersWithQuestion(
             List<AnswerDto> answersDto,
             List<SubstitutionDto> substitutionsDto,
             Question question);

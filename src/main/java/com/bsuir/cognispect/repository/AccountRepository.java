@@ -25,10 +25,10 @@ public interface AccountRepository extends JpaRepository<Account, UUID> {
             "LEFT JOIN student s ON a.id = s.account_id " +
             "LEFT JOIN teacher t ON a.id = t.account_id " +
             "WHERE cast(a.role_name AS TEXT) LIKE '%' || :roleName || '%' " +
-            "AND ((LOWER(t.first_name) LIKE '%' || LOWER(:firstName) ||'%' " +
-            "AND LOWER(t.last_name) LIKE '%' || LOWER(:lastName) || '%') " +
-            "OR (LOWER(s.first_name) LIKE '%' || LOWER(:firstName) ||'%' " +
-            "AND LOWER(s.last_name) LIKE '%' || LOWER(:lastName) || '%' " +
+            "AND ((t.first_name ILIKE '%' || :firstName ||'%' " +
+            "AND t.last_name ILIKE '%' || :lastName || '%') " +
+            "OR (s.first_name ILIKE '%' || :firstName ||'%' " +
+            "AND s.last_name ILIKE '%' || :lastName || '%' " +
             "AND s.study_group LIKE '%' || :studyGroup || '%'))",
             nativeQuery = true)
     List<Account> findUsersByFilter(

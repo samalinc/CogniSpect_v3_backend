@@ -2,14 +2,15 @@ package com.bsuir.cognispect.service;
 
 import com.bsuir.cognispect.dto.LoginDto;
 import com.bsuir.cognispect.dto.SignUpDto;
-import org.springframework.http.ResponseEntity;
+import com.bsuir.cognispect.entity.Account;
+import com.bsuir.cognispect.security.token.TokenAuthentication;
 
 import javax.management.relation.RoleNotFoundException;
 
 
 public interface AuthenticationService {
-    ResponseEntity<?> registerUser(SignUpDto signUpDto)
+    Account registerUser(SignUpDto signUpDto)
             throws RoleNotFoundException;
 
-    ResponseEntity<?> authenticateUser(LoginDto loginDto);
+    TokenAuthentication authenticateUser(LoginDto loginDto);
 }
