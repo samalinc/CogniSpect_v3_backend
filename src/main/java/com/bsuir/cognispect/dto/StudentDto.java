@@ -15,5 +15,4 @@ public class StudentDto {
     private String firstName;
     private String lastName;
     private String studyGroup;
-    private AccountDto accountDto;
 }

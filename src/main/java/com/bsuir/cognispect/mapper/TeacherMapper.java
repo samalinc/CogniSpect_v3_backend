@@ -5,8 +5,7 @@ import com.bsuir.cognispect.entity.Teacher;
 import org.mapstruct.Mapper;
 
 
-@Mapper(componentModel = "spring",
-        uses = {AccountMapper.class})
+@Mapper(componentModel = "spring")
 public abstract class TeacherMapper {
     public abstract TeacherDto teacherToTeacherDto(Teacher teacher);
 }

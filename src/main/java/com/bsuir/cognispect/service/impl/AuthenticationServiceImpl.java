@@ -66,7 +66,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         account.setEmail(signUpDto.getEmail());
 
         account.setRole(signUpDto.getRole());
-        accountRepository.save(account);
 
         if (signUpDto.getRole().name().equals(RoleEnum.STUDENT.name())) {
             Student student = new Student();
@@ -74,16 +73,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             student.setLastName(signUpDto.getLastName());
             student.setStudyGroup(signUpDto.getStudyGroup());
             student.setAccount(account);
-            // account.setStudent(student);
-            studentRepository.save(student);
+            account.setStudent(student);
+            // studentRepository.save(student);
         } else {
             Teacher teacher = new Teacher();
             teacher.setFirstName(signUpDto.getFirstName());
             teacher.setLastName(signUpDto.getLastName());
             teacher.setAccount(account);
-            // account.setTeacher(teacher);
-            teacherRepository.save(teacher);
+            account.setTeacher(teacher);
+            // teacherRepository.save(teacher);
         }
+
+        accountRepository.save(account);
 
         return new ResponseEntity<>(
                 accountMapper.accountToAccountDto(account),

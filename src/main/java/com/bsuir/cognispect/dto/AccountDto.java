@@ -15,7 +15,14 @@ import java.util.UUID;
 @Setter
 public class AccountDto {
     private UUID id;
+
     private String login;
+
     private RoleEnum role;
+
     private String email;
+
+    private TeacherDto teacher;
+
+    private StudentDto student;
 }
