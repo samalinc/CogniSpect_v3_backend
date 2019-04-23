@@ -22,17 +22,17 @@ public interface AccountRepository extends JpaRepository<Account, UUID> {
     Optional<Account> findByLogin(String login);
 
     @Query(value = "SELECT a.* FROM account a " +
-            "JOIN student s ON a.id = s.account_id " +
-            "JOIN teacher t on a.id = t.account_id " +
-            "WHERE a.role_name::text LIKE '%' || :role || '%' " +
-            "AND ((t.first_name LIKE '%' || :firstName ||'%' " +
-            "AND t.last_name LIKE '%' || :lastName || '%') " +
-            "OR (s.first_name LIKE '%' || :firstName ||'%' " +
-            "AND s.last_name LIKE '%' || :lastName || '%' " +
+            "LEFT JOIN student s ON a.id = s.account_id " +
+            "LEFT JOIN teacher t ON a.id = t.account_id " +
+            "WHERE cast(a.role_name AS TEXT) LIKE '%' || :roleName || '%' " +
+            "AND ((LOWER(t.first_name) LIKE '%' || LOWER(:firstName) ||'%' " +
+            "AND LOWER(t.last_name) LIKE '%' || LOWER(:lastName) || '%') " +
+            "OR (LOWER(s.first_name) LIKE '%' || LOWER(:firstName) ||'%' " +
+            "AND LOWER(s.last_name) LIKE '%' || LOWER(:lastName) || '%' " +
             "AND s.study_group LIKE '%' || :studyGroup || '%'))",
             nativeQuery = true)
     List<Account> findUsersByFilter(
-            @Param("role") String userType,
+            @Param("roleName") String roleName,
             @Param("firstName") String firstName,
             @Param("lastName") String lastName,
             @Param("studyGroup") String studyGroup);
