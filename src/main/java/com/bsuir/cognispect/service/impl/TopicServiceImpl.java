@@ -31,19 +31,20 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public Topic createTopic(TopicDto topicDto) {
-        if (topicRepository.existsByName(topicDto.getName())) {
+        Subject subject = subjectRepository
+                .findSubjectById(topicDto.getSubject().getId()).orElseThrow(
+                        () -> new IllegalArgumentException("Subject with ID: "
+                                + topicDto.getSubject().getId()
+                                + " not found"));
+
+        if (topicRepository.existsTopicByNameUnderSubject(
+                topicDto.getName(), topicDto.getSubject().getId())) {
             throw new UniqueException("Topic with name: "
                     + topicDto.getName() + " already exist");
         }
-        Optional<Subject> subjectOptional = subjectRepository.findSubjectById(
-                topicDto.getSubject().getId());
 
         Topic topic = new Topic();
-        topic.setSubject(subjectOptional.orElseThrow(
-                () -> new IllegalArgumentException("Subject with ID: "
-                        + topicDto.getSubject().getId()
-                        + " not found")
-        ));
+        topic.setSubject(subject);
         topic.setName(topicDto.getName());
 
         return topicRepository.save(topic);
@@ -67,7 +68,8 @@ public class TopicServiceImpl implements TopicService {
                         + topicDto.getId()
                         + " not found"));
 
-        if (topicRepository.existsByName(topicDto.getName())) {
+        if (topicRepository.existsTopicByNameUnderSubject(
+                topicDto.getName(), topic.getSubject().getId())) {
             throw new UniqueException("Topic with name: "
                     + topicDto.getName()
                     + " already exist");

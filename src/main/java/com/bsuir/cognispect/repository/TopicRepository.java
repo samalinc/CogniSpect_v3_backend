@@ -26,4 +26,9 @@ public interface TopicRepository extends JpaRepository<Topic, UUID> {
             nativeQuery = true)
     List<Topic> findTopicByNameAndSubjectName(
             String topicName, String subjectName);
+
+    @Query(value = "SELECT COUNT(t)>0 FROM topic t " +
+            "JOIN subject s on t.subject_id = ?2 " +
+            "WHERE t.name=?1", nativeQuery = true)
+    boolean existsTopicByNameUnderSubject(String topicName, UUID subjectId);
 }
