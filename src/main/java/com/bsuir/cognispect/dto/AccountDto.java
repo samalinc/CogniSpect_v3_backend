@@ -22,7 +22,5 @@ public class AccountDto {
 
     private String email;
 
-    private TeacherDto teacher;
-
-    private StudentDto student;
+    private UserDto user;
 }

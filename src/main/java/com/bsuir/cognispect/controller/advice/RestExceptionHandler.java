@@ -1,6 +1,7 @@
 package com.bsuir.cognispect.controller.advice;
 
 import com.bsuir.cognispect.exception.UniqueException;
+import com.bsuir.cognispect.exception.ValidationException;
 import com.bsuir.cognispect.util.error.ApiError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +18,19 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             UniqueException.class,
             IllegalArgumentException.class,
             BadCredentialsException.class})
-    public ResponseEntity<?> handleBadRequest(RuntimeException ex) {
+    public ResponseEntity<?> handleBadParametersExceptions(RuntimeException ex) {
         ApiError apiError = new ApiError(
                 HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
+
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<?> handleValidationException(ValidationException ex) {
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST);
+        
+        apiError.setMessage("Error while validate object");
+        apiError.setSubErrors(ex.getApiSubErrors());
 
         return buildResponseEntity(apiError);
     }

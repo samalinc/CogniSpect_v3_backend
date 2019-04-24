@@ -1,6 +1,7 @@
 package com.bsuir.cognispect.dto;
 
 import com.bsuir.cognispect.entity.enums.RoleEnum;
+import com.bsuir.cognispect.validation.groups.AccountGroupsValidation;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,11 +34,16 @@ public class SignUpDto {
     @NotNull
     private RoleEnum role;
 
-    @NotBlank
+    @NotBlank(groups = {
+            AccountGroupsValidation.StudentValidation.class,
+            AccountGroupsValidation.TeacherValidation.class})
     private String firstName;
 
-    @NotBlank
+    @NotBlank(groups = {
+            AccountGroupsValidation.StudentValidation.class,
+            AccountGroupsValidation.TeacherValidation.class})
     private String lastName;
 
+    @NotBlank(groups = {AccountGroupsValidation.StudentValidation.class})
     private String studyGroup;
 }
