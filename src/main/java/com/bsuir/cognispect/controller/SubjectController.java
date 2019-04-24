@@ -2,7 +2,6 @@ package com.bsuir.cognispect.controller;
 
 import com.bsuir.cognispect.dto.SubjectDto;
 import com.bsuir.cognispect.entity.Subject;
-import com.bsuir.cognispect.exception.UniqueException;
 import com.bsuir.cognispect.mapper.SubjectMapper;
 import com.bsuir.cognispect.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,32 +33,22 @@ public class SubjectController {
     @PostMapping("/create")
     public ResponseEntity<?> createSubject(
             @RequestBody @Valid final SubjectDto subjectDto) {
-        try {
-            Subject subject = subjectService.createSubject(subjectDto);
+        Subject subject = subjectService.createSubject(subjectDto);
 
-            return new ResponseEntity<>(
-                    subjectMapper.subjectToSubjectDto(
-                            subject),
-                    HttpStatus.CREATED);
-        } catch (UniqueException ex) {
-            return new ResponseEntity<>(ex.getMessage(),
-                    HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(
+                subjectMapper.subjectToSubjectDto(
+                        subject),
+                HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
     public ResponseEntity<?> updateSubject(
             @RequestBody SubjectDto subjectDto) {
-        try {
-            Subject subject = subjectService.updateExistingSubject(subjectDto);
+        Subject subject = subjectService.updateExistingSubject(subjectDto);
 
-            return new ResponseEntity<>(
-                    subjectMapper.subjectToSubjectDto(
-                            subject),
-                    HttpStatus.OK);
-        } catch (UniqueException | IllegalArgumentException ex) {
-            return new ResponseEntity<>(ex.getMessage(),
-                    HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(
+                subjectMapper.subjectToSubjectDto(
+                        subject),
+                HttpStatus.OK);
     }
 }

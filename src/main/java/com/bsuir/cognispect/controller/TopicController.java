@@ -2,7 +2,6 @@ package com.bsuir.cognispect.controller;
 
 import com.bsuir.cognispect.dto.TopicDto;
 import com.bsuir.cognispect.entity.Topic;
-import com.bsuir.cognispect.exception.UniqueException;
 import com.bsuir.cognispect.mapper.TopicMapper;
 import com.bsuir.cognispect.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,32 +35,22 @@ public class TopicController {
     @PostMapping("/create")
     public ResponseEntity<?> createTopic(
             @RequestBody @Valid final TopicDto topicDto) {
-        try {
-            Topic topic = topicService.createTopic(topicDto);
+        Topic topic = topicService.createTopic(topicDto);
 
-            return new ResponseEntity<>(
-                    topicMapper.topicToTopicDto(
-                            topic),
-                    HttpStatus.CREATED);
-        } catch (UniqueException | IllegalArgumentException ex) {
-            return new ResponseEntity<>(ex.getMessage(),
-                    HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(
+                topicMapper.topicToTopicDto(
+                        topic),
+                HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
     public ResponseEntity<?> updateSubject(
             @RequestBody TopicDto topicDto) {
-        try {
-            Topic topic = topicService.updateExistingTopic(topicDto);
+        Topic topic = topicService.updateExistingTopic(topicDto);
 
-            return new ResponseEntity<>(
-                    topicMapper.topicToTopicDto(
-                            topic),
-                    HttpStatus.OK);
-        } catch (UniqueException | IllegalArgumentException ex) {
-            return new ResponseEntity<>(ex.getMessage(),
-                    HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(
+                topicMapper.topicToTopicDto(
+                        topic),
+                HttpStatus.OK);
     }
 }

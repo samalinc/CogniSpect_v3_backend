@@ -9,8 +9,7 @@ import javax.management.relation.RoleNotFoundException;
 
 
 public interface AuthenticationService {
-    Account registerUser(SignUpDto signUpDto)
-            throws RoleNotFoundException;
+    Account registerUser(SignUpDto signUpDto);
 
     TokenAuthentication authenticateUser(LoginDto loginDto);
 }
