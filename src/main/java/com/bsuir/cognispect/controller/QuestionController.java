@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.UUID;
 
 
 @RestController
@@ -39,5 +40,23 @@ public class QuestionController {
         return ResponseEntity.ok(questionMapper.questionsToQuestionsDto(
                 questionService.getQuestionsByFilter(subject, topic))
         );
+    }
+
+    @GetMapping("/topic")
+    public ResponseEntity<?> getQuestionsByTopicId(
+            @RequestParam(name = "topicId") UUID topicId) {
+
+        return ResponseEntity.ok(questionMapper.questionsToQuestionsDto(
+                questionService.getQuestionsByTopicId(topicId)
+        ));
+    }
+
+    @GetMapping("/subject")
+    public ResponseEntity<?> getQuestionsBySubjectId(
+            @RequestParam(name = "subjectId") UUID subjectId) {
+
+        return ResponseEntity.ok(questionMapper.questionsToQuestionsDto(
+                questionService.getQuestionsBySubjectId(subjectId)
+        ));
     }
 }

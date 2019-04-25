@@ -1,7 +1,6 @@
 package com.bsuir.cognispect.repository;
 
 import com.bsuir.cognispect.entity.Question;
-import com.bsuir.cognispect.entity.Topic;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,7 +15,7 @@ import java.util.UUID;
 public interface QuestionRepository extends JpaRepository<Question, UUID> {
     Optional<Question> findQuestionById(UUID questionId);
 
-    List<Question> findQuestionsByTopic(Topic topic);
+    List<Question> findQuestionsByTopicId(UUID topicId);
 
     @Query(value = "SELECT question.* FROM question " +
             "JOIN topic ON question.topic_id=topic.id " +
@@ -27,4 +26,10 @@ public interface QuestionRepository extends JpaRepository<Question, UUID> {
     List<Question> findQuestionsBySubjectAndTopic(
             @Param("subjectName") String subjectName,
             @Param("topicName") String topicName);
+
+    @Query(value = "SELECT q.* FROM question q " +
+            "JOIN topic t on q.topic_id = t.id " +
+            "JOIN subject s on t.subject_id = ?1",
+            nativeQuery = true)
+    List<Question> findQuestionsBySubjectId(UUID subjectId);
 }

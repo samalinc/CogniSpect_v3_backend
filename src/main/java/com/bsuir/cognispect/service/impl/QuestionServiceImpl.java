@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
@@ -27,10 +28,9 @@ public class QuestionServiceImpl implements QuestionService {
     private AnswerService answerService;
 
     @Override
-    public List<Question> getQuestionsByTopic(final String topicName) {
-        return null;
+    public List<Question> getQuestionsByTopicId(UUID topicId) {
+        return questionRepository.findQuestionsByTopicId(topicId);
     }
-
 
     @Override
     public Question createQuestion(final QuestionDto questionDto) {
@@ -86,7 +86,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Question updateQuestion(final Question question) {
+    public Question updateQuestion(final QuestionDto questionDto) {
         return null;
     }
 
@@ -102,5 +102,10 @@ public class QuestionServiceImpl implements QuestionService {
 
         return questionRepository
                 .findQuestionsBySubjectAndTopic(subjectName, topicName);
+    }
+
+    @Override
+    public List<Question> getQuestionsBySubjectId(UUID subjectId) {
+        return questionRepository.findQuestionsBySubjectId(subjectId);
     }
 }
