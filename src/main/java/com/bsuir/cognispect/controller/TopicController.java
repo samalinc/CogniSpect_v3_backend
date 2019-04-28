@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @RestController
@@ -21,7 +22,7 @@ public class TopicController {
     private TopicMapper topicMapper;
 
     @GetMapping
-    public ResponseEntity<?> getTopicsByFiler(
+    public ResponseEntity<List<TopicDto>> getTopicsByFiler(
             @RequestParam(name = "topicName", required = false, defaultValue = "")
                     String topicName,
             @RequestParam(name = "subjectName", required = false, defaultValue = "")
@@ -33,7 +34,7 @@ public class TopicController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createTopic(
+    public ResponseEntity<TopicDto> createTopic(
             @RequestBody @Valid final TopicDto topicDto) {
         Topic topic = topicService.createTopic(topicDto);
 
@@ -44,7 +45,7 @@ public class TopicController {
     }
 
     @PutMapping
-    public ResponseEntity<?> updateSubject(
+    public ResponseEntity<TopicDto> updateTopic(
             @RequestBody TopicDto topicDto) {
         Topic topic = topicService.updateExistingTopic(topicDto);
 

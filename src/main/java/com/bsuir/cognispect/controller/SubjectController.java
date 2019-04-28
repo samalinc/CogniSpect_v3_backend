@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @RestController
@@ -21,7 +22,7 @@ public class SubjectController {
     private SubjectMapper subjectMapper;
 
     @GetMapping
-    public ResponseEntity<?> getSubjectsByFiler(
+    public ResponseEntity<List<SubjectDto>> getSubjectsByFiler(
             @RequestParam(name = "name", required = false, defaultValue = "")
                     String subjectName) {
 
@@ -31,7 +32,7 @@ public class SubjectController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createSubject(
+    public ResponseEntity<SubjectDto> createSubject(
             @RequestBody @Valid final SubjectDto subjectDto) {
         Subject subject = subjectService.createSubject(subjectDto);
 
@@ -42,7 +43,7 @@ public class SubjectController {
     }
 
     @PutMapping
-    public ResponseEntity<?> updateSubject(
+    public ResponseEntity<SubjectDto> updateSubject(
             @RequestBody SubjectDto subjectDto) {
         Subject subject = subjectService.updateExistingSubject(subjectDto);
 

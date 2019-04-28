@@ -3,6 +3,7 @@ package com.bsuir.cognispect.controller;
 import com.bsuir.cognispect.dto.AuthorizationResponseDto;
 import com.bsuir.cognispect.dto.LoginDto;
 import com.bsuir.cognispect.dto.SignUpDto;
+import com.bsuir.cognispect.dto.UserDto;
 import com.bsuir.cognispect.entity.Account;
 import com.bsuir.cognispect.entity.enums.RoleEnum;
 import com.bsuir.cognispect.exception.ValidationException;
@@ -36,7 +37,7 @@ public class AuthenticationController {
     private CustomValidator customValidator;
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(
+    public ResponseEntity<UserDto> registerUser(
             @RequestBody final SignUpDto signUpDto) {
         List<ApiSubError> apiSubErrors;
 
@@ -58,7 +59,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(
+    public ResponseEntity<AuthorizationResponseDto> authenticateUser(
             @Valid @RequestBody final LoginDto loginDto) {
         TokenAuthentication tokenAuthentication =
                 authenticationService.authenticateUser(loginDto);

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -21,7 +22,7 @@ public class QuestionController {
     private QuestionMapper questionMapper;
 
     @PostMapping
-    public ResponseEntity<?> createQuestion(
+    public ResponseEntity<QuestionDto> createQuestion(
             @Valid @RequestBody final QuestionDto questionDto) {
 
         return new ResponseEntity<>(questionMapper.questionToQuestionDto(
@@ -31,7 +32,7 @@ public class QuestionController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getQuestionsByFilter(
+    public ResponseEntity<List<QuestionDto>> getQuestionsByFilter(
             @RequestParam(name = "subject", required = false, defaultValue = "")
                     String subject,
             @RequestParam(name = "topic", required = false, defaultValue = "")
@@ -43,7 +44,7 @@ public class QuestionController {
     }
 
     @GetMapping("/topic")
-    public ResponseEntity<?> getQuestionsByTopicId(
+    public ResponseEntity<List<QuestionDto>> getQuestionsByTopicId(
             @RequestParam(name = "topicId") UUID topicId) {
 
         return ResponseEntity.ok(questionMapper.questionsToQuestionsDto(
@@ -52,7 +53,7 @@ public class QuestionController {
     }
 
     @GetMapping("/subject")
-    public ResponseEntity<?> getQuestionsBySubjectId(
+    public ResponseEntity<List<QuestionDto>> getQuestionsBySubjectId(
             @RequestParam(name = "subjectId") UUID subjectId) {
 
         return ResponseEntity.ok(questionMapper.questionsToQuestionsDto(

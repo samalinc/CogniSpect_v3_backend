@@ -1,5 +1,6 @@
 package com.bsuir.cognispect.controller;
 
+import com.bsuir.cognispect.dto.UserDto;
 import com.bsuir.cognispect.entity.enums.RoleEnum;
 import com.bsuir.cognispect.mapper.UserMapper;
 import com.bsuir.cognispect.service.AccountService;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 
 @RestController
@@ -20,7 +23,7 @@ public class UserController {
     private UserMapper userMapper;
 
     @GetMapping
-    public ResponseEntity<?> getUsersByFilter(
+    public ResponseEntity<List<UserDto>> getUsersByFilter(
             @RequestParam(name = "role", required = false)
                     RoleEnum role,
             @RequestParam(name = "firstName", required = false, defaultValue = "")

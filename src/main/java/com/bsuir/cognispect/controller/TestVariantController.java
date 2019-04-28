@@ -1,5 +1,6 @@
 package com.bsuir.cognispect.controller;
 
+import com.bsuir.cognispect.dto.TestVariantDto;
 import com.bsuir.cognispect.mapper.TestVariantMapper;
 import com.bsuir.cognispect.service.TestVariantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class TestVariantController {
     private TestVariantMapper testVariantMapper;
 
     @GetMapping
-    public ResponseEntity<?> getTestVariantForStudent(
+    public ResponseEntity<TestVariantDto> getTestVariantForStudent(
             @RequestParam(name = "testSessionId") UUID testSessionId,
             @RequestParam(name = "studentId") UUID studentId) {
 

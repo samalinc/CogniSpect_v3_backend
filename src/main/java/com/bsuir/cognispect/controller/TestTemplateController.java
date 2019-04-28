@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @RestController
@@ -20,7 +21,7 @@ public class TestTemplateController {
     private TestTemplateService testTemplateService;
 
     @PostMapping
-    public ResponseEntity<?> createTestTemplate(
+    public ResponseEntity<TestTemplateDto> createTestTemplate(
             @Valid @RequestBody TestTemplateDto testTemplateDto) {
 
         return new ResponseEntity<>(
@@ -30,7 +31,7 @@ public class TestTemplateController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<?> getAllTestTemplates() {
+    public ResponseEntity<List<TestTemplateDto>> getAllTestTemplates() {
 
         return ResponseEntity.ok(
                 testTemplateMapper.testTemplatesToTestTemplatesDto(
