@@ -12,5 +12,5 @@ import lombok.Setter;
 @Setter
 public class AuthorizationResponseDto {
     private String authToken;
-    private AccountDto account;
+    private UserDto user;
 }

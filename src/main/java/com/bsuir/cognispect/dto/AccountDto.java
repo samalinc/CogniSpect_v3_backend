@@ -21,6 +21,4 @@ public class AccountDto {
     private RoleEnum role;
 
     private String email;
-
-    private UserDto user;
 }

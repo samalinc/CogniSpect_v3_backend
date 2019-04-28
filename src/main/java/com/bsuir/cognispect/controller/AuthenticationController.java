@@ -6,7 +6,7 @@ import com.bsuir.cognispect.dto.SignUpDto;
 import com.bsuir.cognispect.entity.Account;
 import com.bsuir.cognispect.entity.enums.RoleEnum;
 import com.bsuir.cognispect.exception.ValidationException;
-import com.bsuir.cognispect.mapper.AccountMapper;
+import com.bsuir.cognispect.mapper.UserMapper;
 import com.bsuir.cognispect.security.details.UserDetailsImpl;
 import com.bsuir.cognispect.security.token.TokenAuthentication;
 import com.bsuir.cognispect.service.AuthenticationService;
@@ -31,7 +31,7 @@ public class AuthenticationController {
     @Autowired
     private AuthenticationService authenticationService;
     @Autowired
-    private AccountMapper accountMapper;
+    private UserMapper userMapper;
     @Autowired
     private CustomValidator customValidator;
 
@@ -53,7 +53,7 @@ public class AuthenticationController {
         Account account = authenticationService.registerUser(signUpDto);
 
         return new ResponseEntity<>(
-                accountMapper.accountToAccountDto(account),
+                userMapper.userToUserDto(account),
                 HttpStatus.CREATED);
     }
 
@@ -65,7 +65,7 @@ public class AuthenticationController {
 
         return ResponseEntity.ok(new AuthorizationResponseDto(
                 tokenAuthentication.getName(),
-                accountMapper.accountToAccountDto(
+                userMapper.userToUserDto(
                         ((UserDetailsImpl) tokenAuthentication.getDetails())
                                 .getAccount())
         ));

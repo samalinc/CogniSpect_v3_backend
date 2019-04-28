@@ -1,7 +1,7 @@
 package com.bsuir.cognispect.controller;
 
 import com.bsuir.cognispect.entity.enums.RoleEnum;
-import com.bsuir.cognispect.mapper.AccountMapper;
+import com.bsuir.cognispect.mapper.UserMapper;
 import com.bsuir.cognispect.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/api/account")
-public class AccountController {
+@RequestMapping("/api/user")
+public class UserController {
     @Autowired
     private AccountService accountService;
     @Autowired
-    private AccountMapper accountMapper;
+    private UserMapper userMapper;
 
     @GetMapping
-    public ResponseEntity<?> getAccountsByFilter(
+    public ResponseEntity<?> getUsersByFilter(
             @RequestParam(name = "role", required = false)
                     RoleEnum role,
             @RequestParam(name = "firstName", required = false, defaultValue = "")
@@ -30,7 +30,7 @@ public class AccountController {
             @RequestParam(name = "studyGroup", required = false, defaultValue = "")
                     String studyGroup) {
 
-        return ResponseEntity.ok(accountMapper.accountsToAccountsDto(
+        return ResponseEntity.ok(userMapper.usersToUsersDto(
                 accountService.getAccountsByFilter(
                         role,
                         firstName,
