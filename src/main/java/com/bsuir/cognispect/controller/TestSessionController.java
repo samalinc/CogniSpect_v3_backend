@@ -1,6 +1,7 @@
 package com.bsuir.cognispect.controller;
 
 import com.bsuir.cognispect.entity.Student;
+import com.bsuir.cognispect.mapper.TestSessionMapper;
 import com.bsuir.cognispect.security.details.UserDetailsImpl;
 import com.bsuir.cognispect.service.TestSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestSessionController {
     @Autowired
     private TestSessionService testSessionService;
+    @Autowired
+    private TestSessionMapper testSessionMapper;
 
     @GetMapping("/getStudentTests")
     public ResponseEntity<?> getTestSessionsForStudent() {
@@ -27,7 +30,8 @@ public class TestSessionController {
             return ResponseEntity.noContent().build();
         }
 
-        return ResponseEntity.ok(testSessionService
-                .getEnabledTestSessionsForStudent(student.getId()));
+        return ResponseEntity.ok(testSessionMapper.testSessionsToTestSessionsDto(
+                testSessionService
+                        .getEnabledTestSessionsForStudent(student.getId())));
     }
 }

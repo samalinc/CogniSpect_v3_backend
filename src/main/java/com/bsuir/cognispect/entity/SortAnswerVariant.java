@@ -30,6 +30,9 @@ public class SortAnswerVariant {
     @Column(name = "list_position")
     private int listPosition;
 
+    @Column(name = "student_position")
+    private int studentPosition;
+
     @ManyToOne
     @JoinColumn(name = "question_variant_id", nullable = false)
     private QuestionVariant questionVariant;

@@ -20,7 +20,7 @@ public class TopicController {
     @Autowired
     private TopicMapper topicMapper;
 
-    @GetMapping("/filter")
+    @GetMapping
     public ResponseEntity<?> getTopicsByFiler(
             @RequestParam(name = "topicName", required = false, defaultValue = "")
                     String topicName,
@@ -32,7 +32,7 @@ public class TopicController {
                         .getTopicsByFilter(topicName, subjectName)));
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<?> createTopic(
             @RequestBody @Valid final TopicDto topicDto) {
         Topic topic = topicService.createTopic(topicDto);
@@ -43,7 +43,7 @@ public class TopicController {
                 HttpStatus.CREATED);
     }
 
-    @PutMapping("/update")
+    @PutMapping
     public ResponseEntity<?> updateSubject(
             @RequestBody TopicDto topicDto) {
         Topic topic = topicService.updateExistingTopic(topicDto);

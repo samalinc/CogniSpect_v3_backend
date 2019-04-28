@@ -17,4 +17,5 @@ public class SortAnswerVariantDto {
     private String text;
     private int rightPosition;
     private int listPosition;
+    private int studentPosition;
 }

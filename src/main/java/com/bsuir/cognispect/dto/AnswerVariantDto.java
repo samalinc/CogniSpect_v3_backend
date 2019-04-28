@@ -17,4 +17,5 @@ public class AnswerVariantDto {
     private String text;
     boolean isCorrect;
     private int position;
+    private boolean isStudentChose;
 }

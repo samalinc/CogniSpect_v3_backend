@@ -33,7 +33,7 @@ public class TestVariant {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", columnDefinition = "TEST_VARIANT_STATUS")
     @Type(type = "pgsql_enum")
-    private TestVariantStatusEnum testVariantStatusEnum;
+    private TestVariantStatusEnum testVariantStatus;
 
     @ManyToOne
     @JoinColumn(name = "test_session_id")

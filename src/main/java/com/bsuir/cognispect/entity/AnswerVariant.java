@@ -29,6 +29,9 @@ public class AnswerVariant {
 
     private int position;
 
+    @Column(name = "is_student_chose")
+    private boolean isStudentChose;
+
     @ManyToOne
     @JoinColumn(name = "question_variant_id", nullable = false)
     private QuestionVariant questionVariant;

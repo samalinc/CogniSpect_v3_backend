@@ -32,6 +32,9 @@ public class QuestionVariant {
     @Type(type = "pgsql_enum")
     private QuestionTypeEnum type;
 
+    @Column(name = "is_answered")
+    private boolean isAnswered;
+
     @ManyToOne
     @JoinColumn(name = "topic_id", nullable = false)
     private Topic topic;

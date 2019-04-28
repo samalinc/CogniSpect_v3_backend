@@ -24,7 +24,6 @@ public class TestSessionServiceImpl implements TestSessionService {
         for (TestVariant testVariant : testVariantRepository
                 .findAllTestVariantsByStudentId(studentId)) {
             testSessionList.add(testVariant.getTestSession());
-
         }
 
         return testSessionList;

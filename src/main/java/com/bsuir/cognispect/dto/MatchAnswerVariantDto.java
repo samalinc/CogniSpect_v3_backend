@@ -18,4 +18,6 @@ public class MatchAnswerVariantDto {
     private String value;
     private int keyPosition;
     private int valuePosition;
+    private String studentKey;
+    private String studentValue;
 }

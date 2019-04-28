@@ -20,7 +20,7 @@ public class QuestionController {
     @Autowired
     private QuestionMapper questionMapper;
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<?> createQuestion(
             @Valid @RequestBody final QuestionDto questionDto) {
 
@@ -30,7 +30,7 @@ public class QuestionController {
         );
     }
 
-    @GetMapping("/filter")
+    @GetMapping
     public ResponseEntity<?> getQuestionsByFilter(
             @RequestParam(name = "subject", required = false, defaultValue = "")
                     String subject,

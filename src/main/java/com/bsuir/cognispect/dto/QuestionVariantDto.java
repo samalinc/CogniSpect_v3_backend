@@ -18,6 +18,7 @@ public class QuestionVariantDto {
     private UUID id;
     private String description;
     private QuestionTypeEnum type;
+    private boolean isAnswered;
     private List<AnswerVariantDto> answers;
     private List<MatchAnswerVariantDto> matchAnswers;
     private List<SortAnswerVariantDto> sortAnswers;

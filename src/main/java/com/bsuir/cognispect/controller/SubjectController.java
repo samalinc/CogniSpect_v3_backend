@@ -20,7 +20,7 @@ public class SubjectController {
     @Autowired
     private SubjectMapper subjectMapper;
 
-    @GetMapping("/filter")
+    @GetMapping
     public ResponseEntity<?> getSubjectsByFiler(
             @RequestParam(name = "name", required = false, defaultValue = "")
                     String subjectName) {
@@ -30,7 +30,7 @@ public class SubjectController {
                         subjectService.getSubjectsByFilter(subjectName)));
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<?> createSubject(
             @RequestBody @Valid final SubjectDto subjectDto) {
         Subject subject = subjectService.createSubject(subjectDto);
@@ -41,7 +41,7 @@ public class SubjectController {
                 HttpStatus.CREATED);
     }
 
-    @PutMapping("/update")
+    @PutMapping
     public ResponseEntity<?> updateSubject(
             @RequestBody SubjectDto subjectDto) {
         Subject subject = subjectService.updateExistingSubject(subjectDto);

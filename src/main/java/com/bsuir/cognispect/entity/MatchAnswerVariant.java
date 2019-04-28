@@ -33,6 +33,12 @@ public class MatchAnswerVariant {
     @Column(name = "value_position")
     private int valuePosition;
 
+    @Column(columnDefinition = "TEXT")
+    private String studentKey;
+
+    @Column(columnDefinition = "TEXT")
+    private String studentValue;
+
     @ManyToOne
     @JoinColumn(name = "question_variant_id", nullable = false)
     private QuestionVariant questionVariant;

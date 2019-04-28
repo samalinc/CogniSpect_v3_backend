@@ -19,7 +19,7 @@ public class AccountController {
     @Autowired
     private AccountMapper accountMapper;
 
-    @GetMapping("/filter")
+    @GetMapping
     public ResponseEntity<?> getAccountsByFilter(
             @RequestParam(name = "role", required = false)
                     RoleEnum role,

@@ -16,5 +16,6 @@ import java.util.UUID;
 public class TestSessionDto {
     private UUID id;
     private TestSessionStatusEnum testSessionStatus;
-    private String testSessionName;
+    private String name;
+    private String[] routers;
 }

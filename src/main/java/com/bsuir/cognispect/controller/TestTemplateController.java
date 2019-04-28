@@ -19,7 +19,7 @@ public class TestTemplateController {
     @Autowired
     private TestTemplateService testTemplateService;
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<?> createTestTemplate(
             @Valid @RequestBody TestTemplateDto testTemplateDto) {
 
