@@ -18,5 +18,7 @@ public interface TopicService {
 
     Topic updateExistingTopic(TopicDto topicDto);
 
+    Topic deleteTopicById(UUID topicId);
+
     List<Topic> getTopicsByFilter(String topicName, String subjectName);
 }

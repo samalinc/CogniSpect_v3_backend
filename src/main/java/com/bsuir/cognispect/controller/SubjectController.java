@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 
 @RestController
@@ -37,8 +38,7 @@ public class SubjectController {
         Subject subject = subjectService.createSubject(subjectDto);
 
         return new ResponseEntity<>(
-                subjectMapper.subjectToSubjectDto(
-                        subject),
+                subjectMapper.subjectToSubjectDto(subject),
                 HttpStatus.CREATED);
     }
 
@@ -47,9 +47,14 @@ public class SubjectController {
             @RequestBody SubjectDto subjectDto) {
         Subject subject = subjectService.updateExistingSubject(subjectDto);
 
-        return new ResponseEntity<>(
-                subjectMapper.subjectToSubjectDto(
-                        subject),
-                HttpStatus.OK);
+        return ResponseEntity.ok(subjectMapper.subjectToSubjectDto(subject));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<SubjectDto> deleteSubject(
+            @PathVariable(name = "id") UUID subjectId) {
+        Subject subject = subjectService.deleteSubjectById(subjectId);
+
+        return ResponseEntity.ok(subjectMapper.subjectToSubjectDto(subject));
     }
 }

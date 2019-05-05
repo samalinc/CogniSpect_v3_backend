@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 
 @RestController
@@ -38,9 +39,7 @@ public class TopicController {
             @RequestBody @Valid final TopicDto topicDto) {
         Topic topic = topicService.createTopic(topicDto);
 
-        return new ResponseEntity<>(
-                topicMapper.topicToTopicDto(
-                        topic),
+        return new ResponseEntity<>(topicMapper.topicToTopicDto(topic),
                 HttpStatus.CREATED);
     }
 
@@ -49,9 +48,14 @@ public class TopicController {
             @RequestBody TopicDto topicDto) {
         Topic topic = topicService.updateExistingTopic(topicDto);
 
-        return new ResponseEntity<>(
-                topicMapper.topicToTopicDto(
-                        topic),
-                HttpStatus.OK);
+        return ResponseEntity.ok(topicMapper.topicToTopicDto(topic));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<TopicDto> deleteTopic(
+            @PathVariable(name = "id") UUID topicId) {
+        Topic topic = topicService.deleteTopicById(topicId);
+
+        return ResponseEntity.ok(topicMapper.topicToTopicDto(topic));
     }
 }

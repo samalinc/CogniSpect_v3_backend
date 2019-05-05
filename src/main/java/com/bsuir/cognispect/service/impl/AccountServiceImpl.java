@@ -3,7 +3,7 @@ package com.bsuir.cognispect.service.impl;
 import com.bsuir.cognispect.dto.SignUpDto;
 import com.bsuir.cognispect.entity.Account;
 import com.bsuir.cognispect.entity.enums.RoleEnum;
-import com.bsuir.cognispect.exception.AccountNotFoundException;
+import com.bsuir.cognispect.exception.ResourceNotFoundException;
 import com.bsuir.cognispect.exception.UniqueException;
 import com.bsuir.cognispect.repository.AccountRepository;
 import com.bsuir.cognispect.service.AccountService;
@@ -41,7 +41,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account updateAccountInformation(SignUpDto signUpDto) {
         Account account = accountRepository.findById(signUpDto.getId())
-                .orElseThrow(() -> new AccountNotFoundException(
+                .orElseThrow(() -> new ResourceNotFoundException(
                         "Account with ID: " + signUpDto.getId() + "not found"));
 
         if (!account.getLogin().equalsIgnoreCase(signUpDto.getLogin()) &&
@@ -76,7 +76,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account deleteAccount(UUID accountId) {
         Account account = accountRepository.findById(accountId).orElseThrow(
-                () -> new AccountNotFoundException("Account with ID: "
+                () -> new ResourceNotFoundException("Account with ID: "
                         + accountId + "not found"));
 
         accountRepository.delete(account);

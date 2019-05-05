@@ -3,6 +3,7 @@ package com.bsuir.cognispect.service.impl;
 import com.bsuir.cognispect.dto.TopicDto;
 import com.bsuir.cognispect.entity.Subject;
 import com.bsuir.cognispect.entity.Topic;
+import com.bsuir.cognispect.exception.ResourceNotFoundException;
 import com.bsuir.cognispect.exception.UniqueException;
 import com.bsuir.cognispect.repository.SubjectRepository;
 import com.bsuir.cognispect.repository.TopicRepository;
@@ -61,22 +62,28 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public Topic updateExistingTopic(TopicDto topicDto) {
-        Optional<Topic> topicOptional =
-                topicRepository.findTopicById(topicDto.getId());
-        Topic topic = topicOptional.orElseThrow(
-                () -> new IllegalArgumentException("Topic with ID: "
-                        + topicDto.getId()
+        Topic topic = topicRepository.findTopicById(topicDto.getId()).orElseThrow(
+                () -> new IllegalArgumentException("Topic with ID: " + topicDto.getId()
                         + " not found"));
 
         if (topicRepository.existsTopicByNameUnderSubject(
                 topicDto.getName(), topic.getSubject().getId())) {
-            throw new UniqueException("Topic with name: "
-                    + topicDto.getName()
+            throw new UniqueException("Topic with name: " + topicDto.getName()
                     + " already exist");
         }
         topic.setName(topicDto.getName());
 
         return topicRepository.save(topic);
+    }
+
+    @Override
+    public Topic deleteTopicById(UUID topicId) {
+        Topic topic = topicRepository.findTopicById(topicId).orElseThrow(
+                () -> new ResourceNotFoundException("Topic with ID: " + topicId +
+                        " not found"));
+        topicRepository.delete(topic);
+
+        return topic;
     }
 
     @Override

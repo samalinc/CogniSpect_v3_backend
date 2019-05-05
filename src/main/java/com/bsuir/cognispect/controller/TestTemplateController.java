@@ -1,6 +1,7 @@
 package com.bsuir.cognispect.controller;
 
 import com.bsuir.cognispect.dto.TestTemplateDto;
+import com.bsuir.cognispect.entity.TestTemplate;
 import com.bsuir.cognispect.mapper.TestTemplateMapper;
 import com.bsuir.cognispect.service.TestTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 
 @RestController
@@ -35,8 +37,16 @@ public class TestTemplateController {
 
         return ResponseEntity.ok(
                 testTemplateMapper.testTemplatesToTestTemplatesDto(
-                        testTemplateService.getTestTemplates()
-                )
-        );
+                        testTemplateService.getTestTemplates()));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<TestTemplateDto> deleteTestTemplate(
+            @PathVariable(name = "id") UUID testTemplateId) {
+        TestTemplate testTemplate = testTemplateService
+                .deleteTestTemplateById(testTemplateId);
+
+        return ResponseEntity.ok(testTemplateMapper
+                .testTemplateToTestTemplateDto(testTemplate));
     }
 }

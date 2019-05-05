@@ -5,6 +5,7 @@ import com.bsuir.cognispect.entity.Subject;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 
 public interface SubjectService {
@@ -15,4 +16,6 @@ public interface SubjectService {
     List<Subject> getSubjectsByFilter(String subjectName);
 
     Subject updateExistingSubject(SubjectDto subjectDto);
+
+    Subject deleteSubjectById(UUID subjectId);
 }

@@ -6,6 +6,7 @@ import com.bsuir.cognispect.entity.Question;
 import com.bsuir.cognispect.entity.Teacher;
 import com.bsuir.cognispect.entity.TestTemplate;
 import com.bsuir.cognispect.entity.TestTemplateQuestion;
+import com.bsuir.cognispect.exception.ResourceNotFoundException;
 import com.bsuir.cognispect.repository.QuestionRepository;
 import com.bsuir.cognispect.repository.TeacherRepository;
 import com.bsuir.cognispect.repository.TestTemplateRepository;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
@@ -69,5 +71,20 @@ public class TestTemplateServiceImpl implements TestTemplateService {
     @Override
     public List<TestTemplate> getTestTemplates() {
         return testTemplateRepository.findAll();
+    }
+
+    @Override
+    public TestTemplate updateTestTemplate(TestTemplateDto testTemplateDto) {
+        return null;
+    }
+
+    @Override
+    public TestTemplate deleteTestTemplateById(UUID testTemplateId) {
+        TestTemplate testTemplate = testTemplateRepository.findById(testTemplateId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Test template with ID: " + testTemplateId + " not found"));
+        testTemplateRepository.delete(testTemplate);
+
+        return testTemplate;
     }
 }
