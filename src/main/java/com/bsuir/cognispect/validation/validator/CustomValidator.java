@@ -1,7 +1,9 @@
 package com.bsuir.cognispect.validation.validator;
 
+import com.bsuir.cognispect.entity.enums.RoleEnum;
 import com.bsuir.cognispect.util.error.ApiSubError;
 import com.bsuir.cognispect.util.error.ApiValidationError;
+import com.bsuir.cognispect.validation.groups.AccountGroupsValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -35,6 +37,29 @@ public class CustomValidator {
                 ));
             }
         }
+        return apiSubErrorList;
+    }
+
+    public <T> List<ApiSubError> validateByUserRole(T object, RoleEnum role) {
+        List<ApiSubError> apiSubErrorList;
+
+        switch (role) {
+            case STUDENT: {
+                apiSubErrorList = validate(
+                        object, AccountGroupsValidation.StudentValidation.class);
+                break;
+            }
+
+            case TEACHER: {
+                apiSubErrorList = validate(
+                        object, AccountGroupsValidation.TeacherValidation.class);
+                break;
+            }
+            default:
+                apiSubErrorList = validate(
+                        object, null);
+        }
+
         return apiSubErrorList;
     }
 }

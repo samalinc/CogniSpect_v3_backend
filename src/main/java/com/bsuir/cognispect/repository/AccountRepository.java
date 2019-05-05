@@ -21,6 +21,8 @@ public interface AccountRepository extends JpaRepository<Account, UUID> {
 
     Optional<Account> findByLogin(String login);
 
+    Optional<Account> findById(UUID accountId);
+
     @Query(value = "SELECT a.* FROM account a " +
             "LEFT JOIN student s ON a.id = s.account_id " +
             "LEFT JOIN teacher t ON a.id = t.account_id " +

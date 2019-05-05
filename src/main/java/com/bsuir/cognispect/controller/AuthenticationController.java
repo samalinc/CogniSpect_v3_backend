@@ -39,15 +39,9 @@ public class AuthenticationController {
     @PostMapping("/signup")
     public ResponseEntity<UserDto> registerUser(
             @RequestBody final SignUpDto signUpDto) {
-        List<ApiSubError> apiSubErrors;
+        List<ApiSubError> apiSubErrors = customValidator.validateByUserRole(
+                signUpDto, signUpDto.getRole());
 
-        if (signUpDto.getRole().equals(RoleEnum.STUDENT)) {
-            apiSubErrors = customValidator.validate(
-                    signUpDto, AccountGroupsValidation.StudentValidation.class);
-        } else {
-            apiSubErrors = customValidator.validate(
-                    signUpDto, AccountGroupsValidation.TeacherValidation.class);
-        }
         if (apiSubErrors != null) {
             throw new ValidationException(apiSubErrors);
         }
@@ -65,10 +59,9 @@ public class AuthenticationController {
                 authenticationService.authenticateUser(loginDto);
 
         return ResponseEntity.ok(new AuthorizationResponseDto(
-                tokenAuthentication.getName(),
-                userMapper.userToUserDto(
-                        ((UserDetailsImpl) tokenAuthentication.getDetails())
-                                .getAccount())
+                tokenAuthentication.getName(), userMapper.userToUserDto(
+                ((UserDetailsImpl) tokenAuthentication.getDetails())
+                        .getAccount())
         ));
     }
 }
