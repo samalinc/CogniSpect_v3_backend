@@ -4,6 +4,7 @@ import com.bsuir.cognispect.dto.QuestionDto;
 import com.bsuir.cognispect.entity.Question;
 import com.bsuir.cognispect.entity.Subject;
 import com.bsuir.cognispect.entity.Topic;
+import com.bsuir.cognispect.exception.ResourceNotFoundException;
 import com.bsuir.cognispect.repository.QuestionRepository;
 import com.bsuir.cognispect.service.AnswerService;
 import com.bsuir.cognispect.service.QuestionService;
@@ -88,6 +89,12 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public Question updateQuestion(final QuestionDto questionDto) {
         return null;
+    }
+
+    @Override
+    public Question getQuestionById(UUID questionId) {
+        return questionRepository.findQuestionById(questionId).orElseThrow(
+                () -> new ResourceNotFoundException("Question", questionId));
     }
 
     @Override

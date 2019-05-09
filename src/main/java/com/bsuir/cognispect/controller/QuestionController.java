@@ -31,6 +31,14 @@ public class QuestionController {
         );
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<QuestionDto> getQuestionById(
+            @PathVariable(name = "id") UUID questionId) {
+
+        return ResponseEntity.ok(questionMapper.questionToQuestionDto(
+                questionService.getQuestionById(questionId)));
+    }
+
     @GetMapping
     public ResponseEntity<List<QuestionDto>> getQuestionsByFilter(
             @RequestParam(name = "subject", required = false, defaultValue = "")

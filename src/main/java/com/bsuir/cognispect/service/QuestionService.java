@@ -14,6 +14,8 @@ public interface QuestionService {
 
     Question updateQuestion(QuestionDto questionDto);
 
+    Question getQuestionById(UUID questionId);
+
     List<Question> getQuestionsByFilter(String subjectName, String topicName);
 
     List<Question> getQuestionsBySubjectId(UUID subjectId);
