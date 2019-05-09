@@ -34,14 +34,11 @@ public class TopicServiceImpl implements TopicService {
     public Topic createTopic(TopicDto topicDto) {
         Subject subject = subjectRepository
                 .findSubjectById(topicDto.getSubject().getId()).orElseThrow(
-                        () -> new IllegalArgumentException("Subject with ID: "
-                                + topicDto.getSubject().getId()
-                                + " not found"));
+                        () -> new ResourceNotFoundException("Subject", topicDto.getSubject().getId()));
 
         if (topicRepository.existsTopicByNameUnderSubject(
                 topicDto.getName(), topicDto.getSubject().getId())) {
-            throw new UniqueException("Topic with name: "
-                    + topicDto.getName() + " already exist");
+            throw new UniqueException("Topic", "name", topicDto.getName());
         }
 
         Topic topic = new Topic();
@@ -63,13 +60,11 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public Topic updateExistingTopic(TopicDto topicDto) {
         Topic topic = topicRepository.findTopicById(topicDto.getId()).orElseThrow(
-                () -> new IllegalArgumentException("Topic with ID: " + topicDto.getId()
-                        + " not found"));
+                () -> new ResourceNotFoundException("Topic", topicDto.getId()));
 
         if (topicRepository.existsTopicByNameUnderSubject(
                 topicDto.getName(), topic.getSubject().getId())) {
-            throw new UniqueException("Topic with name: " + topicDto.getName()
-                    + " already exist");
+            throw new UniqueException("Topic", "name", topicDto.getName());
         }
         topic.setName(topicDto.getName());
 
@@ -79,8 +74,7 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public Topic deleteTopicById(UUID topicId) {
         Topic topic = topicRepository.findTopicById(topicId).orElseThrow(
-                () -> new ResourceNotFoundException("Topic with ID: " + topicId +
-                        " not found"));
+                () -> new ResourceNotFoundException("Topic", topicId));
         topicRepository.delete(topic);
 
         return topic;

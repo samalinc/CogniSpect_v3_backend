@@ -34,8 +34,8 @@ public class TestTemplateServiceImpl implements TestTemplateService {
 
         Teacher teacher = teacherRepository
                 .findTeacherById(testTemplateDto.getCreator().getId())
-                .orElseThrow(() -> new IllegalArgumentException("Teacher with ID: "
-                        + testTemplateDto.getCreator().getId() + " not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Teacher", testTemplateDto.getCreator().getId()));
 
         testTemplate.setCreator(teacher);
         testTemplate.setTestTemplateQuestions(createTestTemplateQuestions(
@@ -53,8 +53,8 @@ public class TestTemplateServiceImpl implements TestTemplateService {
         for (TestTemplateQuestionDto testTemplateQuestionDto : testTemplateQuestionDtoList) {
             Question question = questionRepository
                     .findQuestionById(testTemplateQuestionDto.getQuestion().getId())
-                    .orElseThrow(() -> new IllegalArgumentException("Questions with ID: "
-                            + testTemplateQuestionDto.getQuestion().getId() + " not found"));
+                    .orElseThrow(() -> new ResourceNotFoundException(
+                            "Question", testTemplateQuestionDto.getQuestion().getId()));
 
             TestTemplateQuestion testTemplateQuestion = new TestTemplateQuestion();
 
@@ -82,7 +82,7 @@ public class TestTemplateServiceImpl implements TestTemplateService {
     public TestTemplate deleteTestTemplateById(UUID testTemplateId) {
         TestTemplate testTemplate = testTemplateRepository.findById(testTemplateId)
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        "Test template with ID: " + testTemplateId + " not found"));
+                        "Test template", testTemplateId));
         testTemplateRepository.delete(testTemplate);
 
         return testTemplate;

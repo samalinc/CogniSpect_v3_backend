@@ -27,8 +27,7 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public Subject createSubject(SubjectDto subjectDto) throws UniqueException {
         if (subjectRepository.existsByName(subjectDto.getName())) {
-            throw new UniqueException("Subject with name: "
-                    + subjectDto.getName() + " already exist");
+            throw new UniqueException("Subject", "name", subjectDto.getName());
         }
         Subject subject = new Subject();
         subject.setName(subjectDto.getName());
@@ -45,15 +44,10 @@ public class SubjectServiceImpl implements SubjectService {
     public Subject updateExistingSubject(SubjectDto subjectDto)
             throws IllegalArgumentException, UniqueException {
         Subject subject = subjectRepository.findSubjectById(subjectDto.getId())
-                .orElseThrow(
-                        () -> new IllegalArgumentException("Subject with ID: "
-                                + subjectDto.getId()
-                                + " not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Subject", subjectDto.getId()));
 
         if (subjectRepository.existsByName(subjectDto.getName())) {
-            throw new UniqueException("Subject with name: "
-                    + subjectDto.getName()
-                    + " already exist");
+            throw new UniqueException("Subject", "name", subjectDto.getName());
         }
         subject.setName(subjectDto.getName());
 
@@ -63,8 +57,7 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public Subject deleteSubjectById(UUID subjectId) {
         Subject subject = subjectRepository.findSubjectById(subjectId).orElseThrow(
-                () -> new ResourceNotFoundException("Topic with ID: " + subjectId
-                        + " not found"));
+                () -> new ResourceNotFoundException("Topic", subjectId));
         subjectRepository.delete(subject);
 
         return subject;

@@ -42,16 +42,16 @@ public class AccountServiceImpl implements AccountService {
     public Account updateAccountInformation(SignUpDto signUpDto) {
         Account account = accountRepository.findById(signUpDto.getId())
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        "Account with ID: " + signUpDto.getId() + "not found"));
+                        "Account", signUpDto.getId()));
 
         if (!account.getLogin().equalsIgnoreCase(signUpDto.getLogin()) &&
                 accountRepository.existsByLogin(signUpDto.getLogin())) {
-            throw new UniqueException("User with this login already exists");
+            throw new UniqueException("User", "login", signUpDto.getLogin());
         }
 
         if (!account.getEmail().equalsIgnoreCase(signUpDto.getEmail()) &&
                 accountRepository.existsByEmail(signUpDto.getEmail())) {
-            throw new UniqueException("User with this email already exists");
+            throw new UniqueException("User", "email", signUpDto.getEmail());
         }
 
         account.setLogin(signUpDto.getLogin());
@@ -76,8 +76,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account deleteAccount(UUID accountId) {
         Account account = accountRepository.findById(accountId).orElseThrow(
-                () -> new ResourceNotFoundException("Account with ID: "
-                        + accountId + "not found"));
+                () -> new ResourceNotFoundException("Account", accountId));
 
         accountRepository.delete(account);
 

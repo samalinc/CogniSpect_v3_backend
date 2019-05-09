@@ -39,11 +39,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public Account registerUser(final SignUpDto signUpDto)
             throws UniqueException {
         if (accountRepository.existsByLogin(signUpDto.getLogin())) {
-            throw new UniqueException("User with this login already exists");
+            throw new UniqueException("User", "login", signUpDto.getLogin());
         }
 
         if (accountRepository.existsByEmail(signUpDto.getEmail())) {
-            throw new UniqueException("User with this email already exists");
+            throw new UniqueException("User", "email", signUpDto.getEmail());
         }
 
         Account account = new Account();
@@ -82,8 +82,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         if (!account.isPresent() || !passwordEncoder.matches(
                 loginDto.getPassword(), account.get().getHashedPassword())) {
-            throw new BadCredentialsException(
-                    "Incorrect login or password");
+            throw new BadCredentialsException("Incorrect login or password");
         }
 
         TokenAuthentication tokenAuthentication = new TokenAuthentication(
