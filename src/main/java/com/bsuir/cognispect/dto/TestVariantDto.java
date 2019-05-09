@@ -1,6 +1,8 @@
 package com.bsuir.cognispect.dto;
 
 import com.bsuir.cognispect.entity.enums.TestVariantStatusEnum;
+import com.bsuir.cognispect.view.View;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,8 +16,11 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
+@JsonView(View.DefaultView.class)
 public class TestVariantDto {
     private UUID id;
+
     private TestVariantStatusEnum testVariantStatus;
+
     private List<QuestionVariantDto> questionVariants;
 }

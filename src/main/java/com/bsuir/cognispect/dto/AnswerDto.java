@@ -14,6 +14,8 @@ import java.util.UUID;
 @Setter
 public class AnswerDto {
     private UUID id;
+
     private String text;
+
     boolean isCorrect;
 }

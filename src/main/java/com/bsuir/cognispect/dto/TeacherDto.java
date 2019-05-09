@@ -12,6 +12,8 @@ import java.util.UUID;
 @Setter
 public class TeacherDto {
     private UUID id;
+
     private String firstName;
+
     private String lastName;
 }

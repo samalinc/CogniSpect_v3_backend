@@ -12,7 +12,6 @@ import java.util.UUID;
 @Getter
 @Setter
 public class SubjectDto {
-
     private UUID id;
 
     @NotBlank

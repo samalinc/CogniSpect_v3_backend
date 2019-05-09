@@ -14,6 +14,8 @@ import java.util.UUID;
 @Setter
 public class SortAnswerDto {
     private UUID id;
+
     private String text;
+
     private int position;
 }

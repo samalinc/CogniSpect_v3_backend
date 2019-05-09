@@ -12,7 +12,10 @@ import java.util.UUID;
 @Setter
 public class StudentDto {
     private UUID id;
+
     private String firstName;
+
     private String lastName;
+
     private String studyGroup;
 }

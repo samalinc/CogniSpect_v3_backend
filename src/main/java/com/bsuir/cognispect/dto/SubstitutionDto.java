@@ -12,6 +12,8 @@ import java.util.UUID;
 @Setter
 public class SubstitutionDto {
     private UUID id;
+
     private String text;
+
     private AnswerDto rightAnswer;
 }
