@@ -7,6 +7,7 @@ import com.bsuir.cognispect.dto.SubstitutionDto;
 import com.bsuir.cognispect.entity.*;
 
 import java.util.List;
+import java.util.UUID;
 
 
 public interface AnswerService {
@@ -30,6 +31,12 @@ public interface AnswerService {
             List<Answer> answers,
             Question question);
 
+    List<Answer> updateAnswersInQuestion(List<AnswerDto> answersDto);
+
+    Answer updateAnswer(AnswerDto answerDto);
+
+    Answer createAnswer(AnswerDto answerDto, Question question);
+
     Answer saveAnswer(Answer answer);
 
     MatchAnswer saveMatchAnswer(MatchAnswer matchAnswer);
@@ -41,4 +48,6 @@ public interface AnswerService {
     List<MatchAnswer> saveMatchAnswers(List<MatchAnswer> matchAnswers);
 
     List<SortAnswer> saveSortAnswers(List<SortAnswer> sortAnswers);
+
+    Answer deleteAnswer(UUID answerId);
 }

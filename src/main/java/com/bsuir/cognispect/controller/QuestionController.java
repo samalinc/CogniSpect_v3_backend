@@ -39,6 +39,22 @@ public class QuestionController {
                 questionService.getQuestionById(questionId)));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<QuestionDto> deleteQuestionById(
+            @PathVariable(name = "id") UUID questionId) {
+
+        return ResponseEntity.ok(questionMapper.questionToQuestionDto(questionService
+                .deleteQuestionById(questionId)));
+    }
+
+    @PutMapping
+    public ResponseEntity<QuestionDto> updateQuestion(
+            @Valid @RequestBody final QuestionDto questionDto) {
+
+        return ResponseEntity.ok(questionMapper.questionToQuestionDto(
+                questionService.updateQuestion(questionDto)));
+    }
+
     @GetMapping
     public ResponseEntity<List<QuestionDto>> getQuestionsByFilter(
             @RequestParam(name = "subject", required = false, defaultValue = "")

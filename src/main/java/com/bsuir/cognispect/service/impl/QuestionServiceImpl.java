@@ -1,18 +1,19 @@
 package com.bsuir.cognispect.service.impl;
 
+import com.bsuir.cognispect.dto.AnswerDto;
 import com.bsuir.cognispect.dto.QuestionDto;
+import com.bsuir.cognispect.entity.Answer;
 import com.bsuir.cognispect.entity.Question;
-import com.bsuir.cognispect.entity.Subject;
-import com.bsuir.cognispect.entity.Topic;
 import com.bsuir.cognispect.exception.ResourceNotFoundException;
 import com.bsuir.cognispect.repository.QuestionRepository;
+import com.bsuir.cognispect.repository.SubjectRepository;
+import com.bsuir.cognispect.repository.TopicRepository;
 import com.bsuir.cognispect.service.AnswerService;
 import com.bsuir.cognispect.service.QuestionService;
-import com.bsuir.cognispect.service.SubjectService;
-import com.bsuir.cognispect.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,9 +23,9 @@ public class QuestionServiceImpl implements QuestionService {
     @Autowired
     private QuestionRepository questionRepository;
     @Autowired
-    private TopicService topicService;
+    private TopicRepository topicRepository;
     @Autowired
-    private SubjectService subjectService;
+    private SubjectRepository subjectRepository;
     @Autowired
     private AnswerService answerService;
 
@@ -38,19 +39,8 @@ public class QuestionServiceImpl implements QuestionService {
         Question question = new Question();
 
         question.setDescription(questionDto.getDescription());
-        Subject subject = subjectService
-                .getSubjectByName(
-                        questionDto.getTopic().getSubject().getName())
-                .orElseGet(() -> subjectService.createSubject(
-                        questionDto.getTopic().getSubject()));
-
-        Topic topic = topicService
-                .getTopicByNameAndSubjectId(
-                        questionDto.getTopic().getName(), subject.getId())
-                .orElseGet(() -> topicService.createTopicFromNameAndSubject(
-                        questionDto.getTopic().getName(), subject));
-
-        question.setTopic(topic);
+        question.setTopic(topicRepository.findTopicById(questionDto.getTopic().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Topic", questionDto.getTopic().getId())));
         question.setType(questionDto.getType());
 
         switch (questionDto.getType()) {
@@ -82,13 +72,67 @@ public class QuestionServiceImpl implements QuestionService {
                 break;
         }
 
-
         return questionRepository.save(question);
     }
 
     @Override
     public Question updateQuestion(final QuestionDto questionDto) {
-        return null;
+        Question question = questionRepository.findQuestionById(questionDto.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Question", questionDto.getId()));
+        if (!question.getType().equals(questionDto.getType())) {
+            throw new IllegalArgumentException("Different type of questions");
+        }
+        question.setTopic(topicRepository.findTopicById(questionDto.getTopic().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Topic", questionDto.getTopic().getId())));
+        question.setDescription(questionDto.getDescription());
+
+        switch (questionDto.getType()) {
+            case CHOOSE:
+            case MULTICHOOSE: {
+                question.setAnswers(updateAnswersInQuestion(
+                        questionDto.getAnswers(), question));
+            }
+            break;
+        }
+        questionRepository.save(question);
+
+        return question;
+    }
+
+    private List<Answer> updateAnswersInQuestion(
+            List<AnswerDto> answersDto, Question question) {
+        List<Answer> questionAnswers = question.getAnswers();
+        List<Answer> updatedAnswersList = new ArrayList<>();
+
+        for (AnswerDto answerDto : answersDto) {
+            Answer newAnswer = null;
+            boolean isAnswerFound = false;
+
+            for (Answer answer : questionAnswers) {
+                if (answer.getId().equals(answerDto.getId())) {
+                    newAnswer = answerService.updateAnswer(answerDto);
+                    questionAnswers.remove(answer);
+                    isAnswerFound = true;
+                    break;
+                }
+            }
+            if (!isAnswerFound) {
+                newAnswer = answerService.createAnswer(answerDto, question);
+            }
+            updatedAnswersList.add(newAnswer);
+        }
+        questionAnswers.forEach(answer -> answerService.deleteAnswer(answer.getId()));
+
+        return updatedAnswersList;
+    }
+
+    @Override
+    public Question deleteQuestionById(UUID questionId) {
+        Question question = questionRepository.findQuestionById(questionId)
+                .orElseThrow(() -> new ResourceNotFoundException("Question", questionId));
+        questionRepository.delete(question);
+
+        return question;
     }
 
     @Override
