@@ -8,8 +8,7 @@ import java.util.Collection;
 import java.util.List;
 
 
-@Mapper(componentModel = "spring",
-        uses = {QuestionMapper.class})
+@Mapper(componentModel = "spring")
 public abstract class TestTemplateQuestionMapper {
     public abstract TestTemplateQuestionDto testTemplateQuestionToTestTemplateQuestionDto(
             TestTemplateQuestion testTemplateQuestion);

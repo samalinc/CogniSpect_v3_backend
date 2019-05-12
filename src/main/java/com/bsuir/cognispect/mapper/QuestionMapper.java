@@ -18,18 +18,6 @@ public abstract class QuestionMapper {
 
     public abstract QuestionDto questionToQuestionDto(Question question);
 
-   /* public Question questionDtoToQuestion(QuestionDto questionDto) {
-        return Question.builder()
-                .id(UUID.randomUUID())
-                .type(questionDto.getType())
-                *//*  .topic(topicService
-                          .getTopicByNameAndSubjectId(questionDto.getTopic()))*//*
-                .description(questionDto.getDescription())
-                .answers(new ArrayList<>(answerMapper
-                        .answersDtoToAnswers(questionDto.getAnswers())))
-                .build();
-    }*/
-
     public abstract List<QuestionDto> questionsToQuestionsDto(
             Collection<Question> questions);
 }

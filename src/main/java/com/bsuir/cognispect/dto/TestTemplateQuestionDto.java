@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.Min;
+import java.util.UUID;
 
 
 @AllArgsConstructor
@@ -13,7 +14,7 @@ import javax.validation.constraints.Min;
 @Getter
 @Setter
 public class TestTemplateQuestionDto {
-    private QuestionDto question;
+    private UUID questionId;
 
     @Min(value = 1L)
     private int questionCost;

@@ -52,9 +52,9 @@ public class TestTemplateServiceImpl implements TestTemplateService {
 
         for (TestTemplateQuestionDto testTemplateQuestionDto : testTemplateQuestionDtoList) {
             Question question = questionRepository
-                    .findQuestionById(testTemplateQuestionDto.getQuestion().getId())
+                    .findQuestionById(testTemplateQuestionDto.getQuestionId())
                     .orElseThrow(() -> new ResourceNotFoundException(
-                            "Question", testTemplateQuestionDto.getQuestion().getId()));
+                            "Question", testTemplateQuestionDto.getQuestionId()));
 
             TestTemplateQuestion testTemplateQuestion = new TestTemplateQuestion();
 
