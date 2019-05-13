@@ -16,8 +16,8 @@ import java.util.List;
                 SubstitutionMapper.class})
 public abstract class QuestionMapper {
 
-    public abstract QuestionDto questionToQuestionDto(Question question);
+    public abstract QuestionDto entityToModel(Question question);
 
-    public abstract List<QuestionDto> questionsToQuestionsDto(
+    public abstract List<QuestionDto> entitiesToModels(
             Collection<Question> questions);
 }

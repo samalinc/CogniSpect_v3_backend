@@ -10,8 +10,8 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public abstract class AccountMapper {
-    public abstract AccountDto accountToAccountDto(Account account);
+    public abstract AccountDto entityToModel(Account account);
 
-    public abstract List<AccountDto> accountsToAccountsDto(
+    public abstract List<AccountDto> entitiesToModels(
             Collection<Account> answers);
 }

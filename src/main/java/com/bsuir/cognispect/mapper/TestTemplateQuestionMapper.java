@@ -10,9 +10,9 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public abstract class TestTemplateQuestionMapper {
-    public abstract TestTemplateQuestionDto testTemplateQuestionToTestTemplateQuestionDto(
+    public abstract TestTemplateQuestionDto entityToModel(
             TestTemplateQuestion testTemplateQuestion);
 
-    public abstract List<TestTemplateQuestionDto> testTemplateQuestionsToTestTemplateQuestionsDto(
+    public abstract List<TestTemplateQuestionDto> entitiesToModels(
             Collection<TestTemplateQuestion> testTemplateQuestions);
 }

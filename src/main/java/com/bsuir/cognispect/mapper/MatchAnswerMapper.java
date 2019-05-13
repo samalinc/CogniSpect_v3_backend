@@ -10,15 +10,15 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public abstract class MatchAnswerMapper {
-    public abstract MatchAnswerDto matchAnswerToMatchAnswerDto(
+    public abstract MatchAnswerDto entityToModel(
             MatchAnswer matchAnswer);
 
-    public abstract MatchAnswer matchAnswerDtoToMatchAnswer(
+    public abstract MatchAnswer modelToEntity(
             MatchAnswerDto matchAnswerDto);
 
-    public abstract List<MatchAnswerDto> matchAnswersToMatchAnswersDto(
+    public abstract List<MatchAnswerDto> entitiesToModels(
             Collection<MatchAnswer> matchAnswers);
 
-    public abstract List<MatchAnswer> matchAnswersDtoToMatchAnswers(
+    public abstract List<MatchAnswer> modelsToEntities(
             Collection<MatchAnswerDto> matchAnswersDto);
 }

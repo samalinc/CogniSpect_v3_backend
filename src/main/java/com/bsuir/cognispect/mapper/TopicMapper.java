@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper(componentModel = "spring",
         uses = {SubjectMapper.class})
 public abstract class TopicMapper {
-    public abstract TopicDto topicToTopicDto(Topic topic);
+    public abstract TopicDto entityToModel(Topic topic);
 
-    public abstract List<TopicDto> topicsToTopicsDto(Collection<Topic> topics);
+    public abstract List<TopicDto> entitiesToModels(Collection<Topic> topics);
 }

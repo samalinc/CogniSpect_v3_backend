@@ -14,7 +14,7 @@ public abstract class UserMapper {
     @Autowired
     private AccountMapper accountMapper;
 
-    public UserDto userToUserDto(Account account) {
+    public UserDto entityToModel(Account account) {
         UserDto userDto = new UserDto();
 
         if (account.getRole().equals(RoleEnum.STUDENT)) {
@@ -28,10 +28,10 @@ public abstract class UserMapper {
             userDto.setLastName(account.getTeacher().getLastName());
         }
 
-        userDto.setAccount(accountMapper.accountToAccountDto(account));
+        userDto.setAccount(accountMapper.entityToModel(account));
 
         return userDto;
     }
 
-    public abstract List<UserDto> usersToUsersDto(Collection<Account> accounts);
+    public abstract List<UserDto> entitiesToModels(Collection<Account> accounts);
 }
