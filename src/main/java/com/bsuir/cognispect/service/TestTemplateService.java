@@ -1,17 +1,17 @@
 package com.bsuir.cognispect.service;
 
-import com.bsuir.cognispect.dto.TestTemplateDto;
+import com.bsuir.cognispect.model.TestTemplateModel;
 import com.bsuir.cognispect.entity.TestTemplate;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface TestTemplateService {
-    TestTemplate createTestTemplate(TestTemplateDto testTemplateDto);
+    TestTemplate createTestTemplate(TestTemplateModel testTemplateModel);
 
     List<TestTemplate> getTestTemplates();
 
-    TestTemplate updateTestTemplate(TestTemplateDto testTemplateDto);
+    TestTemplate updateTestTemplate(TestTemplateModel testTemplateModel);
     
     TestTemplate deleteTestTemplateById(UUID testTemplateId);
 }

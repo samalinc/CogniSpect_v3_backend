@@ -1,10 +1,12 @@
 package com.bsuir.cognispect.repository;
 
+import com.bsuir.cognispect.entity.MatchAnswer;
 import com.bsuir.cognispect.entity.Question;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,4 +34,8 @@ public interface QuestionRepository extends JpaRepository<Question, UUID> {
             "JOIN subject s on t.subject_id = ?1",
             nativeQuery = true)
     List<Question> findQuestionsBySubjectId(UUID subjectId);
+
+    @Transactional
+    @Query(value = "DELETE FROM question q WHERE q.id=?1 RETURNING q.*", nativeQuery = true)
+    Optional<Question> deleteQuestionById(UUID questionId);
 }

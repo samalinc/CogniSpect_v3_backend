@@ -1,7 +1,7 @@
 package com.bsuir.cognispect.service.impl;
 
-import com.bsuir.cognispect.dto.TestTemplateDto;
-import com.bsuir.cognispect.dto.TestTemplateQuestionDto;
+import com.bsuir.cognispect.model.TestTemplateModel;
+import com.bsuir.cognispect.model.TestTemplateQuestionModel;
 import com.bsuir.cognispect.entity.Question;
 import com.bsuir.cognispect.entity.Teacher;
 import com.bsuir.cognispect.entity.TestTemplate;
@@ -29,17 +29,17 @@ public class TestTemplateServiceImpl implements TestTemplateService {
     private QuestionRepository questionRepository;
 
     @Override
-    public TestTemplate createTestTemplate(TestTemplateDto testTemplateDto) {
+    public TestTemplate createTestTemplate(TestTemplateModel testTemplateModel) {
         TestTemplate testTemplate = new TestTemplate();
 
         Teacher teacher = teacherRepository
-                .findTeacherById(testTemplateDto.getCreator().getId())
+                .findTeacherById(testTemplateModel.getCreator().getId())
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        "Teacher", testTemplateDto.getCreator().getId()));
+                        "Teacher", testTemplateModel.getCreator().getId()));
 
         testTemplate.setCreator(teacher);
         testTemplate.setTestTemplateQuestions(createTestTemplateQuestions(
-                testTemplateDto.getTestTemplateQuestions(), testTemplate));
+                testTemplateModel.getTestTemplateQuestions(), testTemplate));
 
         testTemplateRepository.save(testTemplate);
 
@@ -47,20 +47,20 @@ public class TestTemplateServiceImpl implements TestTemplateService {
     }
 
     private List<TestTemplateQuestion> createTestTemplateQuestions(
-            List<TestTemplateQuestionDto> testTemplateQuestionDtoList, TestTemplate testTemplate) {
+            List<TestTemplateQuestionModel> testTemplateQuestionModelList, TestTemplate testTemplate) {
         List<TestTemplateQuestion> testTemplateQuestions = new ArrayList<>();
 
-        for (TestTemplateQuestionDto testTemplateQuestionDto : testTemplateQuestionDtoList) {
+        for (TestTemplateQuestionModel testTemplateQuestionModel : testTemplateQuestionModelList) {
             Question question = questionRepository
-                    .findQuestionById(testTemplateQuestionDto.getQuestionId())
+                    .findQuestionById(testTemplateQuestionModel.getQuestionId())
                     .orElseThrow(() -> new ResourceNotFoundException(
-                            "Question", testTemplateQuestionDto.getQuestionId()));
+                            "Question", testTemplateQuestionModel.getQuestionId()));
 
             TestTemplateQuestion testTemplateQuestion = new TestTemplateQuestion();
 
             testTemplateQuestion.setQuestion(question);
             testTemplateQuestion.setTestTemplate(testTemplate);
-            testTemplateQuestion.setQuestionCost(testTemplateQuestionDto.getQuestionCost());
+            testTemplateQuestion.setQuestionCost(testTemplateQuestionModel.getQuestionCost());
 
             testTemplateQuestions.add(testTemplateQuestion);
         }
@@ -74,7 +74,7 @@ public class TestTemplateServiceImpl implements TestTemplateService {
     }
 
     @Override
-    public TestTemplate updateTestTemplate(TestTemplateDto testTemplateDto) {
+    public TestTemplate updateTestTemplate(TestTemplateModel testTemplateModel) {
         return null;
     }
 

@@ -1,4 +1,4 @@
-package com.bsuir.cognispect.dto;
+package com.bsuir.cognispect.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @Getter
 @Setter
-public class LoginDto {
+public class LoginModel {
     @NotBlank
     @Size(min = 3, max = 15)
     private String login;

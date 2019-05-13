@@ -1,6 +1,6 @@
 package com.bsuir.cognispect.mapper;
 
-import com.bsuir.cognispect.dto.SortAnswerDto;
+import com.bsuir.cognispect.model.SortAnswerModel;
 import com.bsuir.cognispect.entity.SortAnswer;
 import org.mapstruct.Mapper;
 
@@ -10,15 +10,15 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public abstract class SortAnswerMapper {
-    public abstract SortAnswerDto entityToModel(
+    public abstract SortAnswerModel entityToModel(
             SortAnswer sortAnswer);
 
     public abstract SortAnswer modelToEntity(
-            SortAnswerDto sortAnswerDto);
+            SortAnswerModel sortAnswerModel);
 
-    public abstract List<SortAnswerDto> entitiesToModels(
+    public abstract List<SortAnswerModel> entitiesToModels(
             Collection<SortAnswer> answers);
 
     public abstract List<SortAnswer> modelsToEntities(
-            Collection<SortAnswerDto> answersDto);
+            Collection<SortAnswerModel> sortAnswerModels);
 }

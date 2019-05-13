@@ -1,6 +1,6 @@
 package com.bsuir.cognispect.controller;
 
-import com.bsuir.cognispect.dto.TopicDto;
+import com.bsuir.cognispect.model.TopicModel;
 import com.bsuir.cognispect.entity.Topic;
 import com.bsuir.cognispect.mapper.TopicMapper;
 import com.bsuir.cognispect.service.TopicService;
@@ -23,7 +23,7 @@ public class TopicController {
     private TopicMapper topicMapper;
 
     @GetMapping
-    public ResponseEntity<List<TopicDto>> getTopicsByFiler(
+    public ResponseEntity<List<TopicModel>> getTopicsByFiler(
             @RequestParam(name = "topicName", required = false, defaultValue = "")
                     String topicName,
             @RequestParam(name = "subjectName", required = false, defaultValue = "")
@@ -35,24 +35,24 @@ public class TopicController {
     }
 
     @PostMapping
-    public ResponseEntity<TopicDto> createTopic(
-            @RequestBody @Valid final TopicDto topicDto) {
-        Topic topic = topicService.createTopic(topicDto);
+    public ResponseEntity<TopicModel> createTopic(
+            @RequestBody @Valid final TopicModel topicModel) {
+        Topic topic = topicService.createTopic(topicModel);
 
         return new ResponseEntity<>(topicMapper.entityToModel(topic),
                 HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<TopicDto> updateTopic(
-            @RequestBody TopicDto topicDto) {
-        Topic topic = topicService.updateExistingTopic(topicDto);
+    public ResponseEntity<TopicModel> updateTopic(
+            @RequestBody TopicModel topicModel) {
+        Topic topic = topicService.updateExistingTopic(topicModel);
 
         return ResponseEntity.ok(topicMapper.entityToModel(topic));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<TopicDto> deleteTopic(
+    public ResponseEntity<TopicModel> deleteTopic(
             @PathVariable(name = "id") UUID topicId) {
         Topic topic = topicService.deleteTopicById(topicId);
 

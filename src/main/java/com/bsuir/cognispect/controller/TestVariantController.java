@@ -1,6 +1,6 @@
 package com.bsuir.cognispect.controller;
 
-import com.bsuir.cognispect.dto.TestVariantDto;
+import com.bsuir.cognispect.model.TestVariantModel;
 import com.bsuir.cognispect.entity.Student;
 import com.bsuir.cognispect.mapper.TestVariantMapper;
 import com.bsuir.cognispect.security.details.UserDetailsImpl;
@@ -28,7 +28,7 @@ public class TestVariantController {
 
     @JsonView(View.DefaultView.class)
     @GetMapping
-    public ResponseEntity<TestVariantDto> getTestVariantForStudent(
+    public ResponseEntity<TestVariantModel> getTestVariantForStudent(
             @RequestParam(name = "testSessionId") UUID testSessionId) {
         Student student = ((UserDetailsImpl) SecurityContextHolder.getContext()
                 .getAuthentication().getDetails())

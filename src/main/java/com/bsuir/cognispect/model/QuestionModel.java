@@ -1,4 +1,4 @@
-package com.bsuir.cognispect.dto;
+package com.bsuir.cognispect.model;
 
 import com.bsuir.cognispect.entity.enums.QuestionTypeEnum;
 import lombok.*;
@@ -14,7 +14,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
-public class QuestionDto {
+public class QuestionModel {
     private UUID id;
 
     @NotBlank
@@ -23,13 +23,13 @@ public class QuestionDto {
 
     private QuestionTypeEnum type;
 
-    private List<AnswerDto> answers;
+    private List<ChooseAnswerModel> answers;
 
-    private List<MatchAnswerDto> matchAnswers;
+    private List<MatchAnswerModel> matchAnswers;
 
-    private List<SortAnswerDto> sortAnswers;
+    private List<SortAnswerModel> sortAnswers;
 
-    private List<SubstitutionDto> substitutions;
+    private List<SubstitutionModel> substitutions;
 
-    private TopicDto topic;
+    private TopicModel topic;
 }

@@ -1,4 +1,4 @@
-package com.bsuir.cognispect.dto;
+package com.bsuir.cognispect.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-public class TestTemplateQuestionDto {
+public class TestTemplateQuestionModel {
     private UUID questionId;
 
     @Min(value = 1L)

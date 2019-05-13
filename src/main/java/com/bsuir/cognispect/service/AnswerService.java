@@ -1,52 +1,43 @@
 package com.bsuir.cognispect.service;
 
-import com.bsuir.cognispect.dto.*;
-import com.bsuir.cognispect.entity.*;
+import com.bsuir.cognispect.entity.Answer;
+import com.bsuir.cognispect.entity.MatchAnswer;
+import com.bsuir.cognispect.entity.Question;
+import com.bsuir.cognispect.entity.SortAnswer;
+import com.bsuir.cognispect.model.ChooseAnswerModel;
+import com.bsuir.cognispect.model.MatchAnswerModel;
+import com.bsuir.cognispect.model.SortAnswerModel;
+import com.bsuir.cognispect.model.SubstitutionModel;
 
 import java.util.List;
 import java.util.UUID;
 
 
 public interface AnswerService {
-    List<Answer> createAnswersWithQuestion(
-            List<AnswerDto> answersDto,
+    List<Answer> createAnswers(
+            List<ChooseAnswerModel> chooseAnswerModels,
             Question question);
 
-    List<Answer> createSubstitutionAnswersWithQuestion(
-            List<AnswerDto> answersDto,
-            List<SubstitutionDto> substitutionsDto,
+    List<Answer> createSubstitutionAnswers(
+            List<ChooseAnswerModel> chooseAnswerModels,
+            List<SubstitutionModel> substitutionModels,
             Question question);
 
-    List<MatchAnswer> createMatchAnswerWithQuestion(
-            List<MatchAnswerDto> matchAnswersDto, Question question);
+    List<MatchAnswer> createMatchAnswers(
+            List<MatchAnswerModel> matchAnswerModels, Question question);
 
-    List<SortAnswer> createSortAnswerWithQuestion(
-            List<SortAnswerDto> sortAnswersDto, Question question);
+    List<SortAnswer> createSortAnswers(
+            List<SortAnswerModel> sortAnswerModels, Question question);
 
-    List<Substitution> createSubstitutions(
-            List<SubstitutionDto> substitutionsDto,
-            List<Answer> answers,
-            Question question);
+    List<Answer> updateAnswersInQuestion(List<ChooseAnswerModel> chooseAnswerModels);
 
-    List<Answer> updateAnswersInQuestion(List<AnswerDto> answersDto);
+    Answer updateAnswer(ChooseAnswerModel chooseAnswerModel);
 
-    Answer updateAnswer(AnswerDto answerDto);
+    Answer createAnswer(ChooseAnswerModel chooseAnswerModel, Question question);
 
-    Answer createAnswer(AnswerDto answerDto, Question question);
+    Answer deleteChooseAnswer(UUID chooseAnswerId);
 
-    void submitAnswers(UserAnswersDto userAnswersDto);
+    SortAnswer deleteSortAnswer(UUID sortAnswerId);
 
-    Answer saveAnswer(Answer answer);
-
-    MatchAnswer saveMatchAnswer(MatchAnswer matchAnswer);
-
-    SortAnswer saveSortAnswer(SortAnswer sortAnswer);
-
-    List<Answer> saveAnswers(List<Answer> answers);
-
-    List<MatchAnswer> saveMatchAnswers(List<MatchAnswer> matchAnswers);
-
-    List<SortAnswer> saveSortAnswers(List<SortAnswer> sortAnswers);
-
-    Answer deleteAnswer(UUID answerId);
+    MatchAnswer deleteMatchAnswer(UUID matchAnswerId);
 }

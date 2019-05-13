@@ -1,4 +1,4 @@
-package com.bsuir.cognispect.dto;
+package com.bsuir.cognispect.model;
 
 import lombok.*;
 
@@ -10,14 +10,10 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UserDto {
+public class TeacherModel {
     private UUID id;
 
     private String firstName;
 
     private String lastName;
-
-    private String studyGroup;
-
-    private AccountDto account;
 }

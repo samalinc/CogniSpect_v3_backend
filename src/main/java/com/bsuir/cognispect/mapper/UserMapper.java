@@ -1,6 +1,6 @@
 package com.bsuir.cognispect.mapper;
 
-import com.bsuir.cognispect.dto.UserDto;
+import com.bsuir.cognispect.model.UserModel;
 import com.bsuir.cognispect.entity.Account;
 import com.bsuir.cognispect.entity.enums.RoleEnum;
 import org.mapstruct.Mapper;
@@ -14,24 +14,24 @@ public abstract class UserMapper {
     @Autowired
     private AccountMapper accountMapper;
 
-    public UserDto entityToModel(Account account) {
-        UserDto userDto = new UserDto();
+    public UserModel entityToModel(Account account) {
+        UserModel userModel = new UserModel();
 
         if (account.getRole().equals(RoleEnum.STUDENT)) {
-            userDto.setId(account.getStudent().getId());
-            userDto.setFirstName(account.getStudent().getFirstName());
-            userDto.setLastName(account.getStudent().getLastName());
-            userDto.setStudyGroup(account.getStudent().getStudyGroup());
+            userModel.setId(account.getStudent().getId());
+            userModel.setFirstName(account.getStudent().getFirstName());
+            userModel.setLastName(account.getStudent().getLastName());
+            userModel.setStudyGroup(account.getStudent().getStudyGroup());
         } else {
-            userDto.setId(account.getTeacher().getId());
-            userDto.setFirstName(account.getTeacher().getFirstName());
-            userDto.setLastName(account.getTeacher().getLastName());
+            userModel.setId(account.getTeacher().getId());
+            userModel.setFirstName(account.getTeacher().getFirstName());
+            userModel.setLastName(account.getTeacher().getLastName());
         }
 
-        userDto.setAccount(accountMapper.entityToModel(account));
+        userModel.setAccount(accountMapper.entityToModel(account));
 
-        return userDto;
+        return userModel;
     }
 
-    public abstract List<UserDto> entitiesToModels(Collection<Account> accounts);
+    public abstract List<UserModel> entitiesToModels(Collection<Account> accounts);
 }

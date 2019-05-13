@@ -1,7 +1,7 @@
 package com.bsuir.cognispect.service.impl;
 
-import com.bsuir.cognispect.dto.AnswerDto;
-import com.bsuir.cognispect.dto.QuestionDto;
+import com.bsuir.cognispect.model.ChooseAnswerModel;
+import com.bsuir.cognispect.model.QuestionModel;
 import com.bsuir.cognispect.entity.Answer;
 import com.bsuir.cognispect.entity.Question;
 import com.bsuir.cognispect.exception.ResourceNotFoundException;
@@ -35,39 +35,39 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Question createQuestion(final QuestionDto questionDto) {
+    public Question createQuestion(final QuestionModel questionModel) {
         Question question = new Question();
 
-        question.setDescription(questionDto.getDescription());
-        question.setTopic(topicRepository.findTopicById(questionDto.getTopic().getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Topic", questionDto.getTopic().getId())));
-        question.setType(questionDto.getType());
+        question.setDescription(questionModel.getDescription());
+        question.setTopic(topicRepository.findTopicById(questionModel.getTopic().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Topic", questionModel.getTopic().getId())));
+        question.setType(questionModel.getType());
 
-        switch (questionDto.getType()) {
+        switch (questionModel.getType()) {
             case CHOOSE:
             case MULTICHOOSE:
                 question.setAnswers(
-                        answerService.createAnswersWithQuestion(
-                                questionDto.getAnswers(),
+                        answerService.createAnswers(
+                                questionModel.getAnswers(),
                                 question));
                 break;
             case MATCH:
                 question.setMatchAnswers(
-                        answerService.createMatchAnswerWithQuestion(
-                                questionDto.getMatchAnswers(),
+                        answerService.createMatchAnswers(
+                                questionModel.getMatchAnswers(),
                                 question));
                 break;
             case SORT:
                 question.setSortAnswers(
-                        answerService.createSortAnswerWithQuestion(
-                                questionDto.getSortAnswers(),
+                        answerService.createSortAnswers(
+                                questionModel.getSortAnswers(),
                                 question));
                 break;
             case SUBSTITUTION:
                 question.setAnswers(
-                        answerService.createSubstitutionAnswersWithQuestion(
-                                questionDto.getAnswers(),
-                                questionDto.getSubstitutions(),
+                        answerService.createSubstitutionAnswers(
+                                questionModel.getAnswers(),
+                                questionModel.getSubstitutions(),
                                 question));
                 break;
         }
@@ -76,21 +76,21 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Question updateQuestion(final QuestionDto questionDto) {
-        Question question = questionRepository.findQuestionById(questionDto.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Question", questionDto.getId()));
-        if (!question.getType().equals(questionDto.getType())) {
+    public Question updateQuestion(final QuestionModel questionModel) {
+        Question question = questionRepository.findQuestionById(questionModel.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Question", questionModel.getId()));
+        if (!question.getType().equals(questionModel.getType())) {
             throw new IllegalArgumentException("Different type of questions");
         }
-        question.setTopic(topicRepository.findTopicById(questionDto.getTopic().getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Topic", questionDto.getTopic().getId())));
-        question.setDescription(questionDto.getDescription());
+        question.setTopic(topicRepository.findTopicById(questionModel.getTopic().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Topic", questionModel.getTopic().getId())));
+        question.setDescription(questionModel.getDescription());
 
-        switch (questionDto.getType()) {
+        switch (questionModel.getType()) {
             case CHOOSE:
             case MULTICHOOSE: {
                 question.setAnswers(updateAnswersInQuestion(
-                        questionDto.getAnswers(), question));
+                        questionModel.getAnswers(), question));
             }
             break;
         }
@@ -100,28 +100,28 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     private List<Answer> updateAnswersInQuestion(
-            List<AnswerDto> answersDto, Question question) {
+            List<ChooseAnswerModel> chooseAnswerModels, Question question) {
         List<Answer> questionAnswers = question.getAnswers();
         List<Answer> updatedAnswersList = new ArrayList<>();
 
-        for (AnswerDto answerDto : answersDto) {
+        for (ChooseAnswerModel chooseAnswerModel : chooseAnswerModels) {
             Answer newAnswer = null;
             boolean isAnswerFound = false;
 
             for (Answer answer : questionAnswers) {
-                if (answer.getId().equals(answerDto.getId())) {
-                    newAnswer = answerService.updateAnswer(answerDto);
+                if (answer.getId().equals(chooseAnswerModel.getId())) {
+                    newAnswer = answerService.updateAnswer(chooseAnswerModel);
                     questionAnswers.remove(answer);
                     isAnswerFound = true;
                     break;
                 }
             }
             if (!isAnswerFound) {
-                newAnswer = answerService.createAnswer(answerDto, question);
+                newAnswer = answerService.createAnswer(chooseAnswerModel, question);
             }
             updatedAnswersList.add(newAnswer);
         }
-        questionAnswers.forEach(answer -> answerService.deleteAnswer(answer.getId()));
+        questionAnswers.forEach(answer -> answerService.deleteChooseAnswer(answer.getId()));
 
         return updatedAnswersList;
     }

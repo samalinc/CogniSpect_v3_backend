@@ -1,4 +1,4 @@
-package com.bsuir.cognispect.dto;
+package com.bsuir.cognispect.model;
 
 import lombok.*;
 
@@ -10,10 +10,10 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-public class SubstitutionDto {
+public class SubstitutionModel {
     private UUID id;
 
     private String text;
 
-    private AnswerDto rightAnswer;
+    private ChooseAnswerModel rightAnswer;
 }

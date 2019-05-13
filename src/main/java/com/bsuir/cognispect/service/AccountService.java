@@ -1,6 +1,6 @@
 package com.bsuir.cognispect.service;
 
-import com.bsuir.cognispect.dto.SignUpDto;
+import com.bsuir.cognispect.model.SignUpModel;
 import com.bsuir.cognispect.entity.Account;
 import com.bsuir.cognispect.entity.enums.RoleEnum;
 
@@ -15,7 +15,7 @@ public interface AccountService {
             String lastName,
             String studyGroup);
 
-    Account updateAccountInformation(SignUpDto signUpDto);
+    Account updateAccountInformation(SignUpModel signUpModel);
 
     Account deleteAccount(UUID accountId);
 }

@@ -1,6 +1,6 @@
 package com.bsuir.cognispect.controller;
 
-import com.bsuir.cognispect.dto.TestSessionDto;
+import com.bsuir.cognispect.model.TestSessionModel;
 import com.bsuir.cognispect.entity.Student;
 import com.bsuir.cognispect.mapper.TestSessionMapper;
 import com.bsuir.cognispect.security.details.UserDetailsImpl;
@@ -24,7 +24,7 @@ public class TestSessionController {
     private TestSessionMapper testSessionMapper;
 
     @GetMapping("/getStudentTests")
-    public ResponseEntity<List<TestSessionDto>> getTestSessionsForStudent() {
+    public ResponseEntity<List<TestSessionModel>> getTestSessionsForStudent() {
         Student student = ((UserDetailsImpl) SecurityContextHolder.getContext()
                 .getAuthentication().getDetails())
                 .getAccount().getStudent();

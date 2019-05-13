@@ -1,6 +1,6 @@
 package com.bsuir.cognispect.mapper;
 
-import com.bsuir.cognispect.dto.MatchAnswerDto;
+import com.bsuir.cognispect.model.MatchAnswerModel;
 import com.bsuir.cognispect.entity.MatchAnswer;
 import org.mapstruct.Mapper;
 
@@ -10,15 +10,15 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public abstract class MatchAnswerMapper {
-    public abstract MatchAnswerDto entityToModel(
+    public abstract MatchAnswerModel entityToModel(
             MatchAnswer matchAnswer);
 
     public abstract MatchAnswer modelToEntity(
-            MatchAnswerDto matchAnswerDto);
+            MatchAnswerModel matchAnswerModel);
 
-    public abstract List<MatchAnswerDto> entitiesToModels(
+    public abstract List<MatchAnswerModel> entitiesToModels(
             Collection<MatchAnswer> matchAnswers);
 
     public abstract List<MatchAnswer> modelsToEntities(
-            Collection<MatchAnswerDto> matchAnswersDto);
+            Collection<MatchAnswerModel> matchAnswerModels);
 }

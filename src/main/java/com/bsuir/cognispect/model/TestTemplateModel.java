@@ -1,4 +1,4 @@
-package com.bsuir.cognispect.dto;
+package com.bsuir.cognispect.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,14 +16,14 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-public class TestTemplateDto {
+public class TestTemplateModel {
     private UUID id;
 
     @NotNull
-    private UserDto creator;
+    private UserModel creator;
 
     @Valid
-    private List<TestTemplateQuestionDto> testTemplateQuestions;
+    private List<TestTemplateQuestionModel> testTemplateQuestions;
 
     @NotBlank
     private String name;

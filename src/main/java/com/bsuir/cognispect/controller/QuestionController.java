@@ -1,6 +1,6 @@
 package com.bsuir.cognispect.controller;
 
-import com.bsuir.cognispect.dto.QuestionDto;
+import com.bsuir.cognispect.model.QuestionModel;
 import com.bsuir.cognispect.mapper.QuestionMapper;
 import com.bsuir.cognispect.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,17 +22,17 @@ public class QuestionController {
     private QuestionMapper questionMapper;
 
     @PostMapping
-    public ResponseEntity<QuestionDto> createQuestion(
-            @Valid @RequestBody final QuestionDto questionDto) {
+    public ResponseEntity<QuestionModel> createQuestion(
+            @Valid @RequestBody final QuestionModel questionModel) {
 
         return new ResponseEntity<>(questionMapper.entityToModel(
-                questionService.createQuestion(questionDto)),
+                questionService.createQuestion(questionModel)),
                 HttpStatus.CREATED
         );
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<QuestionDto> getQuestionById(
+    public ResponseEntity<QuestionModel> getQuestionById(
             @PathVariable(name = "id") UUID questionId) {
 
         return ResponseEntity.ok(questionMapper.entityToModel(
@@ -40,7 +40,7 @@ public class QuestionController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<QuestionDto> deleteQuestionById(
+    public ResponseEntity<QuestionModel> deleteQuestionById(
             @PathVariable(name = "id") UUID questionId) {
 
         return ResponseEntity.ok(questionMapper.entityToModel(questionService
@@ -48,15 +48,15 @@ public class QuestionController {
     }
 
     @PutMapping
-    public ResponseEntity<QuestionDto> updateQuestion(
-            @Valid @RequestBody final QuestionDto questionDto) {
+    public ResponseEntity<QuestionModel> updateQuestion(
+            @Valid @RequestBody final QuestionModel questionModel) {
 
         return ResponseEntity.ok(questionMapper.entityToModel(
-                questionService.updateQuestion(questionDto)));
+                questionService.updateQuestion(questionModel)));
     }
 
     @GetMapping
-    public ResponseEntity<List<QuestionDto>> getQuestionsByFilter(
+    public ResponseEntity<List<QuestionModel>> getQuestionsByFilter(
             @RequestParam(name = "subject", required = false, defaultValue = "")
                     String subject,
             @RequestParam(name = "topic", required = false, defaultValue = "")
@@ -68,7 +68,7 @@ public class QuestionController {
     }
 
     @GetMapping("/topic")
-    public ResponseEntity<List<QuestionDto>> getQuestionsByTopicId(
+    public ResponseEntity<List<QuestionModel>> getQuestionsByTopicId(
             @RequestParam(name = "topicId") UUID topicId) {
 
         return ResponseEntity.ok(questionMapper.entitiesToModels(
@@ -77,7 +77,7 @@ public class QuestionController {
     }
 
     @GetMapping("/subject")
-    public ResponseEntity<List<QuestionDto>> getQuestionsBySubjectId(
+    public ResponseEntity<List<QuestionModel>> getQuestionsBySubjectId(
             @RequestParam(name = "subjectId") UUID subjectId) {
 
         return ResponseEntity.ok(questionMapper.entitiesToModels(

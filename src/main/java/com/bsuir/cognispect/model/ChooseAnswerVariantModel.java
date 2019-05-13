@@ -1,4 +1,4 @@
-package com.bsuir.cognispect.dto;
+package com.bsuir.cognispect.model;
 
 import com.bsuir.cognispect.view.View;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -14,8 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-@JsonView(View.DefaultView.class)
-public class SortAnswerVariantDto {
+public class ChooseAnswerVariantModel {
     @JsonView(View.DefaultView.class)
     private UUID id;
 
@@ -23,11 +22,11 @@ public class SortAnswerVariantDto {
     private String text;
 
     @JsonView(View.QuestionVariantView.class)
-    private int rightPosition;
+    boolean isCorrect;
 
     @JsonView(View.DefaultView.class)
-    private int listPosition;
+    private int position;
 
     @JsonView(View.QuestionVariantView.class)
-    private int studentPosition;
+    private boolean isStudentChose;
 }

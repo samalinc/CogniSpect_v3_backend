@@ -1,7 +1,7 @@
 package com.bsuir.cognispect.service.impl;
 
-import com.bsuir.cognispect.dto.LoginDto;
-import com.bsuir.cognispect.dto.SignUpDto;
+import com.bsuir.cognispect.model.LoginModel;
+import com.bsuir.cognispect.model.SignUpModel;
 import com.bsuir.cognispect.entity.Account;
 import com.bsuir.cognispect.entity.Student;
 import com.bsuir.cognispect.entity.Teacher;
@@ -36,35 +36,35 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private JwtUtil jwtUtil;
 
     @Override
-    public Account registerUser(final SignUpDto signUpDto)
+    public Account registerUser(final SignUpModel signUpModel)
             throws UniqueException {
-        if (accountRepository.existsByLogin(signUpDto.getLogin())) {
-            throw new UniqueException("User", "login", signUpDto.getLogin());
+        if (accountRepository.existsByLogin(signUpModel.getLogin())) {
+            throw new UniqueException("User", "login", signUpModel.getLogin());
         }
 
-        if (accountRepository.existsByEmail(signUpDto.getEmail())) {
-            throw new UniqueException("User", "email", signUpDto.getEmail());
+        if (accountRepository.existsByEmail(signUpModel.getEmail())) {
+            throw new UniqueException("User", "email", signUpModel.getEmail());
         }
 
         Account account = new Account();
-        account.setLogin(signUpDto.getLogin());
+        account.setLogin(signUpModel.getLogin());
         account.setHashedPassword(
-                passwordEncoder.encode(signUpDto.getPassword()));
-        account.setEmail(signUpDto.getEmail());
+                passwordEncoder.encode(signUpModel.getPassword()));
+        account.setEmail(signUpModel.getEmail());
 
-        account.setRole(signUpDto.getRole());
+        account.setRole(signUpModel.getRole());
 
-        if (signUpDto.getRole().name().equals(RoleEnum.STUDENT.name())) {
+        if (signUpModel.getRole().name().equals(RoleEnum.STUDENT.name())) {
             Student student = new Student();
-            student.setFirstName(signUpDto.getFirstName());
-            student.setLastName(signUpDto.getLastName());
-            student.setStudyGroup(signUpDto.getStudyGroup());
+            student.setFirstName(signUpModel.getFirstName());
+            student.setLastName(signUpModel.getLastName());
+            student.setStudyGroup(signUpModel.getStudyGroup());
             student.setAccount(account);
             account.setStudent(student);
         } else {
             Teacher teacher = new Teacher();
-            teacher.setFirstName(signUpDto.getFirstName());
-            teacher.setLastName(signUpDto.getLastName());
+            teacher.setFirstName(signUpModel.getFirstName());
+            teacher.setLastName(signUpModel.getLastName());
             teacher.setAccount(account);
             account.setTeacher(teacher);
         }
@@ -75,13 +75,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public TokenAuthentication authenticateUser(final LoginDto loginDto)
+    public TokenAuthentication authenticateUser(final LoginModel loginModel)
             throws BadCredentialsException {
         Optional<Account> account = accountRepository.findByLoginOrEmail(
-                loginDto.getLogin(), loginDto.getLogin());
+                loginModel.getLogin(), loginModel.getLogin());
 
         if (!account.isPresent() || !passwordEncoder.matches(
-                loginDto.getPassword(), account.get().getHashedPassword())) {
+                loginModel.getPassword(), account.get().getHashedPassword())) {
             throw new BadCredentialsException("Incorrect login or password");
         }
 

@@ -1,7 +1,7 @@
 package com.bsuir.cognispect.controller;
 
-import com.bsuir.cognispect.dto.SignUpDto;
-import com.bsuir.cognispect.dto.UserDto;
+import com.bsuir.cognispect.model.SignUpModel;
+import com.bsuir.cognispect.model.UserModel;
 import com.bsuir.cognispect.entity.Account;
 import com.bsuir.cognispect.entity.enums.RoleEnum;
 import com.bsuir.cognispect.exception.ValidationException;
@@ -28,7 +28,7 @@ public class UserController {
     private CustomValidator customValidator;
 
     @GetMapping
-    public ResponseEntity<List<UserDto>> getUsersByFilter(
+    public ResponseEntity<List<UserModel>> getUsersByFilter(
             @RequestParam(name = "role", required = false)
                     RoleEnum role,
             @RequestParam(name = "firstName", required = false, defaultValue = "")
@@ -47,21 +47,21 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<UserDto> updateUserAccount(
-            @RequestBody final SignUpDto signUpDto) {
+    public ResponseEntity<UserModel> updateUserAccount(
+            @RequestBody final SignUpModel signUpModel) {
         List<ApiSubError> apiSubErrors = customValidator.validateByUserRole(
-                signUpDto, signUpDto.getRole());
+                signUpModel, signUpModel.getRole());
 
         if (apiSubErrors != null) {
             throw new ValidationException(apiSubErrors);
         }
-        Account account = accountService.updateAccountInformation(signUpDto);
+        Account account = accountService.updateAccountInformation(signUpModel);
 
         return ResponseEntity.ok(userMapper.entityToModel(account));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<UserDto> deleteAccount(
+    public ResponseEntity<UserModel> deleteAccount(
             @PathVariable(name = "id") UUID accountId) {
         Account account = accountService.deleteAccount(accountId);
 

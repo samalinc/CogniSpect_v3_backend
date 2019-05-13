@@ -1,6 +1,6 @@
 package com.bsuir.cognispect.mapper;
 
-import com.bsuir.cognispect.dto.SubjectDto;
+import com.bsuir.cognispect.model.SubjectModel;
 import com.bsuir.cognispect.entity.Subject;
 import org.mapstruct.Mapper;
 
@@ -10,8 +10,8 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public abstract class SubjectMapper {
-    public abstract SubjectDto entityToModel(Subject subject);
+    public abstract SubjectModel entityToModel(Subject subject);
 
-    public abstract List<SubjectDto> entitiesToModels(
+    public abstract List<SubjectModel> entitiesToModels(
             Collection<Subject> subjects);
 }

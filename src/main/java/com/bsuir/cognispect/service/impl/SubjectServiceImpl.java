@@ -1,6 +1,6 @@
 package com.bsuir.cognispect.service.impl;
 
-import com.bsuir.cognispect.dto.SubjectDto;
+import com.bsuir.cognispect.model.SubjectModel;
 import com.bsuir.cognispect.entity.Subject;
 import com.bsuir.cognispect.exception.ResourceNotFoundException;
 import com.bsuir.cognispect.exception.UniqueException;
@@ -25,12 +25,12 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public Subject createSubject(SubjectDto subjectDto) throws UniqueException {
-        if (subjectRepository.existsByName(subjectDto.getName())) {
-            throw new UniqueException("Subject", "name", subjectDto.getName());
+    public Subject createSubject(SubjectModel subjectModel) throws UniqueException {
+        if (subjectRepository.existsByName(subjectModel.getName())) {
+            throw new UniqueException("Subject", "name", subjectModel.getName());
         }
         Subject subject = new Subject();
-        subject.setName(subjectDto.getName());
+        subject.setName(subjectModel.getName());
 
         return subjectRepository.save(subject);
     }
@@ -41,15 +41,15 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public Subject updateExistingSubject(SubjectDto subjectDto)
+    public Subject updateExistingSubject(SubjectModel subjectModel)
             throws IllegalArgumentException, UniqueException {
-        Subject subject = subjectRepository.findSubjectById(subjectDto.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Subject", subjectDto.getId()));
+        Subject subject = subjectRepository.findSubjectById(subjectModel.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Subject", subjectModel.getId()));
 
-        if (subjectRepository.existsByName(subjectDto.getName())) {
-            throw new UniqueException("Subject", "name", subjectDto.getName());
+        if (subjectRepository.existsByName(subjectModel.getName())) {
+            throw new UniqueException("Subject", "name", subjectModel.getName());
         }
-        subject.setName(subjectDto.getName());
+        subject.setName(subjectModel.getName());
 
         return subjectRepository.save(subject);
     }

@@ -1,6 +1,6 @@
 package com.bsuir.cognispect.service;
 
-import com.bsuir.cognispect.dto.SubjectDto;
+import com.bsuir.cognispect.model.SubjectModel;
 import com.bsuir.cognispect.entity.Subject;
 
 import java.util.List;
@@ -11,11 +11,11 @@ import java.util.UUID;
 public interface SubjectService {
     Optional<Subject> getSubjectByName(String subjectName);
 
-    Subject createSubject(SubjectDto subjectDto);
+    Subject createSubject(SubjectModel subjectModel);
 
     List<Subject> getSubjectsByFilter(String subjectName);
 
-    Subject updateExistingSubject(SubjectDto subjectDto);
+    Subject updateExistingSubject(SubjectModel subjectModel);
 
     Subject deleteSubjectById(UUID subjectId);
 }

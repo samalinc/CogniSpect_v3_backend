@@ -1,17 +1,21 @@
-package com.bsuir.cognispect.dto;
+package com.bsuir.cognispect.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class AuthorizationResponseDto {
-    private String authToken;
+public class MatchAnswerModel {
+    private UUID id;
 
-    private UserDto user;
+    private String key;
+
+    private String value;
 }

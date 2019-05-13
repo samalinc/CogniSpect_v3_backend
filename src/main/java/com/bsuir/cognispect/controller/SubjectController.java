@@ -1,6 +1,6 @@
 package com.bsuir.cognispect.controller;
 
-import com.bsuir.cognispect.dto.SubjectDto;
+import com.bsuir.cognispect.model.SubjectModel;
 import com.bsuir.cognispect.entity.Subject;
 import com.bsuir.cognispect.mapper.SubjectMapper;
 import com.bsuir.cognispect.service.SubjectService;
@@ -23,7 +23,7 @@ public class SubjectController {
     private SubjectMapper subjectMapper;
 
     @GetMapping
-    public ResponseEntity<List<SubjectDto>> getSubjectsByFiler(
+    public ResponseEntity<List<SubjectModel>> getSubjectsByFiler(
             @RequestParam(name = "name", required = false, defaultValue = "")
                     String subjectName) {
 
@@ -33,9 +33,9 @@ public class SubjectController {
     }
 
     @PostMapping
-    public ResponseEntity<SubjectDto> createSubject(
-            @RequestBody @Valid final SubjectDto subjectDto) {
-        Subject subject = subjectService.createSubject(subjectDto);
+    public ResponseEntity<SubjectModel> createSubject(
+            @RequestBody @Valid final SubjectModel subjectModel) {
+        Subject subject = subjectService.createSubject(subjectModel);
 
         return new ResponseEntity<>(
                 subjectMapper.entityToModel(subject),
@@ -43,15 +43,15 @@ public class SubjectController {
     }
 
     @PutMapping
-    public ResponseEntity<SubjectDto> updateSubject(
-            @RequestBody SubjectDto subjectDto) {
-        Subject subject = subjectService.updateExistingSubject(subjectDto);
+    public ResponseEntity<SubjectModel> updateSubject(
+            @RequestBody SubjectModel subjectModel) {
+        Subject subject = subjectService.updateExistingSubject(subjectModel);
 
         return ResponseEntity.ok(subjectMapper.entityToModel(subject));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<SubjectDto> deleteSubject(
+    public ResponseEntity<SubjectModel> deleteSubject(
             @PathVariable(name = "id") UUID subjectId) {
         Subject subject = subjectService.deleteSubjectById(subjectId);
 

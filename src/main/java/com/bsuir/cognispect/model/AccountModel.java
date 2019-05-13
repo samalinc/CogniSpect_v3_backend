@@ -1,5 +1,6 @@
-package com.bsuir.cognispect.dto;
+package com.bsuir.cognispect.model;
 
+import com.bsuir.cognispect.entity.enums.RoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,10 +13,12 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-public class AnswerDto {
+public class AccountModel {
     private UUID id;
 
-    private String text;
+    private String login;
 
-    boolean isCorrect;
+    private RoleEnum role;
+
+    private String email;
 }

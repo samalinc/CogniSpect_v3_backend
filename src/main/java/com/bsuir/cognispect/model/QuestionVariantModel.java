@@ -1,4 +1,4 @@
-package com.bsuir.cognispect.dto;
+package com.bsuir.cognispect.model;
 
 import com.bsuir.cognispect.entity.enums.QuestionTypeEnum;
 import com.bsuir.cognispect.view.View;
@@ -16,7 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-public class QuestionVariantDto {
+public class QuestionVariantModel {
     @JsonView(View.DefaultView.class)
     private UUID id;
 
@@ -30,11 +30,11 @@ public class QuestionVariantDto {
     private boolean isAnswered;
 
     @JsonView(View.DefaultView.class)
-    private List<ChooseAnswerVariantDto> chooseAnswers;
+    private List<ChooseAnswerVariantModel> chooseAnswers;
 
     @JsonView(View.DefaultView.class)
-    private List<MatchAnswerVariantDto> matchAnswers;
+    private List<MatchAnswerVariantModel> matchAnswers;
 
     @JsonView(View.DefaultView.class)
-    private List<SortAnswerVariantDto> sortAnswers;
+    private List<SortAnswerVariantModel> sortAnswers;
 }

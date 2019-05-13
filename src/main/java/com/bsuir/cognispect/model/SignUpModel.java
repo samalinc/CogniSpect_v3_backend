@@ -1,4 +1,4 @@
-package com.bsuir.cognispect.dto;
+package com.bsuir.cognispect.model;
 
 import com.bsuir.cognispect.entity.enums.RoleEnum;
 import com.bsuir.cognispect.validation.groups.AccountGroupsValidation;
@@ -18,7 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-public class SignUpDto {
+public class SignUpModel {
     private UUID id;
 
     @NotBlank

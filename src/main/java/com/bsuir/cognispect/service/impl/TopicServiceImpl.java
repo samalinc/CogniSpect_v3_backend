@@ -1,6 +1,6 @@
 package com.bsuir.cognispect.service.impl;
 
-import com.bsuir.cognispect.dto.TopicDto;
+import com.bsuir.cognispect.model.TopicModel;
 import com.bsuir.cognispect.entity.Subject;
 import com.bsuir.cognispect.entity.Topic;
 import com.bsuir.cognispect.exception.ResourceNotFoundException;
@@ -31,19 +31,19 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public Topic createTopic(TopicDto topicDto) {
+    public Topic createTopic(TopicModel topicModel) {
         Subject subject = subjectRepository
-                .findSubjectById(topicDto.getSubject().getId()).orElseThrow(
-                        () -> new ResourceNotFoundException("Subject", topicDto.getSubject().getId()));
+                .findSubjectById(topicModel.getSubject().getId()).orElseThrow(
+                        () -> new ResourceNotFoundException("Subject", topicModel.getSubject().getId()));
 
         if (topicRepository.existsTopicByNameUnderSubject(
-                topicDto.getName(), topicDto.getSubject().getId())) {
-            throw new UniqueException("Topic", "name", topicDto.getName());
+                topicModel.getName(), topicModel.getSubject().getId())) {
+            throw new UniqueException("Topic", "name", topicModel.getName());
         }
 
         Topic topic = new Topic();
         topic.setSubject(subject);
-        topic.setName(topicDto.getName());
+        topic.setName(topicModel.getName());
 
         return topicRepository.save(topic);
     }
@@ -58,15 +58,15 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public Topic updateExistingTopic(TopicDto topicDto) {
-        Topic topic = topicRepository.findTopicById(topicDto.getId()).orElseThrow(
-                () -> new ResourceNotFoundException("Topic", topicDto.getId()));
+    public Topic updateExistingTopic(TopicModel topicModel) {
+        Topic topic = topicRepository.findTopicById(topicModel.getId()).orElseThrow(
+                () -> new ResourceNotFoundException("Topic", topicModel.getId()));
 
         if (topicRepository.existsTopicByNameUnderSubject(
-                topicDto.getName(), topic.getSubject().getId())) {
-            throw new UniqueException("Topic", "name", topicDto.getName());
+                topicModel.getName(), topic.getSubject().getId())) {
+            throw new UniqueException("Topic", "name", topicModel.getName());
         }
-        topic.setName(topicDto.getName());
+        topic.setName(topicModel.getName());
 
         return topicRepository.save(topic);
     }

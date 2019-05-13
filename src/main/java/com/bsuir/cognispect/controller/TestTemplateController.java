@@ -1,6 +1,6 @@
 package com.bsuir.cognispect.controller;
 
-import com.bsuir.cognispect.dto.TestTemplateDto;
+import com.bsuir.cognispect.model.TestTemplateModel;
 import com.bsuir.cognispect.entity.TestTemplate;
 import com.bsuir.cognispect.mapper.TestTemplateMapper;
 import com.bsuir.cognispect.service.TestTemplateService;
@@ -23,17 +23,17 @@ public class TestTemplateController {
     private TestTemplateService testTemplateService;
 
     @PostMapping
-    public ResponseEntity<TestTemplateDto> createTestTemplate(
-            @Valid @RequestBody TestTemplateDto testTemplateDto) {
+    public ResponseEntity<TestTemplateModel> createTestTemplate(
+            @Valid @RequestBody TestTemplateModel testTemplateModel) {
 
         return new ResponseEntity<>(
                 testTemplateMapper.entityToModel(
-                        testTemplateService.createTestTemplate(testTemplateDto)),
+                        testTemplateService.createTestTemplate(testTemplateModel)),
                 HttpStatus.CREATED);
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<TestTemplateDto>> getAllTestTemplates() {
+    public ResponseEntity<List<TestTemplateModel>> getAllTestTemplates() {
 
         return ResponseEntity.ok(
                 testTemplateMapper.entitiesToModels(
@@ -41,7 +41,7 @@ public class TestTemplateController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<TestTemplateDto> deleteTestTemplate(
+    public ResponseEntity<TestTemplateModel> deleteTestTemplate(
             @PathVariable(name = "id") UUID testTemplateId) {
         TestTemplate testTemplate = testTemplateService
                 .deleteTestTemplateById(testTemplateId);

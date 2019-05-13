@@ -1,9 +1,9 @@
 package com.bsuir.cognispect.controller;
 
-import com.bsuir.cognispect.dto.AuthorizationResponseDto;
-import com.bsuir.cognispect.dto.LoginDto;
-import com.bsuir.cognispect.dto.SignUpDto;
-import com.bsuir.cognispect.dto.UserDto;
+import com.bsuir.cognispect.model.AuthorizationResponseModel;
+import com.bsuir.cognispect.model.LoginModel;
+import com.bsuir.cognispect.model.SignUpModel;
+import com.bsuir.cognispect.model.UserModel;
 import com.bsuir.cognispect.entity.Account;
 import com.bsuir.cognispect.exception.ValidationException;
 import com.bsuir.cognispect.mapper.UserMapper;
@@ -35,15 +35,15 @@ public class AuthenticationController {
     private CustomValidator customValidator;
 
     @PostMapping("/signup")
-    public ResponseEntity<UserDto> registerUser(
-            @RequestBody final SignUpDto signUpDto) {
+    public ResponseEntity<UserModel> registerUser(
+            @RequestBody final SignUpModel signUpModel) {
         List<ApiSubError> apiSubErrors = customValidator.validateByUserRole(
-                signUpDto, signUpDto.getRole());
+                signUpModel, signUpModel.getRole());
 
         if (apiSubErrors != null) {
             throw new ValidationException(apiSubErrors);
         }
-        Account account = authenticationService.registerUser(signUpDto);
+        Account account = authenticationService.registerUser(signUpModel);
 
         return new ResponseEntity<>(
                 userMapper.entityToModel(account),
@@ -51,12 +51,12 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthorizationResponseDto> authenticateUser(
-            @Valid @RequestBody final LoginDto loginDto) {
+    public ResponseEntity<AuthorizationResponseModel> authenticateUser(
+            @Valid @RequestBody final LoginModel loginModel) {
         TokenAuthentication tokenAuthentication =
-                authenticationService.authenticateUser(loginDto);
+                authenticationService.authenticateUser(loginModel);
 
-        return ResponseEntity.ok(new AuthorizationResponseDto(
+        return ResponseEntity.ok(new AuthorizationResponseModel(
                 tokenAuthentication.getName(), userMapper.entityToModel(
                 ((UserDetailsImpl) tokenAuthentication.getDetails())
                         .getAccount())

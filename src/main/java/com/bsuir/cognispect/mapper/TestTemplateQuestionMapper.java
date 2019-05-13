@@ -1,6 +1,6 @@
 package com.bsuir.cognispect.mapper;
 
-import com.bsuir.cognispect.dto.TestTemplateQuestionDto;
+import com.bsuir.cognispect.model.TestTemplateQuestionModel;
 import com.bsuir.cognispect.entity.TestTemplateQuestion;
 import org.mapstruct.Mapper;
 
@@ -10,9 +10,9 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public abstract class TestTemplateQuestionMapper {
-    public abstract TestTemplateQuestionDto entityToModel(
+    public abstract TestTemplateQuestionModel entityToModel(
             TestTemplateQuestion testTemplateQuestion);
 
-    public abstract List<TestTemplateQuestionDto> entitiesToModels(
+    public abstract List<TestTemplateQuestionModel> entitiesToModels(
             Collection<TestTemplateQuestion> testTemplateQuestions);
 }

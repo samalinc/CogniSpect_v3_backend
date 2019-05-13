@@ -1,13 +1,19 @@
 package com.bsuir.cognispect.service.impl;
 
-import com.bsuir.cognispect.dto.*;
 import com.bsuir.cognispect.entity.*;
 import com.bsuir.cognispect.exception.ResourceNotFoundException;
 import com.bsuir.cognispect.mapper.AnswerMapper;
 import com.bsuir.cognispect.mapper.MatchAnswerMapper;
 import com.bsuir.cognispect.mapper.SortAnswerMapper;
-import com.bsuir.cognispect.repository.*;
+import com.bsuir.cognispect.model.ChooseAnswerModel;
+import com.bsuir.cognispect.model.MatchAnswerModel;
+import com.bsuir.cognispect.model.SortAnswerModel;
+import com.bsuir.cognispect.model.SubstitutionModel;
+import com.bsuir.cognispect.repository.AnswerRepository;
+import com.bsuir.cognispect.repository.MatchAnswerRepository;
+import com.bsuir.cognispect.repository.SortAnswerRepository;
 import com.bsuir.cognispect.service.AnswerService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +22,7 @@ import java.util.List;
 import java.util.UUID;
 
 
+@Slf4j
 @Service
 public class AnswerServiceImpl implements AnswerService {
     @Autowired
@@ -30,89 +37,82 @@ public class AnswerServiceImpl implements AnswerService {
     private MatchAnswerRepository matchAnswerRepository;
     @Autowired
     private SortAnswerRepository sortAnswerRepository;
-    @Autowired
-    private AnswerVariantRepository answerVariantRepository;
-    @Autowired
-    private SortAnswerVariantRepository sortAnswerVariantRepository;
-    @Autowired
-    private MatchAnswerVariantRepository matchAnswerVariantRepository;
 
     @Override
-    public List<Answer> createAnswersWithQuestion(
-            List<AnswerDto> answersDto,
+    public List<Answer> createAnswers(
+            List<ChooseAnswerModel> chooseAnswerModels,
             Question question) {
-        if (answersDto == null || question == null) {
+        if (chooseAnswerModels == null || question == null) {
             return null;
         }
 
-        List<Answer> answerList = answerMapper.modelsToEntities(answersDto);
+        List<Answer> answerList = answerMapper.modelsToEntities(chooseAnswerModels);
         answerList.forEach(answer -> answer.setQuestion(question));
 
-        return answerList;
+        return answerRepository.saveAll(answerList);
     }
 
     @Override
-    public List<Answer> createSubstitutionAnswersWithQuestion(
-            List<AnswerDto> answersDto,
-            List<SubstitutionDto> substitutionsDto,
+    public List<Answer> createSubstitutionAnswers(
+            List<ChooseAnswerModel> chooseAnswerModels,
+            List<SubstitutionModel> substitutionModels,
             Question question) {
-        List<Answer> answerList = answerMapper.modelsToEntities(answersDto);
+        List<Answer> answerList = answerMapper.modelsToEntities(chooseAnswerModels);
         answerList.forEach(answer -> answer.setQuestion(question));
 
         question.setSubstitutions(
-                createSubstitutions(substitutionsDto, answerList, question));
+                createSubstitutions(substitutionModels, answerList, question));
 
-        return answerList;
+        return answerRepository.saveAll(answerList);
     }
 
     @Override
-    public List<MatchAnswer> createMatchAnswerWithQuestion(
-            List<MatchAnswerDto> matchAnswersDto, Question question) {
-        if (matchAnswersDto == null || question == null) {
+    public List<MatchAnswer> createMatchAnswers(
+            List<MatchAnswerModel> matchAnswerModels, Question question) {
+        if (matchAnswerModels == null || question == null) {
             return null;
         }
 
         List<MatchAnswer> matchAnswerList = matchAnswerMapper
-                .modelsToEntities(matchAnswersDto);
+                .modelsToEntities(matchAnswerModels);
         matchAnswerList.forEach(
                 matchAnswer -> matchAnswer.setQuestion(question));
 
-        return matchAnswerList;
+        return matchAnswerRepository.saveAll(matchAnswerList);
     }
 
     @Override
-    public List<SortAnswer> createSortAnswerWithQuestion(
-            List<SortAnswerDto> sortAnswersDto, Question question) {
-        if (sortAnswersDto == null || question == null) {
+    public List<SortAnswer> createSortAnswers(
+            List<SortAnswerModel> sortAnswerModels, Question question) {
+        if (sortAnswerModels == null || question == null) {
             return null;
         }
 
         List<SortAnswer> sortAnswerList = sortAnswerMapper
-                .modelsToEntities(sortAnswersDto);
+                .modelsToEntities(sortAnswerModels);
         sortAnswerList.forEach(
                 sortAnswer -> sortAnswer.setQuestion(question));
 
         return sortAnswerList;
     }
 
-    @Override
-    public List<Substitution> createSubstitutions(
-            List<SubstitutionDto> substitutionsDto,
+    private List<Substitution> createSubstitutions(
+            List<SubstitutionModel> substitutionModels,
             List<Answer> answers,
             Question question) {
-        if (substitutionsDto == null || answers == null || question == null) {
+        if (substitutionModels == null || answers == null || question == null) {
             return null;
         }
 
         List<Substitution> substitutionList = new ArrayList<>();
 
-        for (SubstitutionDto substitutionDto : substitutionsDto) {
+        for (SubstitutionModel substitutionModel : substitutionModels) {
             Substitution substitution = new Substitution();
-            substitution.setText(substitutionDto.getText());
+            substitution.setText(substitutionModel.getText());
             substitution.setQuestion(question);
             substitution.setRightAnswer(answers.stream()
                     .filter(answer -> answer.getText().equals(
-                            substitutionDto.getRightAnswer().getText()))
+                            substitutionModel.getRightAnswer().getText()))
                     .findAny().orElseThrow(RuntimeException::new));
             substitutionList.add(substitution);
         }
@@ -121,93 +121,53 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public List<Answer> updateAnswersInQuestion(List<AnswerDto> answersDto) {
+    public List<Answer> updateAnswersInQuestion(List<ChooseAnswerModel> chooseAnswerModels) {
         List<Answer> answers = new ArrayList<>();
 
-        for (AnswerDto answerDto : answersDto) {
-
+        for (ChooseAnswerModel chooseAnswerModel : chooseAnswerModels) {
+            answers.add(updateAnswer(chooseAnswerModel));
         }
 
         return answers;
     }
 
     @Override
-    public Answer updateAnswer(AnswerDto answerDto) {
-        Answer answer = answerRepository.findById(answerDto.getId()).orElseThrow(
-                () -> new ResourceNotFoundException("Answer", answerDto.getId()));
-        answer.setCorrect(answerDto.isCorrect());
-        answer.setText(answerDto.getText());
+    public Answer updateAnswer(ChooseAnswerModel chooseAnswerModel) {
+        Answer answer = answerRepository.findById(chooseAnswerModel.getId()).orElseThrow(
+                () -> new ResourceNotFoundException("Answer", chooseAnswerModel.getId()));
+        answer.setCorrect(chooseAnswerModel.isCorrect());
+        answer.setText(chooseAnswerModel.getText());
 
         return answerRepository.save(answer);
     }
 
     @Override
-    public Answer createAnswer(AnswerDto answerDto, Question question) {
-        if (answerDto == null || question == null) {
+    public Answer createAnswer(ChooseAnswerModel chooseAnswerModel, Question question) {
+        if (chooseAnswerModel == null || question == null) {
             return null;
         }
 
-        Answer answer = answerMapper.modelToEntity(answerDto);
+        Answer answer = answerMapper.modelToEntity(chooseAnswerModel);
         answer.setQuestion(question);
 
         return answerRepository.save(answer);
     }
 
     @Override
-    public void submitAnswers(UserAnswersDto userAnswersDto) {
-        List<ChooseAnswerVariant> chooseAnswerVariants = submitChooseAnswers(userAnswersDto.getAnswersIds());
-    }
-
-    private List<ChooseAnswerVariant> submitChooseAnswers(List<UUID> answersIds) {
-        List<ChooseAnswerVariant> userAnswers = new ArrayList<>();
-
-        for (UUID answerId : answersIds) {
-            AnswerVariant answerVariant = answerVariantRepository.findById(answerId)
-                    .orElseThrow(() -> new ResourceNotFoundException("ChooseAnswerVariant", answerId));
-            /*chooseAnswerVariant.setStudentChose(true);
-
-            userAnswers.add(answerVariantRepository.save(chooseAnswerVariant));*/
-        }
-
-        return userAnswers;
+    public Answer deleteChooseAnswer(UUID chooseAnswerId) {
+        return answerRepository.deleteAnswerById(chooseAnswerId).orElseThrow(
+                () -> new ResourceNotFoundException("ChooseAnswer", chooseAnswerId));
     }
 
     @Override
-    public Answer saveAnswer(Answer answer) {
-        return answerRepository.save(answer);
+    public SortAnswer deleteSortAnswer(UUID sortAnswerId) {
+        return sortAnswerRepository.deleteSortAnswerById(sortAnswerId).orElseThrow(
+                () -> new ResourceNotFoundException("SortAnswer", sortAnswerId));
     }
 
     @Override
-    public MatchAnswer saveMatchAnswer(MatchAnswer matchAnswer) {
-        return matchAnswerRepository.save(matchAnswer);
-    }
-
-    @Override
-    public SortAnswer saveSortAnswer(SortAnswer sortAnswer) {
-        return sortAnswerRepository.save(sortAnswer);
-    }
-
-    @Override
-    public List<Answer> saveAnswers(List<Answer> answers) {
-        return answerRepository.saveAll(answers);
-    }
-
-    @Override
-    public List<MatchAnswer> saveMatchAnswers(List<MatchAnswer> matchAnswers) {
-        return matchAnswerRepository.saveAll(matchAnswers);
-    }
-
-    @Override
-    public List<SortAnswer> saveSortAnswers(List<SortAnswer> sortAnswers) {
-        return sortAnswerRepository.saveAll(sortAnswers);
-    }
-
-    @Override
-    public Answer deleteAnswer(UUID answerId) {
-        Answer answer = answerRepository.findById(answerId).orElseThrow(
-                () -> new ResourceNotFoundException("Answer", answerId));
-        answerRepository.delete(answer);
-
-        return answer;
+    public MatchAnswer deleteMatchAnswer(UUID matchAnswerId) {
+        return matchAnswerRepository.deleteMatchAnswerById(matchAnswerId).orElseThrow(
+                () -> new ResourceNotFoundException("MatchAnswer", matchAnswerId));
     }
 }

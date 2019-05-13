@@ -1,10 +1,11 @@
-package com.bsuir.cognispect.dto;
+package com.bsuir.cognispect.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -12,10 +13,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-public class SortAnswerDto {
-    private UUID id;
-
-    private String text;
-
-    private int position;
+public class UserAnswersModel {
+    private List<UUID> answersIds;
 }

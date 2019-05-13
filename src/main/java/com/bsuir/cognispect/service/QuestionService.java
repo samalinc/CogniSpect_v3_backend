@@ -1,6 +1,6 @@
 package com.bsuir.cognispect.service;
 
-import com.bsuir.cognispect.dto.QuestionDto;
+import com.bsuir.cognispect.model.QuestionModel;
 import com.bsuir.cognispect.entity.Question;
 
 import java.util.List;
@@ -10,9 +10,9 @@ import java.util.UUID;
 public interface QuestionService {
     List<Question> getQuestionsByTopicId(UUID topicId);
 
-    Question createQuestion(QuestionDto questionDto);
+    Question createQuestion(QuestionModel questionModel);
 
-    Question updateQuestion(QuestionDto questionDto);
+    Question updateQuestion(QuestionModel questionModel);
 
     Question deleteQuestionById(UUID questionId);
 

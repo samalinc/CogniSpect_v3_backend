@@ -1,6 +1,6 @@
 package com.bsuir.cognispect.service.impl;
 
-import com.bsuir.cognispect.dto.SignUpDto;
+import com.bsuir.cognispect.model.SignUpModel;
 import com.bsuir.cognispect.entity.Account;
 import com.bsuir.cognispect.entity.enums.RoleEnum;
 import com.bsuir.cognispect.exception.ResourceNotFoundException;
@@ -39,33 +39,33 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account updateAccountInformation(SignUpDto signUpDto) {
-        Account account = accountRepository.findById(signUpDto.getId())
+    public Account updateAccountInformation(SignUpModel signUpModel) {
+        Account account = accountRepository.findById(signUpModel.getId())
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        "Account", signUpDto.getId()));
+                        "Account", signUpModel.getId()));
 
-        if (!account.getLogin().equalsIgnoreCase(signUpDto.getLogin()) &&
-                accountRepository.existsByLogin(signUpDto.getLogin())) {
-            throw new UniqueException("User", "login", signUpDto.getLogin());
+        if (!account.getLogin().equalsIgnoreCase(signUpModel.getLogin()) &&
+                accountRepository.existsByLogin(signUpModel.getLogin())) {
+            throw new UniqueException("User", "login", signUpModel.getLogin());
         }
 
-        if (!account.getEmail().equalsIgnoreCase(signUpDto.getEmail()) &&
-                accountRepository.existsByEmail(signUpDto.getEmail())) {
-            throw new UniqueException("User", "email", signUpDto.getEmail());
+        if (!account.getEmail().equalsIgnoreCase(signUpModel.getEmail()) &&
+                accountRepository.existsByEmail(signUpModel.getEmail())) {
+            throw new UniqueException("User", "email", signUpModel.getEmail());
         }
 
-        account.setLogin(signUpDto.getLogin());
+        account.setLogin(signUpModel.getLogin());
         account.setHashedPassword(
-                passwordEncoder.encode(signUpDto.getPassword()));
-        account.setEmail(signUpDto.getEmail());
+                passwordEncoder.encode(signUpModel.getPassword()));
+        account.setEmail(signUpModel.getEmail());
 
-        if (signUpDto.getRole().name().equals(RoleEnum.STUDENT.name())) {
-            account.getStudent().setFirstName(signUpDto.getFirstName());
-            account.getStudent().setLastName(signUpDto.getLastName());
-            account.getStudent().setStudyGroup(signUpDto.getStudyGroup());
+        if (signUpModel.getRole().name().equals(RoleEnum.STUDENT.name())) {
+            account.getStudent().setFirstName(signUpModel.getFirstName());
+            account.getStudent().setLastName(signUpModel.getLastName());
+            account.getStudent().setStudyGroup(signUpModel.getStudyGroup());
         } else {
-            account.getTeacher().setFirstName(signUpDto.getFirstName());
-            account.getTeacher().setLastName(signUpDto.getLastName());
+            account.getTeacher().setFirstName(signUpModel.getFirstName());
+            account.getTeacher().setLastName(signUpModel.getLastName());
         }
 
         accountRepository.save(account);

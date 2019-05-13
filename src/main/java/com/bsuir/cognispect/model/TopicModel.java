@@ -1,4 +1,4 @@
-package com.bsuir.cognispect.dto;
+package com.bsuir.cognispect.model;
 
 import lombok.*;
 
@@ -12,12 +12,12 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-public class TopicDto {
+public class TopicModel {
     private UUID id;
 
     @NotBlank
     private String name;
 
     @Valid
-    private SubjectDto subject;
+    private SubjectModel subject;
 }

@@ -1,6 +1,6 @@
 package com.bsuir.cognispect.mapper;
 
-import com.bsuir.cognispect.dto.QuestionVariantDto;
+import com.bsuir.cognispect.model.QuestionVariantModel;
 import com.bsuir.cognispect.entity.ChooseAnswerVariant;
 import com.bsuir.cognispect.entity.MatchAnswerVariant;
 import com.bsuir.cognispect.entity.QuestionVariant;
@@ -21,42 +21,42 @@ public abstract class QuestionVariantMapper {
     @Autowired
     private MatchAnswerVariantMapper matchAnswerVariantMapper;
 
-    public QuestionVariantDto entityToModel(
+    public QuestionVariantModel entityToModel(
             QuestionVariant questionVariant) {
         if (questionVariant == null) {
             return null;
         }
 
-        QuestionVariantDto questionVariantDto = new QuestionVariantDto();
+        QuestionVariantModel questionVariantModel = new QuestionVariantModel();
 
-        questionVariantDto.setId(questionVariant.getId());
-        questionVariantDto.setDescription(questionVariant.getDescription());
-        questionVariantDto.setType(questionVariant.getType());
-        questionVariantDto.setAnswered(questionVariant.isAnswered());
+        questionVariantModel.setId(questionVariant.getId());
+        questionVariantModel.setDescription(questionVariant.getDescription());
+        questionVariantModel.setType(questionVariant.getType());
+        questionVariantModel.setAnswered(questionVariant.isAnswered());
 
         switch (questionVariant.getType()) {
             case CHOOSE:
             case MULTICHOOSE:
             case SUBSTITUTION:
-                questionVariantDto.setChooseAnswers(chooseAnswerVariantMapper
+                questionVariantModel.setChooseAnswers(chooseAnswerVariantMapper
                         .entitiesToModels(
                                 (List<ChooseAnswerVariant>) (List<?>) questionVariant.getAnswers()));
                 break;
             case SORT:
-                questionVariantDto.setSortAnswers(sortAnswerVariantMapper
+                questionVariantModel.setSortAnswers(sortAnswerVariantMapper
                         .entitiesToModels(
                                 (List<SortAnswerVariant>) (List<?>) questionVariant.getAnswers()));
                 break;
             case MATCH:
-                questionVariantDto.setMatchAnswers(matchAnswerVariantMapper
+                questionVariantModel.setMatchAnswers(matchAnswerVariantMapper
                         .entitiesToModels(
                                 (List<MatchAnswerVariant>) (List<?>) questionVariant.getAnswers()));
                 break;
         }
 
-        return questionVariantDto;
+        return questionVariantModel;
     }
 
-    public abstract List<QuestionVariantDto> entitiesToModels(
+    public abstract List<QuestionVariantModel> entitiesToModels(
             Collection<QuestionVariant> questionVariants);
 }

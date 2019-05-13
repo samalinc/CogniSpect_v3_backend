@@ -1,4 +1,4 @@
-package com.bsuir.cognispect.dto;
+package com.bsuir.cognispect.model;
 
 import com.bsuir.cognispect.entity.enums.TestSessionStatusEnum;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-public class TestSessionDto {
+public class TestSessionModel {
     private UUID id;
 
     private TestSessionStatusEnum testSessionStatus;

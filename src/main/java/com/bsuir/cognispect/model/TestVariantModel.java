@@ -1,4 +1,4 @@
-package com.bsuir.cognispect.dto;
+package com.bsuir.cognispect.model;
 
 import com.bsuir.cognispect.entity.enums.TestVariantStatusEnum;
 import com.bsuir.cognispect.view.View;
@@ -17,10 +17,10 @@ import java.util.UUID;
 @Getter
 @Setter
 @JsonView(View.DefaultView.class)
-public class TestVariantDto {
+public class TestVariantModel {
     private UUID id;
 
     private TestVariantStatusEnum testVariantStatus;
 
-    private List<QuestionVariantDto> questionVariants;
+    private List<QuestionVariantModel> questionVariants;
 }
