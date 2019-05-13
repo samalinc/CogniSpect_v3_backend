@@ -10,8 +10,8 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public abstract class SubjectMapper {
-    public abstract SubjectDto subjectToSubjectDto(Subject subject);
+    public abstract SubjectDto entityToModel(Subject subject);
 
-    public abstract List<SubjectDto> subjectsToSubjectsDto(
+    public abstract List<SubjectDto> entitiesToModels(
             Collection<Subject> subjects);
 }

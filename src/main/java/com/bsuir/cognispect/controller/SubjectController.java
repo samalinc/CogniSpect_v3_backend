@@ -28,7 +28,7 @@ public class SubjectController {
                     String subjectName) {
 
         return ResponseEntity.ok(
-                subjectMapper.subjectsToSubjectsDto(
+                subjectMapper.entitiesToModels(
                         subjectService.getSubjectsByFilter(subjectName)));
     }
 
@@ -38,7 +38,7 @@ public class SubjectController {
         Subject subject = subjectService.createSubject(subjectDto);
 
         return new ResponseEntity<>(
-                subjectMapper.subjectToSubjectDto(subject),
+                subjectMapper.entityToModel(subject),
                 HttpStatus.CREATED);
     }
 
@@ -47,7 +47,7 @@ public class SubjectController {
             @RequestBody SubjectDto subjectDto) {
         Subject subject = subjectService.updateExistingSubject(subjectDto);
 
-        return ResponseEntity.ok(subjectMapper.subjectToSubjectDto(subject));
+        return ResponseEntity.ok(subjectMapper.entityToModel(subject));
     }
 
     @DeleteMapping("/{id}")
@@ -55,6 +55,6 @@ public class SubjectController {
             @PathVariable(name = "id") UUID subjectId) {
         Subject subject = subjectService.deleteSubjectById(subjectId);
 
-        return ResponseEntity.ok(subjectMapper.subjectToSubjectDto(subject));
+        return ResponseEntity.ok(subjectMapper.entityToModel(subject));
     }
 }

@@ -1,6 +1,5 @@
 package com.bsuir.cognispect.dto;
 
-import com.bsuir.cognispect.entity.enums.QuestionTypeEnum;
 import com.bsuir.cognispect.view.View;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
@@ -8,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
 import java.util.UUID;
 
 
@@ -16,25 +14,19 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-public class QuestionVariantDto {
+public class ChooseAnswerVariantDto {
     @JsonView(View.DefaultView.class)
     private UUID id;
 
     @JsonView(View.DefaultView.class)
-    private String description;
-
-    @JsonView(View.DefaultView.class)
-    private QuestionTypeEnum type;
+    private String text;
 
     @JsonView(View.QuestionVariantView.class)
-    private boolean isAnswered;
+    boolean isCorrect;
 
     @JsonView(View.DefaultView.class)
-    private List<ChooseAnswerVariantDto> chooseAnswers;
+    private int position;
 
-    @JsonView(View.DefaultView.class)
-    private List<MatchAnswerVariantDto> matchAnswers;
-
-    @JsonView(View.DefaultView.class)
-    private List<SortAnswerVariantDto> sortAnswers;
+    @JsonView(View.QuestionVariantView.class)
+    private boolean isStudentChose;
 }

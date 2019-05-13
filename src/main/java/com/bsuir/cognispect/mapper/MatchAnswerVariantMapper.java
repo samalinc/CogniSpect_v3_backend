@@ -10,9 +10,9 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public abstract class MatchAnswerVariantMapper {
-    public abstract MatchAnswerVariantDto matchAnswerVariantToMatchAnswerVariantDto(
+    public abstract MatchAnswerVariantDto entityToModel(
             MatchAnswerVariant matchAnswerVariant);
 
-    public abstract List<MatchAnswerVariantDto> matchAnswerVariantsToMatchAnswersVariantsDto(
+    public abstract List<MatchAnswerVariantDto> entitiesToModels(
             Collection<MatchAnswerVariant> matchAnswerVariants);
 }

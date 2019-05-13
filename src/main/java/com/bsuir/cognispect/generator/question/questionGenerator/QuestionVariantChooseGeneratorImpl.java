@@ -1,9 +1,6 @@
 package com.bsuir.cognispect.generator.question.questionGenerator;
 
-import com.bsuir.cognispect.entity.Answer;
-import com.bsuir.cognispect.entity.AnswerVariant;
-import com.bsuir.cognispect.entity.Question;
-import com.bsuir.cognispect.entity.QuestionVariant;
+import com.bsuir.cognispect.entity.*;
 import com.bsuir.cognispect.generator.question.QuestionVariantGenerator;
 import com.bsuir.cognispect.repository.AnswerVariantRepository;
 import com.bsuir.cognispect.repository.QuestionVariantRepository;
@@ -21,20 +18,20 @@ public class QuestionVariantChooseGeneratorImpl implements QuestionVariantGenera
     @Override
     public QuestionVariant createQuestionVariant(List<Answer> answers, Question question) {
         QuestionVariant questionVariant = new QuestionVariant();
-        List<AnswerVariant> answerVariants = new ArrayList<>();
+        List<AnswerVariant> chooseAnswerVariants = new ArrayList<>();
         questionVariant.setDescription(question.getDescription());
         questionVariant.setTopic(question.getTopic());
 
         answers.forEach(answer -> {
-            AnswerVariant answerVariant = new AnswerVariant();
-            answerVariant.setPosition(answers.indexOf(answer));
-            answerVariant.setCorrect(answer.isCorrect());
-            answerVariant.setText(answer.getText());
-            answerVariants.add(answerVariant);
+            ChooseAnswerVariant chooseAnswerVariant = new ChooseAnswerVariant();
+            chooseAnswerVariant.setPosition(answers.indexOf(answer));
+            chooseAnswerVariant.setCorrect(answer.isCorrect());
+            chooseAnswerVariant.setText(answer.getText());
+            chooseAnswerVariants.add(chooseAnswerVariant);
         });
-        questionVariant.setAnswers(answerVariants);
+        questionVariant.setAnswers(chooseAnswerVariants);
         questionVariantRepository.save(questionVariant);
-        answerVariantRepository.saveAll(answerVariants);
+        answerVariantRepository.saveAll(chooseAnswerVariants);
         return questionVariant;
     }
 }

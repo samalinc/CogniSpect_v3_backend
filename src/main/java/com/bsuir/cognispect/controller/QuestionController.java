@@ -25,7 +25,7 @@ public class QuestionController {
     public ResponseEntity<QuestionDto> createQuestion(
             @Valid @RequestBody final QuestionDto questionDto) {
 
-        return new ResponseEntity<>(questionMapper.questionToQuestionDto(
+        return new ResponseEntity<>(questionMapper.entityToModel(
                 questionService.createQuestion(questionDto)),
                 HttpStatus.CREATED
         );
@@ -35,7 +35,7 @@ public class QuestionController {
     public ResponseEntity<QuestionDto> getQuestionById(
             @PathVariable(name = "id") UUID questionId) {
 
-        return ResponseEntity.ok(questionMapper.questionToQuestionDto(
+        return ResponseEntity.ok(questionMapper.entityToModel(
                 questionService.getQuestionById(questionId)));
     }
 
@@ -43,7 +43,7 @@ public class QuestionController {
     public ResponseEntity<QuestionDto> deleteQuestionById(
             @PathVariable(name = "id") UUID questionId) {
 
-        return ResponseEntity.ok(questionMapper.questionToQuestionDto(questionService
+        return ResponseEntity.ok(questionMapper.entityToModel(questionService
                 .deleteQuestionById(questionId)));
     }
 
@@ -51,7 +51,7 @@ public class QuestionController {
     public ResponseEntity<QuestionDto> updateQuestion(
             @Valid @RequestBody final QuestionDto questionDto) {
 
-        return ResponseEntity.ok(questionMapper.questionToQuestionDto(
+        return ResponseEntity.ok(questionMapper.entityToModel(
                 questionService.updateQuestion(questionDto)));
     }
 
@@ -62,7 +62,7 @@ public class QuestionController {
             @RequestParam(name = "topic", required = false, defaultValue = "")
                     String topic) {
 
-        return ResponseEntity.ok(questionMapper.questionsToQuestionsDto(
+        return ResponseEntity.ok(questionMapper.entitiesToModels(
                 questionService.getQuestionsByFilter(subject, topic))
         );
     }
@@ -71,7 +71,7 @@ public class QuestionController {
     public ResponseEntity<List<QuestionDto>> getQuestionsByTopicId(
             @RequestParam(name = "topicId") UUID topicId) {
 
-        return ResponseEntity.ok(questionMapper.questionsToQuestionsDto(
+        return ResponseEntity.ok(questionMapper.entitiesToModels(
                 questionService.getQuestionsByTopicId(topicId)
         ));
     }
@@ -80,7 +80,7 @@ public class QuestionController {
     public ResponseEntity<List<QuestionDto>> getQuestionsBySubjectId(
             @RequestParam(name = "subjectId") UUID subjectId) {
 
-        return ResponseEntity.ok(questionMapper.questionsToQuestionsDto(
+        return ResponseEntity.ok(questionMapper.entitiesToModels(
                 questionService.getQuestionsBySubjectId(subjectId)
         ));
     }

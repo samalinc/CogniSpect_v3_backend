@@ -33,7 +33,7 @@ public class TestSessionController {
             return ResponseEntity.noContent().build();
         }
 
-        return ResponseEntity.ok(testSessionMapper.testSessionsToTestSessionsDto(
+        return ResponseEntity.ok(testSessionMapper.entitiesToModels(
                 testSessionService
                         .getEnabledTestSessionsForStudent(student.getId())));
     }

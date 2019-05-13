@@ -27,7 +27,7 @@ public class TestTemplateController {
             @Valid @RequestBody TestTemplateDto testTemplateDto) {
 
         return new ResponseEntity<>(
-                testTemplateMapper.testTemplateToTestTemplateDto(
+                testTemplateMapper.entityToModel(
                         testTemplateService.createTestTemplate(testTemplateDto)),
                 HttpStatus.CREATED);
     }
@@ -36,7 +36,7 @@ public class TestTemplateController {
     public ResponseEntity<List<TestTemplateDto>> getAllTestTemplates() {
 
         return ResponseEntity.ok(
-                testTemplateMapper.testTemplatesToTestTemplatesDto(
+                testTemplateMapper.entitiesToModels(
                         testTemplateService.getTestTemplates()));
     }
 
@@ -47,6 +47,6 @@ public class TestTemplateController {
                 .deleteTestTemplateById(testTemplateId);
 
         return ResponseEntity.ok(testTemplateMapper
-                .testTemplateToTestTemplateDto(testTemplate));
+                .entityToModel(testTemplate));
     }
 }

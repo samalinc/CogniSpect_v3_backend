@@ -30,7 +30,7 @@ public class TopicController {
                     String subjectName) {
 
         return ResponseEntity.ok(
-                topicMapper.topicsToTopicsDto(topicService
+                topicMapper.entitiesToModels(topicService
                         .getTopicsByFilter(topicName, subjectName)));
     }
 
@@ -39,7 +39,7 @@ public class TopicController {
             @RequestBody @Valid final TopicDto topicDto) {
         Topic topic = topicService.createTopic(topicDto);
 
-        return new ResponseEntity<>(topicMapper.topicToTopicDto(topic),
+        return new ResponseEntity<>(topicMapper.entityToModel(topic),
                 HttpStatus.CREATED);
     }
 
@@ -48,7 +48,7 @@ public class TopicController {
             @RequestBody TopicDto topicDto) {
         Topic topic = topicService.updateExistingTopic(topicDto);
 
-        return ResponseEntity.ok(topicMapper.topicToTopicDto(topic));
+        return ResponseEntity.ok(topicMapper.entityToModel(topic));
     }
 
     @DeleteMapping("/{id}")
@@ -56,6 +56,6 @@ public class TopicController {
             @PathVariable(name = "id") UUID topicId) {
         Topic topic = topicService.deleteTopicById(topicId);
 
-        return ResponseEntity.ok(topicMapper.topicToTopicDto(topic));
+        return ResponseEntity.ok(topicMapper.entityToModel(topic));
     }
 }

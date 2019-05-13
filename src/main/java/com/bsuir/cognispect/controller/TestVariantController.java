@@ -38,7 +38,7 @@ public class TestVariantController {
             throw new IllegalArgumentException("Student not found");
         }
 
-        return ResponseEntity.ok(testVariantMapper.testVariantToTestVariantDto(
+        return ResponseEntity.ok(testVariantMapper.entityToModel(
                 testVariantService.getTestVariantForStudent(testSessionId, student.getId())));
     }
 }

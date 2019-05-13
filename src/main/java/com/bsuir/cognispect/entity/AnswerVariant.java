@@ -1,19 +1,24 @@
 package com.bsuir.cognispect.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.UUID;
 
 
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
 @Table(name = "answer_variant")
+@Inheritance(
+        strategy = InheritanceType.JOINED
+)
 public class AnswerVariant {
     @Id
     @GeneratedValue(generator = "UUID")
@@ -21,16 +26,6 @@ public class AnswerVariant {
             strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @Column(columnDefinition = "TEXT")
-    private String text;
-
-    @Column(name = "is_correct")
-    boolean isCorrect;
-
-    private int position;
-
-    @Column(name = "is_student_chose")
-    private boolean isStudentChose;
 
     @ManyToOne
     @JoinColumn(name = "question_variant_id", nullable = false)

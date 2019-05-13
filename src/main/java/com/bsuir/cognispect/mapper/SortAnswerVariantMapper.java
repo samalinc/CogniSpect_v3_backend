@@ -10,9 +10,9 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public abstract class SortAnswerVariantMapper {
-    public abstract SortAnswerVariantDto sortAnswerVariantToSortAnswerVariantDto(
+    public abstract SortAnswerVariantDto entityToModel(
             SortAnswerVariant sortAnswerVariant);
 
-    public abstract List<SortAnswerVariantDto> sortAnswerVariantsToSortAnswerVariantsDto(
+    public abstract List<SortAnswerVariantDto> entitiesToModels(
             Collection<SortAnswerVariant> sortAnswerVariants);
 }

@@ -14,13 +14,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "match_answer_variant")
-public class MatchAnswerVariant {
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator")
-    private UUID id;
-
+public class MatchAnswerVariant extends AnswerVariant {
     @Column(columnDefinition = "TEXT")
     private String key;
 
@@ -38,8 +32,4 @@ public class MatchAnswerVariant {
 
     @Column(columnDefinition = "TEXT")
     private String studentValue;
-
-    @ManyToOne
-    @JoinColumn(name = "question_variant_id", nullable = false)
-    private QuestionVariant questionVariant;
 }

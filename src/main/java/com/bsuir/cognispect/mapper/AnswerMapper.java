@@ -11,13 +11,13 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public abstract class AnswerMapper {
-    public abstract AnswerDto answerToAnswerDto(Answer answer);
+    public abstract AnswerDto entityToModel(Answer answer);
 
-    public abstract Answer answerDtoToAnswer(AnswerDto answerDto);
+    public abstract Answer modelToEntity(AnswerDto answerDto);
 
-    public abstract List<AnswerDto> answersToAnswersDto(
+    public abstract List<AnswerDto> entitiesToModels(
             Collection<Answer> answers);
 
-    public abstract List<Answer> answersDtoToAnswers(
+    public abstract List<Answer> modelsToEntities(
             Collection<AnswerDto> answersDto);
 }

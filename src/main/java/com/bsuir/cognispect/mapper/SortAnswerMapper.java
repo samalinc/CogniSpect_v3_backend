@@ -10,15 +10,15 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public abstract class SortAnswerMapper {
-    public abstract SortAnswerDto sortAnswerToSortAnswerDto(
+    public abstract SortAnswerDto entityToModel(
             SortAnswer sortAnswer);
 
-    public abstract SortAnswer sortAnswerDtoToSortAnswer(
+    public abstract SortAnswer modelToEntity(
             SortAnswerDto sortAnswerDto);
 
-    public abstract List<SortAnswerDto> sortAnswersToSortAnswersDto(
+    public abstract List<SortAnswerDto> entitiesToModels(
             Collection<SortAnswer> answers);
 
-    public abstract List<SortAnswer> sortAnswersDtoToSortAnswers(
+    public abstract List<SortAnswer> modelsToEntities(
             Collection<SortAnswerDto> answersDto);
 }

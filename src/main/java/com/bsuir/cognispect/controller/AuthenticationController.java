@@ -5,14 +5,12 @@ import com.bsuir.cognispect.dto.LoginDto;
 import com.bsuir.cognispect.dto.SignUpDto;
 import com.bsuir.cognispect.dto.UserDto;
 import com.bsuir.cognispect.entity.Account;
-import com.bsuir.cognispect.entity.enums.RoleEnum;
 import com.bsuir.cognispect.exception.ValidationException;
 import com.bsuir.cognispect.mapper.UserMapper;
 import com.bsuir.cognispect.security.details.UserDetailsImpl;
 import com.bsuir.cognispect.security.token.TokenAuthentication;
 import com.bsuir.cognispect.service.AuthenticationService;
 import com.bsuir.cognispect.util.error.ApiSubError;
-import com.bsuir.cognispect.validation.groups.AccountGroupsValidation;
 import com.bsuir.cognispect.validation.validator.CustomValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -48,7 +46,7 @@ public class AuthenticationController {
         Account account = authenticationService.registerUser(signUpDto);
 
         return new ResponseEntity<>(
-                userMapper.userToUserDto(account),
+                userMapper.entityToModel(account),
                 HttpStatus.CREATED);
     }
 
@@ -59,7 +57,7 @@ public class AuthenticationController {
                 authenticationService.authenticateUser(loginDto);
 
         return ResponseEntity.ok(new AuthorizationResponseDto(
-                tokenAuthentication.getName(), userMapper.userToUserDto(
+                tokenAuthentication.getName(), userMapper.entityToModel(
                 ((UserDetailsImpl) tokenAuthentication.getDetails())
                         .getAccount())
         ));

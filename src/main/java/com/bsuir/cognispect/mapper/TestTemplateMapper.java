@@ -12,8 +12,8 @@ import java.util.List;
         uses = {TestTemplateQuestionMapper.class,
                 UserMapper.class})
 public abstract class TestTemplateMapper {
-    public abstract TestTemplateDto testTemplateToTestTemplateDto(TestTemplate testTemplate);
+    public abstract TestTemplateDto entityToModel(TestTemplate testTemplate);
 
-    public abstract List<TestTemplateDto> testTemplatesToTestTemplatesDto(
+    public abstract List<TestTemplateDto> entitiesToModels(
             Collection<TestTemplate> testTemplates);
 }

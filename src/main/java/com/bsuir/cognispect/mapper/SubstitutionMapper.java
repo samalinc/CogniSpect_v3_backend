@@ -11,15 +11,15 @@ import java.util.List;
 @Mapper(componentModel = "spring",
         uses = {AnswerMapper.class})
 public abstract class SubstitutionMapper {
-    public abstract SubstitutionDto substitutionToSubstitutionDto(
+    public abstract SubstitutionDto entityToModel(
             Substitution substitution);
 
-    public abstract Substitution substitutionDtoToSubstitution(
+    public abstract Substitution modelToEntity(
             SubstitutionDto substitutionDto);
 
-    public abstract List<SubstitutionDto> substitutionsToSubstitutionsDto(
+    public abstract List<SubstitutionDto> entitiesToModels(
             Collection<Substitution> substitutions);
 
-    public abstract List<Substitution> substitutionsDtoToSubstitutions(
+    public abstract List<Substitution> modelsToEntities(
             Collection<SubstitutionDto> substitutions);
 }

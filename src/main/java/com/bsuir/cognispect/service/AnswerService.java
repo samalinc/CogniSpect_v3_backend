@@ -1,9 +1,6 @@
 package com.bsuir.cognispect.service;
 
-import com.bsuir.cognispect.dto.AnswerDto;
-import com.bsuir.cognispect.dto.MatchAnswerDto;
-import com.bsuir.cognispect.dto.SortAnswerDto;
-import com.bsuir.cognispect.dto.SubstitutionDto;
+import com.bsuir.cognispect.dto.*;
 import com.bsuir.cognispect.entity.*;
 
 import java.util.List;
@@ -36,6 +33,8 @@ public interface AnswerService {
     Answer updateAnswer(AnswerDto answerDto);
 
     Answer createAnswer(AnswerDto answerDto, Question question);
+
+    void submitAnswers(UserAnswersDto userAnswersDto);
 
     Answer saveAnswer(Answer answer);
 

@@ -1,17 +1,12 @@
 package com.bsuir.cognispect.service.impl;
 
-import com.bsuir.cognispect.dto.AnswerDto;
-import com.bsuir.cognispect.dto.MatchAnswerDto;
-import com.bsuir.cognispect.dto.SortAnswerDto;
-import com.bsuir.cognispect.dto.SubstitutionDto;
+import com.bsuir.cognispect.dto.*;
 import com.bsuir.cognispect.entity.*;
 import com.bsuir.cognispect.exception.ResourceNotFoundException;
 import com.bsuir.cognispect.mapper.AnswerMapper;
 import com.bsuir.cognispect.mapper.MatchAnswerMapper;
 import com.bsuir.cognispect.mapper.SortAnswerMapper;
-import com.bsuir.cognispect.repository.AnswerRepository;
-import com.bsuir.cognispect.repository.MatchAnswerRepository;
-import com.bsuir.cognispect.repository.SortAnswerRepository;
+import com.bsuir.cognispect.repository.*;
 import com.bsuir.cognispect.service.AnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +30,12 @@ public class AnswerServiceImpl implements AnswerService {
     private MatchAnswerRepository matchAnswerRepository;
     @Autowired
     private SortAnswerRepository sortAnswerRepository;
+    @Autowired
+    private AnswerVariantRepository answerVariantRepository;
+    @Autowired
+    private SortAnswerVariantRepository sortAnswerVariantRepository;
+    @Autowired
+    private MatchAnswerVariantRepository matchAnswerVariantRepository;
 
     @Override
     public List<Answer> createAnswersWithQuestion(
@@ -44,7 +45,7 @@ public class AnswerServiceImpl implements AnswerService {
             return null;
         }
 
-        List<Answer> answerList = answerMapper.answersDtoToAnswers(answersDto);
+        List<Answer> answerList = answerMapper.modelsToEntities(answersDto);
         answerList.forEach(answer -> answer.setQuestion(question));
 
         return answerList;
@@ -55,7 +56,7 @@ public class AnswerServiceImpl implements AnswerService {
             List<AnswerDto> answersDto,
             List<SubstitutionDto> substitutionsDto,
             Question question) {
-        List<Answer> answerList = answerMapper.answersDtoToAnswers(answersDto);
+        List<Answer> answerList = answerMapper.modelsToEntities(answersDto);
         answerList.forEach(answer -> answer.setQuestion(question));
 
         question.setSubstitutions(
@@ -72,7 +73,7 @@ public class AnswerServiceImpl implements AnswerService {
         }
 
         List<MatchAnswer> matchAnswerList = matchAnswerMapper
-                .matchAnswersDtoToMatchAnswers(matchAnswersDto);
+                .modelsToEntities(matchAnswersDto);
         matchAnswerList.forEach(
                 matchAnswer -> matchAnswer.setQuestion(question));
 
@@ -87,7 +88,7 @@ public class AnswerServiceImpl implements AnswerService {
         }
 
         List<SortAnswer> sortAnswerList = sortAnswerMapper
-                .sortAnswersDtoToSortAnswers(sortAnswersDto);
+                .modelsToEntities(sortAnswersDto);
         sortAnswerList.forEach(
                 sortAnswer -> sortAnswer.setQuestion(question));
 
@@ -146,10 +147,29 @@ public class AnswerServiceImpl implements AnswerService {
             return null;
         }
 
-        Answer answer = answerMapper.answerDtoToAnswer(answerDto);
+        Answer answer = answerMapper.modelToEntity(answerDto);
         answer.setQuestion(question);
 
         return answerRepository.save(answer);
+    }
+
+    @Override
+    public void submitAnswers(UserAnswersDto userAnswersDto) {
+        List<ChooseAnswerVariant> chooseAnswerVariants = submitChooseAnswers(userAnswersDto.getAnswersIds());
+    }
+
+    private List<ChooseAnswerVariant> submitChooseAnswers(List<UUID> answersIds) {
+        List<ChooseAnswerVariant> userAnswers = new ArrayList<>();
+
+        for (UUID answerId : answersIds) {
+            AnswerVariant answerVariant = answerVariantRepository.findById(answerId)
+                    .orElseThrow(() -> new ResourceNotFoundException("ChooseAnswerVariant", answerId));
+            /*chooseAnswerVariant.setStudentChose(true);
+
+            userAnswers.add(answerVariantRepository.save(chooseAnswerVariant));*/
+        }
+
+        return userAnswers;
     }
 
     @Override

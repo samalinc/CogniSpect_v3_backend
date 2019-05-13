@@ -45,10 +45,4 @@ public class QuestionVariant {
 
     @OneToMany(mappedBy = "questionVariant", cascade = CascadeType.ALL)
     private List<AnswerVariant> answers;
-
-    @OneToMany(mappedBy = "questionVariant", cascade = CascadeType.ALL)
-    private List<MatchAnswerVariant> matchAnswers;
-
-    @OneToMany(mappedBy = "questionVariant", cascade = CascadeType.ALL)
-    private List<SortAnswerVariant> sortAnswers;
 }

@@ -13,17 +13,16 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "sort_answer_variant")
-public class SortAnswerVariant extends AnswerVariant {
+@Table(name = "choose_answer_variant")
+public class ChooseAnswerVariant extends AnswerVariant {
     @Column(columnDefinition = "TEXT")
     private String text;
 
-    @Column(name = "right_position")
-    private int rightPosition;
+    @Column(name = "is_correct")
+    boolean isCorrect;
 
-    @Column(name = "list_position")
-    private int listPosition;
+    private int position;
 
-    @Column(name = "student_position")
-    private int studentPosition;
+    @Column(name = "is_student_chose")
+    private boolean isStudentChose;
 }

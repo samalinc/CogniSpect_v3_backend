@@ -38,7 +38,7 @@ public class UserController {
             @RequestParam(name = "studyGroup", required = false, defaultValue = "")
                     String studyGroup) {
 
-        return ResponseEntity.ok(userMapper.usersToUsersDto(
+        return ResponseEntity.ok(userMapper.entitiesToModels(
                 accountService.getAccountsByFilter(
                         role,
                         firstName,
@@ -57,7 +57,7 @@ public class UserController {
         }
         Account account = accountService.updateAccountInformation(signUpDto);
 
-        return ResponseEntity.ok(userMapper.userToUserDto(account));
+        return ResponseEntity.ok(userMapper.entityToModel(account));
     }
 
     @DeleteMapping("/{id}")
@@ -65,6 +65,6 @@ public class UserController {
             @PathVariable(name = "id") UUID accountId) {
         Account account = accountService.deleteAccount(accountId);
 
-        return ResponseEntity.ok(userMapper.userToUserDto(account));
+        return ResponseEntity.ok(userMapper.entityToModel(account));
     }
 }
