@@ -1,7 +1,7 @@
 package com.bsuir.cognispect.controller;
 
-import com.bsuir.cognispect.model.QuestionModel;
-import com.bsuir.cognispect.mapper.QuestionMapper;
+import com.bsuir.cognispect.model.question.QuestionModel;
+import com.bsuir.cognispect.mapper.question.QuestionMapper;
 import com.bsuir.cognispect.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

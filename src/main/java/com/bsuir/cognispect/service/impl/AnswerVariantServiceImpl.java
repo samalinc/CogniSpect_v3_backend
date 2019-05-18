@@ -2,7 +2,7 @@ package com.bsuir.cognispect.service.impl;
 
 import com.bsuir.cognispect.entity.ChooseAnswerVariant;
 import com.bsuir.cognispect.exception.ResourceNotFoundException;
-import com.bsuir.cognispect.model.UserAnswersModel;
+import com.bsuir.cognispect.model.answer.UserAnswersModel;
 import com.bsuir.cognispect.repository.AnswerVariantRepository;
 import com.bsuir.cognispect.repository.ChooseAnswerVariantRepository;
 import com.bsuir.cognispect.repository.MatchAnswerVariantRepository;

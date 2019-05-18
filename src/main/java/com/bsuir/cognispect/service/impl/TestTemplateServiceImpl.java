@@ -1,7 +1,7 @@
 package com.bsuir.cognispect.service.impl;
 
-import com.bsuir.cognispect.model.TestTemplateModel;
-import com.bsuir.cognispect.model.TestTemplateQuestionModel;
+import com.bsuir.cognispect.model.test.TestTemplateModel;
+import com.bsuir.cognispect.model.test.TestTemplateQuestionModel;
 import com.bsuir.cognispect.entity.Question;
 import com.bsuir.cognispect.entity.Teacher;
 import com.bsuir.cognispect.entity.TestTemplate;

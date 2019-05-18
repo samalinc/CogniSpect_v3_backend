@@ -1,6 +1,6 @@
 package com.bsuir.cognispect.service.impl;
 
-import com.bsuir.cognispect.model.SubjectModel;
+import com.bsuir.cognispect.model.question.SubjectModel;
 import com.bsuir.cognispect.entity.Subject;
 import com.bsuir.cognispect.exception.ResourceNotFoundException;
 import com.bsuir.cognispect.exception.UniqueException;

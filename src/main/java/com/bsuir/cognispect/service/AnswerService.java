@@ -4,10 +4,10 @@ import com.bsuir.cognispect.entity.Answer;
 import com.bsuir.cognispect.entity.MatchAnswer;
 import com.bsuir.cognispect.entity.Question;
 import com.bsuir.cognispect.entity.SortAnswer;
-import com.bsuir.cognispect.model.ChooseAnswerModel;
-import com.bsuir.cognispect.model.MatchAnswerModel;
-import com.bsuir.cognispect.model.SortAnswerModel;
-import com.bsuir.cognispect.model.SubstitutionModel;
+import com.bsuir.cognispect.model.answer.ChooseAnswerModel;
+import com.bsuir.cognispect.model.answer.MatchAnswerModel;
+import com.bsuir.cognispect.model.answer.SortAnswerModel;
+import com.bsuir.cognispect.model.question.SubstitutionModel;
 
 import java.util.List;
 import java.util.UUID;

@@ -1,8 +1,8 @@
 package com.bsuir.cognispect.controller;
 
-import com.bsuir.cognispect.model.TopicModel;
+import com.bsuir.cognispect.model.question.TopicModel;
 import com.bsuir.cognispect.entity.Topic;
-import com.bsuir.cognispect.mapper.TopicMapper;
+import com.bsuir.cognispect.mapper.question.TopicMapper;
 import com.bsuir.cognispect.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

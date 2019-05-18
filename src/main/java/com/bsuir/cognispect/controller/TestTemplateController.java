@@ -1,8 +1,8 @@
 package com.bsuir.cognispect.controller;
 
-import com.bsuir.cognispect.model.TestTemplateModel;
+import com.bsuir.cognispect.model.test.TestTemplateModel;
 import com.bsuir.cognispect.entity.TestTemplate;
-import com.bsuir.cognispect.mapper.TestTemplateMapper;
+import com.bsuir.cognispect.mapper.test.TestTemplateMapper;
 import com.bsuir.cognispect.service.TestTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

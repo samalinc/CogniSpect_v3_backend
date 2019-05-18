@@ -1,7 +1,7 @@
 package com.bsuir.cognispect.service.impl;
 
-import com.bsuir.cognispect.model.LoginModel;
-import com.bsuir.cognispect.model.SignUpModel;
+import com.bsuir.cognispect.model.security.LoginModel;
+import com.bsuir.cognispect.model.security.SignUpModel;
 import com.bsuir.cognispect.entity.Account;
 import com.bsuir.cognispect.entity.Student;
 import com.bsuir.cognispect.entity.Teacher;

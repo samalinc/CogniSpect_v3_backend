@@ -1,6 +1,6 @@
 package com.bsuir.cognispect.service;
 
-import com.bsuir.cognispect.model.TestTemplateModel;
+import com.bsuir.cognispect.model.test.TestTemplateModel;
 import com.bsuir.cognispect.entity.TestTemplate;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.bsuir.cognispect.service;
 
-import com.bsuir.cognispect.model.TopicModel;
+import com.bsuir.cognispect.model.question.TopicModel;
 import com.bsuir.cognispect.entity.Subject;
 import com.bsuir.cognispect.entity.Topic;
 

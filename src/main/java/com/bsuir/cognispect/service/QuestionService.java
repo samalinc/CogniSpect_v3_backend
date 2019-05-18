@@ -1,6 +1,6 @@
 package com.bsuir.cognispect.service;
 
-import com.bsuir.cognispect.model.QuestionModel;
+import com.bsuir.cognispect.model.question.QuestionModel;
 import com.bsuir.cognispect.entity.Question;
 
 import java.util.List;

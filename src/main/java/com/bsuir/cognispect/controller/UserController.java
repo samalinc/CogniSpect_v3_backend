@@ -1,11 +1,11 @@
 package com.bsuir.cognispect.controller;
 
-import com.bsuir.cognispect.model.SignUpModel;
-import com.bsuir.cognispect.model.UserModel;
+import com.bsuir.cognispect.model.security.SignUpModel;
+import com.bsuir.cognispect.model.user.UserModel;
 import com.bsuir.cognispect.entity.Account;
 import com.bsuir.cognispect.entity.enums.RoleEnum;
 import com.bsuir.cognispect.exception.ValidationException;
-import com.bsuir.cognispect.mapper.UserMapper;
+import com.bsuir.cognispect.mapper.user.UserMapper;
 import com.bsuir.cognispect.service.AccountService;
 import com.bsuir.cognispect.util.error.ApiSubError;
 import com.bsuir.cognispect.validation.validator.CustomValidator;

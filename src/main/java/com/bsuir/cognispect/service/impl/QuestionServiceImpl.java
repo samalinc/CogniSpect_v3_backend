@@ -1,7 +1,7 @@
 package com.bsuir.cognispect.service.impl;
 
-import com.bsuir.cognispect.model.ChooseAnswerModel;
-import com.bsuir.cognispect.model.QuestionModel;
+import com.bsuir.cognispect.model.answer.ChooseAnswerModel;
+import com.bsuir.cognispect.model.question.QuestionModel;
 import com.bsuir.cognispect.entity.Answer;
 import com.bsuir.cognispect.entity.Question;
 import com.bsuir.cognispect.exception.ResourceNotFoundException;
