@@ -1,16 +1,18 @@
 package com.bsuir.cognispect.service.impl;
 
-import com.bsuir.cognispect.model.answer.ChooseAnswerModel;
-import com.bsuir.cognispect.model.question.QuestionModel;
 import com.bsuir.cognispect.entity.Answer;
 import com.bsuir.cognispect.entity.Question;
 import com.bsuir.cognispect.exception.ResourceNotFoundException;
+import com.bsuir.cognispect.model.answer.ChooseAnswerModel;
+import com.bsuir.cognispect.model.question.QuestionModel;
 import com.bsuir.cognispect.repository.QuestionRepository;
 import com.bsuir.cognispect.repository.SubjectRepository;
 import com.bsuir.cognispect.repository.TopicRepository;
 import com.bsuir.cognispect.service.AnswerService;
 import com.bsuir.cognispect.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -142,8 +144,8 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<Question> getQuestionsByFilter(
-            String subjectName, String topicName) {
+    public Page<Question> getQuestionsByFilter(
+            String subjectName, String topicName, int page, int pageSize) {
         if (subjectName == null) {
             subjectName = "";
         }
@@ -152,7 +154,8 @@ public class QuestionServiceImpl implements QuestionService {
         }
 
         return questionRepository
-                .findQuestionsBySubjectAndTopic(subjectName, topicName);
+                .findQuestionsBySubjectAndTopic(subjectName, topicName,
+                        PageRequest.of(page, pageSize));
     }
 
     @Override

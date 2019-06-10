@@ -1,14 +1,16 @@
 package com.bsuir.cognispect.service.impl;
 
-import com.bsuir.cognispect.model.question.TopicModel;
 import com.bsuir.cognispect.entity.Subject;
 import com.bsuir.cognispect.entity.Topic;
 import com.bsuir.cognispect.exception.ResourceNotFoundException;
 import com.bsuir.cognispect.exception.UniqueException;
+import com.bsuir.cognispect.model.question.TopicModel;
 import com.bsuir.cognispect.repository.SubjectRepository;
 import com.bsuir.cognispect.repository.TopicRepository;
 import com.bsuir.cognispect.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -81,8 +83,9 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public List<Topic> getTopicsByFilter(String topicName, String subjectName) {
+    public Page<Topic> getTopicsByFilter(String topicName, String subjectName,
+                                         int page, int pageSize) {
         return topicRepository.findTopicByNameAndSubjectName(
-                topicName, subjectName);
+                topicName, subjectName, PageRequest.of(page, pageSize));
     }
 }

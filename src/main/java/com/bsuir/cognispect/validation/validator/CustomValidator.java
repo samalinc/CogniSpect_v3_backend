@@ -57,7 +57,7 @@ public class CustomValidator {
             }
             default:
                 apiSubErrorList = validate(
-                        object, null);
+                        object, AccountGroupsValidation.TeacherValidation.class);
         }
 
         return apiSubErrorList;

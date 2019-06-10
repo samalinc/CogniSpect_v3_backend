@@ -2,6 +2,7 @@ package com.bsuir.cognispect.service;
 
 import com.bsuir.cognispect.model.question.SubjectModel;
 import com.bsuir.cognispect.entity.Subject;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +14,7 @@ public interface SubjectService {
 
     Subject createSubject(SubjectModel subjectModel);
 
-    List<Subject> getSubjectsByFilter(String subjectName);
+    Page<Subject> getSubjectsByFilter(String subjectName, int page, int pageSize);
 
     Subject updateExistingSubject(SubjectModel subjectModel);
 

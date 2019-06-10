@@ -1,7 +1,8 @@
 package com.bsuir.cognispect.repository;
 
-import com.bsuir.cognispect.entity.MatchAnswer;
 import com.bsuir.cognispect.entity.Question;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -24,10 +25,12 @@ public interface QuestionRepository extends JpaRepository<Question, UUID> {
             "JOIN subject ON topic.subject_id=subject.id " +
             "WHERE topic.name LIKE '%' || :topicName || '%' " +
             "AND subject.name LIKE '%' || :subjectName || '%'",
+            countQuery = "SELECT count(*) FROM question",
             nativeQuery = true)
-    List<Question> findQuestionsBySubjectAndTopic(
+    Page<Question> findQuestionsBySubjectAndTopic(
             @Param("subjectName") String subjectName,
-            @Param("topicName") String topicName);
+            @Param("topicName") String topicName,
+            Pageable pageable);
 
     @Query(value = "SELECT q.* FROM question q " +
             "JOIN topic t on q.topic_id = t.id " +

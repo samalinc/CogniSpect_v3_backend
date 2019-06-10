@@ -7,6 +7,8 @@ import com.bsuir.cognispect.exception.UniqueException;
 import com.bsuir.cognispect.repository.SubjectRepository;
 import com.bsuir.cognispect.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,8 +38,9 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public List<Subject> getSubjectsByFilter(String subjectName) {
-        return subjectRepository.findSubjectsByNameIsLike(subjectName);
+    public Page<Subject> getSubjectsByFilter(String subjectName, int page, int pageSize) {
+        return subjectRepository.findSubjectsByNameIsLike(subjectName,
+                PageRequest.of(page, pageSize));
     }
 
     @Override

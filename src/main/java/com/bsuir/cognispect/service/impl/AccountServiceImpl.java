@@ -8,6 +8,9 @@ import com.bsuir.cognispect.exception.UniqueException;
 import com.bsuir.cognispect.repository.AccountRepository;
 import com.bsuir.cognispect.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +26,9 @@ public class AccountServiceImpl implements AccountService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public List<Account> getAccountsByFilter(
-            RoleEnum userType,
-            String firstName,
-            String lastName,
-            String studyGroup) {
+    public Page<Account> getAccountsByFilter(
+            RoleEnum userType, String firstName, String lastName,
+            String studyGroup, int page, int pageSize) {
         String roleName = "";
 
         if (userType != null) {
@@ -35,7 +36,7 @@ public class AccountServiceImpl implements AccountService {
         }
 
         return accountRepository.findUsersByFilter(
-                roleName, firstName, lastName, studyGroup);
+                roleName, firstName, lastName, studyGroup, PageRequest.of(page, pageSize));
     }
 
     @Override

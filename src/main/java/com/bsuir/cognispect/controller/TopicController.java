@@ -1,8 +1,9 @@
 package com.bsuir.cognispect.controller;
 
-import com.bsuir.cognispect.model.question.TopicModel;
 import com.bsuir.cognispect.entity.Topic;
 import com.bsuir.cognispect.mapper.question.TopicMapper;
+import com.bsuir.cognispect.model.RestResponsePage;
+import com.bsuir.cognispect.model.question.TopicModel;
 import com.bsuir.cognispect.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
+import javax.validation.constraints.Min;
 import java.util.UUID;
 
 
@@ -23,15 +24,19 @@ public class TopicController {
     private TopicMapper topicMapper;
 
     @GetMapping
-    public ResponseEntity<List<TopicModel>> getTopicsByFiler(
+    public ResponseEntity<RestResponsePage<TopicModel>> getTopicsByFiler(
             @RequestParam(name = "topicName", required = false, defaultValue = "")
                     String topicName,
             @RequestParam(name = "subjectName", required = false, defaultValue = "")
-                    String subjectName) {
+                    String subjectName,
+            @RequestParam(name = "page", required = false, defaultValue = "0")
+            @Min(0) Integer page,
+            @RequestParam(name = "pageSize", required = false, defaultValue = "1")
+            @Min(1) Integer pageSize) {
 
-        return ResponseEntity.ok(
-                topicMapper.entitiesToModels(topicService
-                        .getTopicsByFilter(topicName, subjectName)));
+        return ResponseEntity.ok(new RestResponsePage<>(topicService
+                .getTopicsByFilter(topicName, subjectName, page, pageSize)
+                .map(topicMapper::entityToModel)));
     }
 
     @PostMapping

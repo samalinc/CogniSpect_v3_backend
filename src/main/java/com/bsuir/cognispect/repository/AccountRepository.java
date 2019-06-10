@@ -1,6 +1,8 @@
 package com.bsuir.cognispect.repository;
 
 import com.bsuir.cognispect.entity.Account;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -33,9 +35,10 @@ public interface AccountRepository extends JpaRepository<Account, UUID> {
             "AND s.last_name ILIKE '%' || :lastName || '%' " +
             "AND s.study_group LIKE '%' || :studyGroup || '%'))",
             nativeQuery = true)
-    List<Account> findUsersByFilter(
+    Page<Account> findUsersByFilter(
             @Param("roleName") String roleName,
             @Param("firstName") String firstName,
             @Param("lastName") String lastName,
-            @Param("studyGroup") String studyGroup);
+            @Param("studyGroup") String studyGroup,
+            Pageable pageable);
 }
