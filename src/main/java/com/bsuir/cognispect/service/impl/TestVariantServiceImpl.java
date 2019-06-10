@@ -1,6 +1,7 @@
 package com.bsuir.cognispect.service.impl;
 
 import com.bsuir.cognispect.entity.TestVariant;
+import com.bsuir.cognispect.entity.enums.TestVariantStatusEnum;
 import com.bsuir.cognispect.exception.ResourceNotFoundException;
 import com.bsuir.cognispect.repository.TestVariantRepository;
 import com.bsuir.cognispect.service.TestVariantService;
@@ -22,5 +23,14 @@ public class TestVariantServiceImpl implements TestVariantService {
                 testSessionId, studentId).orElseThrow(() -> new ResourceNotFoundException(
                 "Question variant in session: " + testSessionId +
                         " for student: " + studentId + " not found"));
+    }
+
+    @Override
+    public TestVariant changeTestVariantStatus(
+            UUID testVariantId, TestVariantStatusEnum testVariantStatus) {
+        TestVariant testVariant = testVariantRepository.getOne(testVariantId);
+        testVariant.setTestVariantStatus(testVariantStatus);
+
+        return testVariantRepository.save(testVariant);
     }
 }

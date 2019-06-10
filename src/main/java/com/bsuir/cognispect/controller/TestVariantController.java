@@ -4,15 +4,14 @@ import com.bsuir.cognispect.entity.enums.QuestionTypeEnum;
 import com.bsuir.cognispect.entity.enums.TestVariantStatusEnum;
 import com.bsuir.cognispect.mapper.test.TestVariantMapper;
 import com.bsuir.cognispect.model.answer.ChooseAnswerVariantForTestModel;
+import com.bsuir.cognispect.model.answer.UserAnswersModel;
 import com.bsuir.cognispect.model.question.QuestionVariantForTestModel;
 import com.bsuir.cognispect.model.test.TestVariantForTestModel;
+import com.bsuir.cognispect.service.AnswerVariantService;
 import com.bsuir.cognispect.service.TestVariantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +26,8 @@ public class TestVariantController {
     private TestVariantService testVariantService;
     @Autowired
     private TestVariantMapper testVariantMapper;
+    @Autowired
+    private AnswerVariantService answerVariantService;
 
     @GetMapping
     public ResponseEntity<TestVariantForTestModel> getTestVariantForStudent(
@@ -65,5 +66,13 @@ public class TestVariantController {
         testVariantForTestModel.setQuestionVariants(b);
 
         return ResponseEntity.ok(testVariantForTestModel);
+    }
+
+    @PutMapping("/submitAnswer")
+    public ResponseEntity<?> submitTestVariantAnswer(
+            @RequestBody UserAnswersModel userAnswersModel) {
+
+        answerVariantService.submitAnswers(userAnswersModel);
+        return ResponseEntity.ok().build();
     }
 }
