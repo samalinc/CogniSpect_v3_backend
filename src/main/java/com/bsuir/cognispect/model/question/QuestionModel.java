@@ -23,7 +23,7 @@ public class QuestionModel {
     @Size(max = 40)
     private String description;
     private QuestionTypeEnum type;
-    private List<ChooseAnswerModel> answers;
+    private List<ChooseAnswerModel> chooseAnswers;
     private List<MatchAnswerModel> matchAnswers;
     private List<SortAnswerModel> sortAnswers;
     private List<SubstitutionModel> substitutions;

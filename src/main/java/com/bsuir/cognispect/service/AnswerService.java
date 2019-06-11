@@ -14,7 +14,7 @@ import java.util.UUID;
 
 
 public interface AnswerService {
-    List<Answer> createAnswers(
+    List<Answer> createChooseAnswers(
             List<ChooseAnswerModel> chooseAnswerModels,
             Question question);
 
@@ -31,9 +31,17 @@ public interface AnswerService {
 
     List<Answer> updateAnswersInQuestion(List<ChooseAnswerModel> chooseAnswerModels);
 
-    Answer updateAnswer(ChooseAnswerModel chooseAnswerModel);
+    Answer updateChooseAnswer(ChooseAnswerModel chooseAnswerModel);
 
-    Answer createAnswer(ChooseAnswerModel chooseAnswerModel, Question question);
+    MatchAnswer updateMatchAnswer(MatchAnswerModel matchAnswerModel);
+
+    SortAnswer updateSortAnswer(SortAnswerModel sortAnswerModel);
+
+    Answer createChooseAnswer(ChooseAnswerModel chooseAnswerModel, Question question);
+
+    MatchAnswer createMatchAnswer(MatchAnswerModel matchAnswerModel, Question question);
+
+    SortAnswer createSortAnswer(SortAnswerModel sortAnswerModel, Question question);
 
     Answer deleteChooseAnswer(UUID chooseAnswerId);
 

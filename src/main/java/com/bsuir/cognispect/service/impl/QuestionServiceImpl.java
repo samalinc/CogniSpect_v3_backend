@@ -1,9 +1,13 @@
 package com.bsuir.cognispect.service.impl;
 
 import com.bsuir.cognispect.entity.Answer;
+import com.bsuir.cognispect.entity.MatchAnswer;
 import com.bsuir.cognispect.entity.Question;
+import com.bsuir.cognispect.entity.SortAnswer;
 import com.bsuir.cognispect.exception.ResourceNotFoundException;
 import com.bsuir.cognispect.model.answer.ChooseAnswerModel;
+import com.bsuir.cognispect.model.answer.MatchAnswerModel;
+import com.bsuir.cognispect.model.answer.SortAnswerModel;
 import com.bsuir.cognispect.model.question.QuestionModel;
 import com.bsuir.cognispect.repository.QuestionRepository;
 import com.bsuir.cognispect.repository.SubjectRepository;
@@ -49,8 +53,8 @@ public class QuestionServiceImpl implements QuestionService {
             case CHOOSE:
             case MULTICHOOSE:
                 question.setAnswers(
-                        answerService.createAnswers(
-                                questionModel.getAnswers(),
+                        answerService.createChooseAnswers(
+                                questionModel.getChooseAnswers(),
                                 question));
                 break;
             case MATCH:
@@ -68,7 +72,7 @@ public class QuestionServiceImpl implements QuestionService {
             case SUBSTITUTION:
                 question.setAnswers(
                         answerService.createSubstitutionAnswers(
-                                questionModel.getAnswers(),
+                                questionModel.getChooseAnswers(),
                                 questionModel.getSubstitutions(),
                                 question));
                 break;
@@ -81,6 +85,7 @@ public class QuestionServiceImpl implements QuestionService {
     public Question updateQuestion(final QuestionModel questionModel) {
         Question question = questionRepository.findQuestionById(questionModel.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Question", questionModel.getId()));
+
         if (!question.getType().equals(questionModel.getType())) {
             throw new IllegalArgumentException("Different type of questions");
         }
@@ -90,18 +95,25 @@ public class QuestionServiceImpl implements QuestionService {
 
         switch (questionModel.getType()) {
             case CHOOSE:
-            case MULTICHOOSE: {
-                question.setAnswers(updateAnswersInQuestion(
-                        questionModel.getAnswers(), question));
-            }
-            break;
+            case MULTICHOOSE:
+                question.setAnswers(updateChooseAnswersInQuestion(
+                        questionModel.getChooseAnswers(), question));
+                break;
+            case MATCH:
+                question.setMatchAnswers(updateMatchAnswerInQuestion(
+                        questionModel.getMatchAnswers(), question));
+                break;
+            case SORT:
+                question.setSortAnswers(updateSortAnswerInQuestion(
+                        questionModel.getSortAnswers(), question));
+                break;
         }
         questionRepository.save(question);
 
         return question;
     }
 
-    private List<Answer> updateAnswersInQuestion(
+    private List<Answer> updateChooseAnswersInQuestion(
             List<ChooseAnswerModel> chooseAnswerModels, Question question) {
         List<Answer> questionAnswers = question.getAnswers();
         List<Answer> updatedAnswersList = new ArrayList<>();
@@ -112,20 +124,74 @@ public class QuestionServiceImpl implements QuestionService {
 
             for (Answer answer : questionAnswers) {
                 if (answer.getId().equals(chooseAnswerModel.getId())) {
-                    newAnswer = answerService.updateAnswer(chooseAnswerModel);
+                    newAnswer = answerService.updateChooseAnswer(chooseAnswerModel);
                     questionAnswers.remove(answer);
                     isAnswerFound = true;
                     break;
                 }
             }
             if (!isAnswerFound) {
-                newAnswer = answerService.createAnswer(chooseAnswerModel, question);
+                newAnswer = answerService.createChooseAnswer(chooseAnswerModel, question);
             }
             updatedAnswersList.add(newAnswer);
         }
         questionAnswers.forEach(answer -> answerService.deleteChooseAnswer(answer.getId()));
 
         return updatedAnswersList;
+    }
+
+    private List<MatchAnswer> updateMatchAnswerInQuestion(
+            List<MatchAnswerModel> matchAnswerModels, Question question) {
+        List<MatchAnswer> questionAnswers = question.getMatchAnswers();
+        List<MatchAnswer> updatedMatchAnswersList = new ArrayList<>();
+
+        for (MatchAnswerModel matchAnswerModel : matchAnswerModels) {
+            MatchAnswer newAnswer = null;
+            boolean isAnswerFound = false;
+
+            for (MatchAnswer answer : questionAnswers) {
+                if (answer.getId().equals(matchAnswerModel.getId())) {
+                    newAnswer = answerService.updateMatchAnswer(matchAnswerModel);
+                    questionAnswers.remove(answer);
+                    isAnswerFound = true;
+                    break;
+                }
+            }
+            if (!isAnswerFound) {
+                newAnswer = answerService.createMatchAnswer(matchAnswerModel, question);
+            }
+            updatedMatchAnswersList.add(newAnswer);
+        }
+        questionAnswers.forEach(answer -> answerService.deleteMatchAnswer(answer.getId()));
+
+        return updatedMatchAnswersList;
+    }
+
+    private List<SortAnswer> updateSortAnswerInQuestion(
+            List<SortAnswerModel> sortAnswerModels, Question question) {
+        List<SortAnswer> questionAnswers = question.getSortAnswers();
+        List<SortAnswer> updatedSortAnswersList = new ArrayList<>();
+
+        for (SortAnswerModel sortAnswerModel : sortAnswerModels) {
+            SortAnswer newAnswer = null;
+            boolean isAnswerFound = false;
+
+            for (SortAnswer answer : questionAnswers) {
+                if (answer.getId().equals(sortAnswerModel.getId())) {
+                    newAnswer = answerService.updateSortAnswer(sortAnswerModel);
+                    questionAnswers.remove(answer);
+                    isAnswerFound = true;
+                    break;
+                }
+            }
+            if (!isAnswerFound) {
+                newAnswer = answerService.createSortAnswer(sortAnswerModel, question);
+            }
+            updatedSortAnswersList.add(newAnswer);
+        }
+        questionAnswers.forEach(answer -> answerService.deleteSortAnswer(answer.getId()));
+
+        return updatedSortAnswersList;
     }
 
     @Override

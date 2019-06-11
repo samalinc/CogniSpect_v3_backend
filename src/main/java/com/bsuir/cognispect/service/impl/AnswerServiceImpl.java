@@ -39,7 +39,7 @@ public class AnswerServiceImpl implements AnswerService {
     private SortAnswerRepository sortAnswerRepository;
 
     @Override
-    public List<Answer> createAnswers(
+    public List<Answer> createChooseAnswers(
             List<ChooseAnswerModel> chooseAnswerModels,
             Question question) {
         if (chooseAnswerModels == null || question == null) {
@@ -125,16 +125,17 @@ public class AnswerServiceImpl implements AnswerService {
         List<Answer> answers = new ArrayList<>();
 
         for (ChooseAnswerModel chooseAnswerModel : chooseAnswerModels) {
-            answers.add(updateAnswer(chooseAnswerModel));
+            answers.add(updateChooseAnswer(chooseAnswerModel));
         }
 
         return answers;
     }
 
     @Override
-    public Answer updateAnswer(ChooseAnswerModel chooseAnswerModel) {
+    public Answer updateChooseAnswer(ChooseAnswerModel chooseAnswerModel) {
         Answer answer = answerRepository.findById(chooseAnswerModel.getId()).orElseThrow(
-                () -> new ResourceNotFoundException("Answer", chooseAnswerModel.getId()));
+                () -> new ResourceNotFoundException("ChooseAnswer", chooseAnswerModel.getId()));
+
         answer.setCorrect(chooseAnswerModel.isCorrect());
         answer.setText(chooseAnswerModel.getText());
 
@@ -142,7 +143,29 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public Answer createAnswer(ChooseAnswerModel chooseAnswerModel, Question question) {
+    public MatchAnswer updateMatchAnswer(MatchAnswerModel matchAnswerModel) {
+        MatchAnswer matchAnswer = matchAnswerRepository.findById(matchAnswerModel.getId()).orElseThrow(
+                () -> new ResourceNotFoundException("MatchAnswer", matchAnswerModel.getId()));
+
+        matchAnswer.setKey(matchAnswerModel.getKey());
+        matchAnswer.setValue(matchAnswerModel.getValue());
+
+        return matchAnswerRepository.save(matchAnswer);
+    }
+
+    @Override
+    public SortAnswer updateSortAnswer(SortAnswerModel sortAnswerModel) {
+        SortAnswer sortAnswer = sortAnswerRepository.findById(sortAnswerModel.getId()).orElseThrow(
+                () -> new ResourceNotFoundException("SortAnswer", sortAnswerModel.getId()));
+
+        sortAnswer.setPosition(sortAnswerModel.getPosition());
+        sortAnswer.setText(sortAnswerModel.getText());
+
+        return sortAnswerRepository.save(sortAnswer);
+    }
+
+    @Override
+    public Answer createChooseAnswer(ChooseAnswerModel chooseAnswerModel, Question question) {
         if (chooseAnswerModel == null || question == null) {
             return null;
         }
@@ -151,6 +174,30 @@ public class AnswerServiceImpl implements AnswerService {
         answer.setQuestion(question);
 
         return answerRepository.save(answer);
+    }
+
+    @Override
+    public MatchAnswer createMatchAnswer(MatchAnswerModel matchAnswerModel, Question question) {
+        if (matchAnswerModel == null || question == null) {
+            return null;
+        }
+
+        MatchAnswer matchAnswer = matchAnswerMapper.modelToEntity(matchAnswerModel);
+        matchAnswer.setQuestion(question);
+
+        return matchAnswerRepository.save(matchAnswer);
+    }
+
+    @Override
+    public SortAnswer createSortAnswer(SortAnswerModel sortAnswerModel, Question question) {
+        if (sortAnswerModel == null || question == null) {
+            return null;
+        }
+
+        SortAnswer sortAnswer = sortAnswerMapper.modelToEntity(sortAnswerModel);
+        sortAnswer.setQuestion(question);
+
+        return sortAnswerRepository.save(sortAnswer);
     }
 
     @Override
