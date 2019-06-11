@@ -75,4 +75,9 @@ public class TestVariantController {
         answerVariantService.submitAnswer(userAnswerModel);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/finish/{id}")
+    public void finishTestVariant(@PathVariable(name = "id") UUID testVariantId) {
+        testVariantService.changeTestVariantStatus(testVariantId, TestVariantStatusEnum.FINISHED);
+    }
 }
