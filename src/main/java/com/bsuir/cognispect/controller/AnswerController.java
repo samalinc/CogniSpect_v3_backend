@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @RestController
@@ -18,7 +19,9 @@ public class AnswerController {
     private AnswerVariantService answerVariantService;
 
     @PutMapping("/submit")
-    public void submitUserAnswer(@Valid @RequestBody UserAnswerModel userAnswerModel) {
-        answerVariantService.submitAnswer(userAnswerModel);
+    public void submitUserAnswer(@Valid @RequestBody List<UserAnswerModel> userAnswerModels) {
+        for (UserAnswerModel userAnswerModel : userAnswerModels) {
+            answerVariantService.submitAnswer(userAnswerModel);
+        }
     }
 }
