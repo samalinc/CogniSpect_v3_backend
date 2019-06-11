@@ -1,6 +1,6 @@
 package com.bsuir.cognispect.mapper.question;
 
-import com.bsuir.cognispect.mapper.answer.AnswerMapper;
+import com.bsuir.cognispect.mapper.answer.ChooseAnswerMapper;
 import com.bsuir.cognispect.mapper.answer.MatchAnswerMapper;
 import com.bsuir.cognispect.mapper.answer.SortAnswerMapper;
 import com.bsuir.cognispect.model.question.QuestionModel;
@@ -13,7 +13,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring",
         uses = {TopicMapper.class,
-                AnswerMapper.class,
+                ChooseAnswerMapper.class,
                 MatchAnswerMapper.class,
                 SortAnswerMapper.class,
                 SubstitutionMapper.class})

@@ -46,12 +46,6 @@ public class Question {
     private List<Answer> answers;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
-    private List<MatchAnswer> matchAnswers;
-
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
-    private List<SortAnswer> sortAnswers;
-
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Substitution> substitutions;
 
     @OneToMany(mappedBy = "question")

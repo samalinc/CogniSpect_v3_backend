@@ -18,10 +18,10 @@ public class AnswerChooseGeneratorImpl implements AnswerGenerator<Answer> {
         List<Answer> answers = new ArrayList<>(question.getAnswers()).
                 subList(AnswerConstants.BOTTOM_BOUND, AnswerConstants.TOP_BOUND);
 
-        Answer rightAnswer = question.getSubstitutions().get(substitutionsIndex).getRightAnswer();
+        /*Answer rightAnswer = question.getSubstitutions().get(substitutionsIndex).getRightAnswer();
         if (answers.stream().noneMatch(Answer::isCorrect)) {
             answers.set(rand.nextInt(answers.size()), rightAnswer);
-        }
+        }*/
         return answers;
 
     }

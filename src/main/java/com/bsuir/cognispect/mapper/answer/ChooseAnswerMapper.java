@@ -1,5 +1,6 @@
 package com.bsuir.cognispect.mapper.answer;
 
+import com.bsuir.cognispect.entity.ChooseAnswer;
 import com.bsuir.cognispect.model.answer.ChooseAnswerModel;
 import com.bsuir.cognispect.entity.Answer;
 import org.mapstruct.Mapper;
@@ -9,14 +10,14 @@ import java.util.List;
 
 
 @Mapper(componentModel = "spring")
-public abstract class AnswerMapper {
-    public abstract ChooseAnswerModel entityToModel(Answer answer);
+public abstract class ChooseAnswerMapper {
+    public abstract ChooseAnswerModel entityToModel(ChooseAnswer chooseAnswer);
 
-    public abstract Answer modelToEntity(ChooseAnswerModel chooseAnswerModel);
+    public abstract ChooseAnswer modelToEntity(ChooseAnswerModel chooseAnswerModel);
 
     public abstract List<ChooseAnswerModel> entitiesToModels(
-            Collection<Answer> answers);
+            Collection<ChooseAnswer> answers);
 
-    public abstract List<Answer> modelsToEntities(
+    public abstract List<ChooseAnswer> modelsToEntities(
             Collection<ChooseAnswerModel> chooseAnswerModels);
 }

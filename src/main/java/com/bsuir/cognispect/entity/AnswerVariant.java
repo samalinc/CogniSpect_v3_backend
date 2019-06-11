@@ -26,7 +26,6 @@ public class AnswerVariant {
             strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-
     @ManyToOne
     @JoinColumn(name = "question_variant_id", nullable = false)
     private QuestionVariant questionVariant;

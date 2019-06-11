@@ -14,20 +14,10 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "match_answer")
-public class MatchAnswer {
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator")
-    private UUID id;
-
+public class MatchAnswer extends Answer{
     @Column(columnDefinition = "TEXT")
     private String key;
 
     @Column(columnDefinition = "TEXT")
     private String value;
-
-    @ManyToOne
-    @JoinColumn(name = "question_id", nullable = false)
-    private Question question;
 }

@@ -49,7 +49,7 @@ public class QuestionServiceImpl implements QuestionService {
                 .orElseThrow(() -> new ResourceNotFoundException("Topic", questionModel.getTopic().getId())));
         question.setType(questionModel.getType());
 
-        switch (questionModel.getType()) {
+        /*switch (questionModel.getType()) {
             case CHOOSE:
             case MULTICHOOSE:
                 question.setAnswers(
@@ -58,7 +58,7 @@ public class QuestionServiceImpl implements QuestionService {
                                 question));
                 break;
             case MATCH:
-                question.setMatchAnswers(
+                question.setAnswers(
                         answerService.createMatchAnswers(
                                 questionModel.getMatchAnswers(),
                                 question));
@@ -76,7 +76,7 @@ public class QuestionServiceImpl implements QuestionService {
                                 questionModel.getSubstitutions(),
                                 question));
                 break;
-        }
+        }*/
 
         return questionRepository.save(question);
     }
@@ -93,7 +93,7 @@ public class QuestionServiceImpl implements QuestionService {
                 .orElseThrow(() -> new ResourceNotFoundException("Topic", questionModel.getTopic().getId())));
         question.setDescription(questionModel.getDescription());
 
-        switch (questionModel.getType()) {
+        /*switch (questionModel.getType()) {
             case CHOOSE:
             case MULTICHOOSE:
                 question.setAnswers(updateChooseAnswersInQuestion(
@@ -107,7 +107,7 @@ public class QuestionServiceImpl implements QuestionService {
                 question.setSortAnswers(updateSortAnswerInQuestion(
                         questionModel.getSortAnswers(), question));
                 break;
-        }
+        }*/
         questionRepository.save(question);
 
         return question;
@@ -142,8 +142,8 @@ public class QuestionServiceImpl implements QuestionService {
 
     private List<MatchAnswer> updateMatchAnswerInQuestion(
             List<MatchAnswerModel> matchAnswerModels, Question question) {
-        List<MatchAnswer> questionAnswers = question.getMatchAnswers();
         List<MatchAnswer> updatedMatchAnswersList = new ArrayList<>();
+        /*List<MatchAnswer> questionAnswers = question.getMatchAnswers();
 
         for (MatchAnswerModel matchAnswerModel : matchAnswerModels) {
             MatchAnswer newAnswer = null;
@@ -162,15 +162,15 @@ public class QuestionServiceImpl implements QuestionService {
             }
             updatedMatchAnswersList.add(newAnswer);
         }
-        questionAnswers.forEach(answer -> answerService.deleteMatchAnswer(answer.getId()));
+        questionAnswers.forEach(answer -> answerService.deleteMatchAnswer(answer.getId()));*/
 
         return updatedMatchAnswersList;
     }
 
     private List<SortAnswer> updateSortAnswerInQuestion(
             List<SortAnswerModel> sortAnswerModels, Question question) {
-        List<SortAnswer> questionAnswers = question.getSortAnswers();
         List<SortAnswer> updatedSortAnswersList = new ArrayList<>();
+        /*List<SortAnswer> questionAnswers = question.getSortAnswers();
 
         for (SortAnswerModel sortAnswerModel : sortAnswerModels) {
             SortAnswer newAnswer = null;
@@ -189,7 +189,7 @@ public class QuestionServiceImpl implements QuestionService {
             }
             updatedSortAnswersList.add(newAnswer);
         }
-        questionAnswers.forEach(answer -> answerService.deleteSortAnswer(answer.getId()));
+        questionAnswers.forEach(answer -> answerService.deleteSortAnswer(answer.getId()));*/
 
         return updatedSortAnswersList;
     }

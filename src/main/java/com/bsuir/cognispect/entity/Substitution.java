@@ -29,6 +29,6 @@ public class Substitution {
     private Question question;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "right_answer_id", nullable = false)
-    private Answer rightAnswer;
+    @JoinColumn(name = "right_choose_answer_id", nullable = false)
+    private ChooseAnswer rightChooseAnswer;
 }

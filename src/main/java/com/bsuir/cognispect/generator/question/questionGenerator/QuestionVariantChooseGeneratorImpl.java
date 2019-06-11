@@ -25,8 +25,8 @@ public class QuestionVariantChooseGeneratorImpl implements QuestionVariantGenera
         answers.forEach(answer -> {
             ChooseAnswerVariant chooseAnswerVariant = new ChooseAnswerVariant();
             chooseAnswerVariant.setPosition(answers.indexOf(answer));
-            chooseAnswerVariant.setCorrect(answer.isCorrect());
-            chooseAnswerVariant.setText(answer.getText());
+            /*chooseAnswerVariant.setCorrect(answer.isCorrect());
+            chooseAnswerVariant.setText(answer.getText());*/
             chooseAnswerVariants.add(chooseAnswerVariant);
         });
         questionVariant.setAnswers(chooseAnswerVariants);

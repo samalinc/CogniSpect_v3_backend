@@ -14,19 +14,9 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "sort_answer")
-public class SortAnswer {
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator")
-    private UUID id;
-
+public class SortAnswer extends Answer{
     @Column(columnDefinition = "TEXT")
     private String text;
 
     private int position;
-
-    @ManyToOne
-    @JoinColumn(name = "question_id", nullable = false)
-    private Question question;
 }
