@@ -17,7 +17,6 @@ public class LoginModel {
     @NotBlank
     @Size(min = 3, max = 15)
     private String login;
-
     @NotBlank
     @Size(min = 6, max = 20)
     private String password;

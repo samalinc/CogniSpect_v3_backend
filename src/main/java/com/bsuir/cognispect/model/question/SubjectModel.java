@@ -13,7 +13,6 @@ import java.util.UUID;
 @Setter
 public class SubjectModel {
     private UUID id;
-
     @NotBlank
     private String name;
 }

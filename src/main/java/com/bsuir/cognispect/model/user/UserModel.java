@@ -12,12 +12,8 @@ import java.util.UUID;
 @Setter
 public class UserModel {
     private UUID id;
-
     private String firstName;
-
     private String lastName;
-
     private String studyGroup;
-
     private AccountModel account;
 }

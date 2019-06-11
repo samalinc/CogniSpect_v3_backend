@@ -14,8 +14,6 @@ import java.util.UUID;
 @Setter
 public class SortAnswerModel {
     private UUID id;
-
     private String text;
-
     private int position;
 }

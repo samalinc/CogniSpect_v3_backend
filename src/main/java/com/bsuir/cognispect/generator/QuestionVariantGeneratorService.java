@@ -7,10 +7,13 @@ import com.bsuir.cognispect.generator.answers.AnswerFactory;
 import com.bsuir.cognispect.generator.answers.AnswerGenerator;
 import com.bsuir.cognispect.generator.question.QuestionVariantGenerator;
 import com.bsuir.cognispect.generator.question.QuestionVariantGeneratorFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
 
+
+@Service
 public class QuestionVariantGeneratorService {
     private static final String SUBSTITUTION_SIGNAL_VALUE = "%substitution%";
 

@@ -19,13 +19,10 @@ import java.util.UUID;
 @Setter
 public class TestTemplateModel {
     private UUID id;
-
     @NotNull
     private UserModel creator;
-
     @Valid
     private List<TestTemplateQuestionModel> testTemplateQuestions;
-
     @NotBlank
     private String name;
 }

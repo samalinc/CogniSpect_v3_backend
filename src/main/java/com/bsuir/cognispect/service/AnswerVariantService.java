@@ -1,7 +1,7 @@
 package com.bsuir.cognispect.service;
 
-import com.bsuir.cognispect.model.answer.UserAnswersModel;
+import com.bsuir.cognispect.model.answer.test.UserAnswerModel;
 
 public interface AnswerVariantService {
-    void submitAnswers(UserAnswersModel userAnswersModel);
+    void submitAnswer(UserAnswerModel userAnswerModel);
 }

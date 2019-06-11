@@ -1,4 +1,4 @@
-package com.bsuir.cognispect.model.answer;
+package com.bsuir.cognispect.model.answer.test;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,6 +13,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UserAnswersModel {
-    private List<UUID> answersIds;
+public class UserAnswerModel {
+    private UUID id;
+    private String value;
+    private int position;
 }

@@ -1,6 +1,5 @@
-package com.bsuir.cognispect.model.user;
+package com.bsuir.cognispect.model.answer.test;
 
-import com.bsuir.cognispect.entity.enums.RoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,9 +12,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-public class AccountModel {
+public class TestMatchAnswerModel {
     private UUID id;
-    private String login;
-    private RoleEnum role;
-    private String email;
+    private String value;
 }

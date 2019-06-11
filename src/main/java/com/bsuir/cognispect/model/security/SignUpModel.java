@@ -20,33 +20,26 @@ import java.util.UUID;
 @Setter
 public class SignUpModel {
     private UUID id;
-
     @NotBlank
     @Size(min = 3, max = 15)
     private String login;
-
     @NotBlank
     @Size(max = 40)
     @Email
     private String email;
-
     @NotBlank
     @Size(min = 6, max = 20)
     private String password;
-
     @NotNull
     private RoleEnum role;
-
     @NotBlank(groups = {
             AccountGroupsValidation.StudentValidation.class,
             AccountGroupsValidation.TeacherValidation.class})
     private String firstName;
-
     @NotBlank(groups = {
             AccountGroupsValidation.StudentValidation.class,
             AccountGroupsValidation.TeacherValidation.class})
     private String lastName;
-
     @NotBlank(groups = {AccountGroupsValidation.StudentValidation.class})
     private String studyGroup;
 }

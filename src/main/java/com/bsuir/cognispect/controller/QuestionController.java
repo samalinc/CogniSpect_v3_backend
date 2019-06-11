@@ -73,18 +73,18 @@ public class QuestionController {
                         questionMapper::entityToModel)));
     }
 
-    @GetMapping("/topic")
+    @GetMapping("/topic/{id}")
     public ResponseEntity<List<QuestionModel>> getQuestionsByTopicId(
-            @RequestParam(name = "topicId") UUID topicId) {
+            @PathVariable(name = "id") UUID topicId) {
 
         return ResponseEntity.ok(questionMapper.entitiesToModels(
                 questionService.getQuestionsByTopicId(topicId)
         ));
     }
 
-    @GetMapping("/subject")
+    @GetMapping("/subject/{id}")
     public ResponseEntity<List<QuestionModel>> getQuestionsBySubjectId(
-            @RequestParam(name = "subjectId") UUID subjectId) {
+            @PathVariable(name = "id") UUID subjectId) {
 
         return ResponseEntity.ok(questionMapper.entitiesToModels(
                 questionService.getQuestionsBySubjectId(subjectId)

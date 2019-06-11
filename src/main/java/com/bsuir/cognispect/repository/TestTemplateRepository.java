@@ -1,6 +1,8 @@
 package com.bsuir.cognispect.repository;
 
 import com.bsuir.cognispect.entity.TestTemplate;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,4 +14,6 @@ import java.util.UUID;
 public interface TestTemplateRepository
         extends JpaRepository<TestTemplate, UUID> {
     Optional<TestTemplate> findById(UUID uuid);
+
+    Page<TestTemplate> findByName(String name, Pageable pageable);
 }

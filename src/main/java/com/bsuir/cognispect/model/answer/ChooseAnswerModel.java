@@ -14,8 +14,6 @@ import java.util.UUID;
 @Setter
 public class ChooseAnswerModel {
     private UUID id;
-
     private String text;
-
     boolean isCorrect;
 }

@@ -14,16 +14,10 @@ import java.util.UUID;
 @Setter
 public class MatchAnswerVariantModel {
     private UUID id;
-
     private String key;
-
     private String value;
-
     private int keyPosition;
-
     private int valuePosition;
-
     private String studentKey;
-
     private String studentValue;
 }

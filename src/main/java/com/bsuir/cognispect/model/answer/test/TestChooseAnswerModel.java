@@ -1,4 +1,4 @@
-package com.bsuir.cognispect.model.answer;
+package com.bsuir.cognispect.model.answer.test;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,8 +12,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ChooseAnswerVariantForTestModel {
-    private UUID id;
-    private String text;
-    private int position;
+public class TestChooseAnswerModel {
+    UUID id;
 }

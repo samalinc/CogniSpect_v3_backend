@@ -4,7 +4,7 @@ import com.bsuir.cognispect.entity.enums.QuestionTypeEnum;
 import com.bsuir.cognispect.entity.enums.TestVariantStatusEnum;
 import com.bsuir.cognispect.mapper.test.TestVariantMapper;
 import com.bsuir.cognispect.model.answer.ChooseAnswerVariantForTestModel;
-import com.bsuir.cognispect.model.answer.UserAnswersModel;
+import com.bsuir.cognispect.model.answer.test.UserAnswerModel;
 import com.bsuir.cognispect.model.question.QuestionVariantForTestModel;
 import com.bsuir.cognispect.model.test.TestVariantForTestModel;
 import com.bsuir.cognispect.service.AnswerVariantService;
@@ -70,9 +70,9 @@ public class TestVariantController {
 
     @PutMapping("/submitAnswer")
     public ResponseEntity<?> submitTestVariantAnswer(
-            @RequestBody UserAnswersModel userAnswersModel) {
+            @RequestBody UserAnswerModel userAnswerModel) {
 
-        answerVariantService.submitAnswers(userAnswersModel);
+        answerVariantService.submitAnswer(userAnswerModel);
         return ResponseEntity.ok().build();
     }
 }

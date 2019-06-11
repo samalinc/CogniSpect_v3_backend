@@ -15,10 +15,7 @@ import java.util.UUID;
 @Setter
 public class TestSessionModel {
     private UUID id;
-
     private TestSessionStatusEnum testSessionStatus;
-
     private String name;
-
     private String[] routers;
 }

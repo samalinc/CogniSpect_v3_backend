@@ -1,17 +1,19 @@
 package com.bsuir.cognispect.service.impl;
 
-import com.bsuir.cognispect.model.test.TestTemplateModel;
-import com.bsuir.cognispect.model.test.TestTemplateQuestionModel;
 import com.bsuir.cognispect.entity.Question;
 import com.bsuir.cognispect.entity.Teacher;
 import com.bsuir.cognispect.entity.TestTemplate;
 import com.bsuir.cognispect.entity.TestTemplateQuestion;
 import com.bsuir.cognispect.exception.ResourceNotFoundException;
+import com.bsuir.cognispect.model.test.TestTemplateModel;
+import com.bsuir.cognispect.model.test.TestTemplateQuestionModel;
 import com.bsuir.cognispect.repository.QuestionRepository;
 import com.bsuir.cognispect.repository.TeacherRepository;
 import com.bsuir.cognispect.repository.TestTemplateRepository;
 import com.bsuir.cognispect.service.TestTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -69,8 +71,8 @@ public class TestTemplateServiceImpl implements TestTemplateService {
     }
 
     @Override
-    public List<TestTemplate> getTestTemplates() {
-        return testTemplateRepository.findAll();
+    public Page<TestTemplate> getTestTemplates(String name, int page, int pageSize) {
+        return testTemplateRepository.findByName(name, PageRequest.of(page, pageSize));
     }
 
     @Override
@@ -86,5 +88,11 @@ public class TestTemplateServiceImpl implements TestTemplateService {
         testTemplateRepository.delete(testTemplate);
 
         return testTemplate;
+    }
+
+    @Override
+    public TestTemplate getTestTemplateById(UUID testTemplateId) {
+        return testTemplateRepository.findById(testTemplateId).orElseThrow(
+                () -> new ResourceNotFoundException("TestTemplate", testTemplateId));
     }
 }

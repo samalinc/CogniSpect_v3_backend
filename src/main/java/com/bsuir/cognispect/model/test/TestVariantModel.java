@@ -19,8 +19,6 @@ import java.util.UUID;
 @Setter
 public class TestVariantModel {
     private UUID id;
-
     private TestVariantStatusEnum testVariantStatus;
-
     private List<QuestionVariantModel> questionVariants;
 }

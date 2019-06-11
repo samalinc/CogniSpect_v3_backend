@@ -14,10 +14,8 @@ import java.util.UUID;
 @Setter
 public class TopicModel {
     private UUID id;
-
     @NotBlank
     private String name;
-
     @Valid
     private SubjectModel subject;
 }

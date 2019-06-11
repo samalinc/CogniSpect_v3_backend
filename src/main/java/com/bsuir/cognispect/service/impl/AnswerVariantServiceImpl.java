@@ -1,8 +1,11 @@
 package com.bsuir.cognispect.service.impl;
 
+import com.bsuir.cognispect.entity.AnswerVariant;
 import com.bsuir.cognispect.entity.ChooseAnswerVariant;
+import com.bsuir.cognispect.entity.MatchAnswerVariant;
+import com.bsuir.cognispect.entity.SortAnswerVariant;
 import com.bsuir.cognispect.exception.ResourceNotFoundException;
-import com.bsuir.cognispect.model.answer.UserAnswersModel;
+import com.bsuir.cognispect.model.answer.test.UserAnswerModel;
 import com.bsuir.cognispect.repository.AnswerVariantRepository;
 import com.bsuir.cognispect.repository.ChooseAnswerVariantRepository;
 import com.bsuir.cognispect.repository.MatchAnswerVariantRepository;
@@ -12,8 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 
@@ -30,21 +31,49 @@ public class AnswerVariantServiceImpl implements AnswerVariantService {
     private MatchAnswerVariantRepository matchAnswerVariantRepository;
 
     @Override
-    public void submitAnswers(UserAnswersModel userAnswersModel) {
-        List<ChooseAnswerVariant> chooseAnswerVariants = submitChooseAnswers(userAnswersModel.getAnswersIds());
+    public void submitAnswer(UserAnswerModel userAnswerModel) {
+        AnswerVariant answerVariant = answerVariantRepository.findById(userAnswerModel.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("AnswerVariant", userAnswerModel.getId()));
+
+        switch (answerVariant.getQuestionVariant().getType()) {
+            case CHOOSE:
+            case MULTICHOOSE:
+            case SUBSTITUTION:
+                submitChooseAnswerVariant(userAnswerModel.getId());
+                break;
+            case MATCH:
+                submitMatchAnswerVariant(userAnswerModel.getId(), userAnswerModel.getValue());
+                break;
+            case SORT:
+                submitSortAnswerVariant(userAnswerModel.getId(), userAnswerModel.getPosition());
+                break;
+        }
     }
 
-    private List<ChooseAnswerVariant> submitChooseAnswers(List<UUID> chooseAnswersIds) {
-        List<ChooseAnswerVariant> userAnswers = new ArrayList<>();
+    private ChooseAnswerVariant submitChooseAnswerVariant(UUID chooseAnswerVariantId) {
+        ChooseAnswerVariant chooseAnswerVariant = chooseAnswerVariantRepository.findById(chooseAnswerVariantId)
+                .orElseThrow(() -> new ResourceNotFoundException("ChooseAnswerVariant", chooseAnswerVariantId));
 
-        for (UUID answerId : chooseAnswersIds) {
-            ChooseAnswerVariant chooseAnswerVariant = chooseAnswerVariantRepository.findById(answerId)
-                    .orElseThrow(() -> new ResourceNotFoundException("ChooseAnswerVariant", answerId));
-            chooseAnswerVariant.setStudentChose(true);
+        chooseAnswerVariant.setStudentChose(true);
 
-            userAnswers.add(answerVariantRepository.save(chooseAnswerVariant));
-        }
+        return answerVariantRepository.save(chooseAnswerVariant);
+    }
 
-        return userAnswers;
+    private MatchAnswerVariant submitMatchAnswerVariant(UUID matchAnswerVariantId, String value) {
+        MatchAnswerVariant matchAnswerVariant = matchAnswerVariantRepository.findById(matchAnswerVariantId)
+                .orElseThrow(() -> new ResourceNotFoundException("MatchAnswerVariant", matchAnswerVariantId));
+
+        matchAnswerVariant.setStudentValue(value);
+
+        return matchAnswerVariantRepository.save(matchAnswerVariant);
+    }
+
+    private SortAnswerVariant submitSortAnswerVariant(UUID sortAnswerVariantId, int position) {
+        SortAnswerVariant sortAnswerVariant = sortAnswerVariantRepository.findById(sortAnswerVariantId)
+                .orElseThrow(() -> new ResourceNotFoundException("SortAnswerVariant", sortAnswerVariantId));
+
+        sortAnswerVariant.setStudentPosition(position);
+
+        return sortAnswerVariantRepository.save(sortAnswerVariant);
     }
 }

@@ -19,20 +19,13 @@ import java.util.UUID;
 @Builder
 public class QuestionModel {
     private UUID id;
-
     @NotBlank
     @Size(max = 40)
     private String description;
-
     private QuestionTypeEnum type;
-
     private List<ChooseAnswerModel> answers;
-
     private List<MatchAnswerModel> matchAnswers;
-
     private List<SortAnswerModel> sortAnswers;
-
     private List<SubstitutionModel> substitutions;
-
     private TopicModel topic;
 }

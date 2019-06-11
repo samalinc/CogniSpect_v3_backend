@@ -19,14 +19,9 @@ import java.util.UUID;
 @Setter
 public class QuestionVariantForTestModel {
     private UUID id;
-
     private String description;
-
     private QuestionTypeEnum type;
-
     private List<ChooseAnswerVariantForTestModel> chooseAnswers;
-
     private List<MatchAnswerVariantForTestModel> matchAnswers;
-
     private List<SortAnswerVariantForTestModel> sortAnswers;
 }

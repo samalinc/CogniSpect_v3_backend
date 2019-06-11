@@ -13,8 +13,6 @@ import java.util.UUID;
 @Setter
 public class SubstitutionModel {
     private UUID id;
-
     private String text;
-
     private ChooseAnswerModel rightAnswer;
 }

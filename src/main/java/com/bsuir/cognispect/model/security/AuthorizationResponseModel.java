@@ -13,6 +13,5 @@ import lombok.Setter;
 @Setter
 public class AuthorizationResponseModel {
     private String authToken;
-
     private UserModel user;
 }
