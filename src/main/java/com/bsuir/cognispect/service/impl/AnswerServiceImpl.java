@@ -49,10 +49,10 @@ public class AnswerServiceImpl implements AnswerService {
             return null;
         }
 
-        List<ChooseAnswer> answerList = chooseAnswerMapper.modelsToEntities(chooseAnswerModels);
-        answerList.forEach(answer -> answer.setQuestion(question));
+        List<ChooseAnswer> chooseAnswerList = chooseAnswerMapper.modelsToEntities(chooseAnswerModels);
+        chooseAnswerList.forEach(answer -> answer.setQuestion(question));
 
-        return chooseAnswerRepository.saveAll(answerList);
+        return chooseAnswerRepository.saveAll(chooseAnswerList);
     }
 
     @Override
@@ -60,13 +60,13 @@ public class AnswerServiceImpl implements AnswerService {
             List<ChooseAnswerModel> chooseAnswerModels,
             List<SubstitutionModel> substitutionModels,
             Question question) {
-        List<ChooseAnswer> answerList = chooseAnswerMapper.modelsToEntities(chooseAnswerModels);
-        answerList.forEach(answer -> answer.setQuestion(question));
+        List<ChooseAnswer> chooseAnswerList = chooseAnswerMapper.modelsToEntities(chooseAnswerModels);
+        chooseAnswerList.forEach(answer -> answer.setQuestion(question));
 
         question.setSubstitutions(
-                createSubstitutions(substitutionModels, answerList, question));
+                createSubstitutions(substitutionModels, chooseAnswerList, question));
 
-        return chooseAnswerRepository.saveAll(answerList);
+        return chooseAnswerRepository.saveAll(chooseAnswerList);
     }
 
     private List<Substitution> createSubstitutions(
@@ -132,11 +132,12 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public ChooseAnswer createSubstitutionAnswer(ChooseAnswerModel chooseAnswerModel, SubstitutionModel substitutionModel, Question question) {
-        ChooseAnswer answerList = chooseAnswerMapper.modelToEntity(chooseAnswerModel);
+        ChooseAnswer chooseAnswer = chooseAnswerMapper.modelToEntity(chooseAnswerModel);
 
-        answerList.setQuestion(question);
+        chooseAnswer.setQuestion(question);
+        chooseAnswer.setSubstitution(createSubstitution(substitutionModel, chooseAnswer, question));
 
-        return chooseAnswerRepository.save(answerList);
+        return chooseAnswerRepository.save(chooseAnswer);
     }
 
     private Substitution createSubstitution(SubstitutionModel substitutionModel,

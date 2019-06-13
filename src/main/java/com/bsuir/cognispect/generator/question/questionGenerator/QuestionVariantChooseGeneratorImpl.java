@@ -9,14 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionVariantChooseGeneratorImpl implements QuestionVariantGenerator<Answer> {
+public class QuestionVariantChooseGeneratorImpl implements QuestionVariantGenerator<ChooseAnswer> {
     @Autowired
     private QuestionVariantRepository questionVariantRepository;
     @Autowired
     private AnswerVariantRepository answerVariantRepository;
 
     @Override
-    public QuestionVariant createQuestionVariant(List<Answer> answers, Question question) {
+    public QuestionVariant createQuestionVariant(List<ChooseAnswer> answers, Question question) {
         QuestionVariant questionVariant = new QuestionVariant();
         List<AnswerVariant> chooseAnswerVariants = new ArrayList<>();
         questionVariant.setDescription(question.getDescription());
@@ -25,8 +25,8 @@ public class QuestionVariantChooseGeneratorImpl implements QuestionVariantGenera
         answers.forEach(answer -> {
             ChooseAnswerVariant chooseAnswerVariant = new ChooseAnswerVariant();
             chooseAnswerVariant.setPosition(answers.indexOf(answer));
-            /*chooseAnswerVariant.setCorrect(answer.isCorrect());
-            chooseAnswerVariant.setText(answer.getText());*/
+            chooseAnswerVariant.setCorrect(answer.isCorrect());
+            chooseAnswerVariant.setText(answer.getText());
             chooseAnswerVariants.add(chooseAnswerVariant);
         });
         questionVariant.setAnswers(chooseAnswerVariants);
