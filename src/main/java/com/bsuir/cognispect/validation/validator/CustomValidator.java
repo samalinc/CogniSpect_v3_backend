@@ -24,6 +24,7 @@ public class CustomValidator {
         List<ApiSubError> apiSubErrorList = null;
 
         Set<ConstraintViolation<T>> constraintViolations = validator.validate(object, groups);
+
         if (constraintViolations.size() > 0) {
             apiSubErrorList = new ArrayList<>();
             Iterator<ConstraintViolation<T>> iterator = constraintViolations.iterator();

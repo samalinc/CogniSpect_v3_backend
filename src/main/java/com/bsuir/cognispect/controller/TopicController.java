@@ -3,6 +3,7 @@ package com.bsuir.cognispect.controller;
 import com.bsuir.cognispect.entity.Topic;
 import com.bsuir.cognispect.mapper.question.TopicMapper;
 import com.bsuir.cognispect.model.RestResponsePage;
+import com.bsuir.cognispect.model.question.CreateTopicModel;
 import com.bsuir.cognispect.model.question.TopicModel;
 import com.bsuir.cognispect.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +42,8 @@ public class TopicController {
 
     @PostMapping
     public ResponseEntity<TopicModel> createTopic(
-            @RequestBody @Valid final TopicModel topicModel) {
-        Topic topic = topicService.createTopic(topicModel);
+            @RequestBody @Valid final CreateTopicModel createTopicModel) {
+        Topic topic = topicService.createTopic(createTopicModel);
 
         return new ResponseEntity<>(topicMapper.entityToModel(topic),
                 HttpStatus.CREATED);

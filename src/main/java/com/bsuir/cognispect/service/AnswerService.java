@@ -37,8 +37,6 @@ public interface AnswerService {
 
     SortAnswer createSortAnswer(SortAnswerModel sortAnswerModel, Question question);
 
-    List<Answer> updateAnswersInQuestion(List<ChooseAnswerModel> chooseAnswerModels);
-
     ChooseAnswer updateChooseAnswer(ChooseAnswerModel chooseAnswerModel);
 
     MatchAnswer updateMatchAnswer(MatchAnswerModel matchAnswerModel);

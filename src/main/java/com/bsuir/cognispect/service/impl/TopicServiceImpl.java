@@ -4,6 +4,7 @@ import com.bsuir.cognispect.entity.Subject;
 import com.bsuir.cognispect.entity.Topic;
 import com.bsuir.cognispect.exception.ResourceNotFoundException;
 import com.bsuir.cognispect.exception.UniqueException;
+import com.bsuir.cognispect.model.question.CreateTopicModel;
 import com.bsuir.cognispect.model.question.TopicModel;
 import com.bsuir.cognispect.repository.SubjectRepository;
 import com.bsuir.cognispect.repository.TopicRepository;
@@ -13,7 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -33,19 +33,19 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public Topic createTopic(TopicModel topicModel) {
+    public Topic createTopic(CreateTopicModel createTopicModel) {
         Subject subject = subjectRepository
-                .findSubjectById(topicModel.getSubject().getId()).orElseThrow(
-                        () -> new ResourceNotFoundException("Subject", topicModel.getSubject().getId()));
+                .findSubjectById(createTopicModel.getSubjectId()).orElseThrow(
+                        () -> new ResourceNotFoundException("Subject", createTopicModel.getSubjectId()));
 
         if (topicRepository.existsTopicByNameUnderSubject(
-                topicModel.getName(), topicModel.getSubject().getId())) {
-            throw new UniqueException("Topic", "name", topicModel.getName());
+                createTopicModel.getName(), createTopicModel.getSubjectId())) {
+            throw new UniqueException("Topic", "name", createTopicModel.getName());
         }
 
         Topic topic = new Topic();
         topic.setSubject(subject);
-        topic.setName(topicModel.getName());
+        topic.setName(createTopicModel.getName());
 
         return topicRepository.save(topic);
     }

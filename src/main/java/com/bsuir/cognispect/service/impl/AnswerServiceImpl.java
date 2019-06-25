@@ -179,17 +179,6 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public List<Answer> updateAnswersInQuestion(List<ChooseAnswerModel> chooseAnswerModels) {
-        List<Answer> answers = new ArrayList<>();
-
-        for (ChooseAnswerModel chooseAnswerModel : chooseAnswerModels) {
-            answers.add(updateChooseAnswer(chooseAnswerModel));
-        }
-
-        return answers;
-    }
-
-    @Override
     public ChooseAnswer updateChooseAnswer(ChooseAnswerModel chooseAnswerModel) {
         ChooseAnswer answer = chooseAnswerRepository.findById(chooseAnswerModel.getId()).orElseThrow(
                 () -> new ResourceNotFoundException("ChooseAnswer", chooseAnswerModel.getId()));
