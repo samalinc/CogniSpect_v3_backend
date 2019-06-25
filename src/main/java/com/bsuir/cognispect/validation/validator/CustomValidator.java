@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
+import javax.validation.groups.Default;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -47,18 +48,18 @@ public class CustomValidator {
         switch (role) {
             case STUDENT: {
                 apiSubErrorList = validate(
-                        object, AccountGroupsValidation.StudentValidation.class);
+                        object, AccountGroupsValidation.StudentValidation.class, Default.class);
                 break;
             }
 
             case TEACHER: {
                 apiSubErrorList = validate(
-                        object, AccountGroupsValidation.TeacherValidation.class);
+                        object, AccountGroupsValidation.TeacherValidation.class, Default.class);
                 break;
             }
             default:
                 apiSubErrorList = validate(
-                        object, AccountGroupsValidation.TeacherValidation.class);
+                        object, AccountGroupsValidation.TeacherValidation.class, Default.class);
         }
 
         return apiSubErrorList;
