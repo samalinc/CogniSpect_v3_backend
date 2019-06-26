@@ -9,10 +9,11 @@ import com.bsuir.cognispect.mapper.question.SubstitutionMapper;
 import com.bsuir.cognispect.model.answer.ChooseAnswerModel;
 import com.bsuir.cognispect.model.answer.MatchAnswerModel;
 import com.bsuir.cognispect.model.answer.SortAnswerModel;
-import com.bsuir.cognispect.model.question.SubstitutionModel;
+import com.bsuir.cognispect.model.question.*;
 import com.bsuir.cognispect.repository.ChooseAnswerRepository;
 import com.bsuir.cognispect.repository.MatchAnswerRepository;
 import com.bsuir.cognispect.repository.SortAnswerRepository;
+import com.bsuir.cognispect.repository.SubstitutionRepository;
 import com.bsuir.cognispect.service.AnswerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,16 +41,23 @@ public class AnswerServiceImpl implements AnswerService {
     private MatchAnswerRepository matchAnswerRepository;
     @Autowired
     private SortAnswerRepository sortAnswerRepository;
+    @Autowired
+    private SubstitutionRepository substitutionRepository;
 
     @Override
     public List<ChooseAnswer> createChooseAnswers(
-            List<ChooseAnswerModel> chooseAnswerModels,
+            List<CreateChooseAnswerModel> createChooseAnswerModels,
             Question question) {
-        if (chooseAnswerModels == null || question == null) {
+        if (createChooseAnswerModels == null || question == null) {
             return null;
         }
 
-        List<ChooseAnswer> chooseAnswerList = chooseAnswerMapper.modelsToEntities(chooseAnswerModels);
+        List<ChooseAnswer> chooseAnswerList = new ArrayList<>();
+
+        for (CreateChooseAnswerModel createChooseAnswerModel : createChooseAnswerModels) {
+            chooseAnswerList.add(chooseAnswerMapper.modelToEntity(createChooseAnswerModel));
+        }
+
         chooseAnswerList.forEach(answer -> answer.setQuestion(question));
 
         return chooseAnswerRepository.saveAll(chooseAnswerList);
@@ -57,34 +65,41 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public List<ChooseAnswer> createSubstitutionAnswers(
-            List<ChooseAnswerModel> chooseAnswerModels,
-            List<SubstitutionModel> substitutionModels,
+            List<CreateChooseAnswerModel> createChooseAnswerModels,
+            List<CreateSubstitutionModel> substitutionModels,
             Question question) {
-        List<ChooseAnswer> chooseAnswerList = chooseAnswerMapper.modelsToEntities(chooseAnswerModels);
+        List<ChooseAnswer> chooseAnswerList = new ArrayList<>(createChooseAnswerModels.size());
+
+        for (CreateChooseAnswerModel createChooseAnswerModel : createChooseAnswerModels) {
+            chooseAnswerList.add(chooseAnswerMapper.modelToEntity(createChooseAnswerModel));
+        }
+
         chooseAnswerList.forEach(answer -> answer.setQuestion(question));
+        chooseAnswerRepository.saveAll(chooseAnswerList);
 
-        question.setSubstitutions(
-                createSubstitutions(substitutionModels, chooseAnswerList, question));
+        List<Substitution> substitutions = createSubstitutions(substitutionModels, chooseAnswerList, question);
+        substitutionRepository.saveAll(substitutions);
+        question.setSubstitutions(substitutions);
 
-        return chooseAnswerRepository.saveAll(chooseAnswerList);
+        return chooseAnswerList;
     }
 
     private List<Substitution> createSubstitutions(
-            List<SubstitutionModel> substitutionModels,
+            List<CreateSubstitutionModel> createSubstitutionModels,
             List<ChooseAnswer> chooseAnswers,
             Question question) {
-        if (substitutionModels == null || chooseAnswers == null || question == null) {
+        if (createSubstitutionModels == null || chooseAnswers == null || question == null) {
             return null;
         }
 
         List<Substitution> substitutionList = new ArrayList<>();
 
-        for (SubstitutionModel substitutionModel : substitutionModels) {
+        for (CreateSubstitutionModel createSubstitutionModel : createSubstitutionModels) {
             Substitution substitution = new Substitution();
-            substitution.setText(substitutionModel.getText());
+            substitution.setText(createSubstitutionModel.getText());
             substitution.setQuestion(question);
             substitution.setRightChooseAnswer(chooseAnswers.stream()
-                    .filter(answer -> answer.getText().equals(substitutionModel.getRightAnswer().getText()))
+                    .filter(answer -> answer.getText().equals(createSubstitutionModel.getRightAnswer()))
                     .findAny().orElseThrow(() -> new RuntimeException("Не найдён ответ для подстановки")));
             substitutionList.add(substitution);
         }
@@ -94,12 +109,15 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public List<MatchAnswer> createMatchAnswers(
-            List<MatchAnswerModel> matchAnswerModels, Question question) {
+            List<CreateMatchAnswerModel> matchAnswerModels, Question question) {
         if (matchAnswerModels == null || question == null) {
             return null;
         }
 
-        List<MatchAnswer> matchAnswerList = matchAnswerMapper.modelsToEntities(matchAnswerModels);
+        List<MatchAnswer> matchAnswerList = new ArrayList<>();
+        for (CreateMatchAnswerModel createMatchAnswerModel : matchAnswerModels) {
+            matchAnswerList.add(matchAnswerMapper.modelToEntity(createMatchAnswerModel));
+        }
         matchAnswerList.forEach(matchAnswer -> matchAnswer.setQuestion(question));
 
         return matchAnswerRepository.saveAll(matchAnswerList);
@@ -107,15 +125,18 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public List<SortAnswer> createSortAnswers(
-            List<SortAnswerModel> sortAnswerModels, Question question) {
-        if (sortAnswerModels == null || question == null) {
+            List<CreateSortAnswerModel> createSortAnswerModels, Question question) {
+        if (createSortAnswerModels == null || question == null) {
             return null;
         }
 
-        List<SortAnswer> sortAnswerList = sortAnswerMapper.modelsToEntities(sortAnswerModels);
-        sortAnswerList.forEach(sortAnswer -> sortAnswer.setQuestion(question));
+        List<SortAnswer> sortAnswers = new ArrayList<>();
+        for (CreateSortAnswerModel createSortAnswerModel : createSortAnswerModels) {
+            sortAnswers.add(sortAnswerMapper.modelToEntity(createSortAnswerModel));
+        }
+        sortAnswers.forEach(matchAnswer -> matchAnswer.setQuestion(question));
 
-        return sortAnswerList;
+        return sortAnswers;
     }
 
     @Override

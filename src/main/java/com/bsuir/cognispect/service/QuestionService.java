@@ -1,5 +1,6 @@
 package com.bsuir.cognispect.service;
 
+import com.bsuir.cognispect.model.question.CreateQuestionModel;
 import com.bsuir.cognispect.model.question.QuestionModel;
 import com.bsuir.cognispect.entity.Question;
 import org.springframework.data.domain.Page;
@@ -11,7 +12,7 @@ import java.util.UUID;
 public interface QuestionService {
     List<Question> getQuestionsByTopicId(UUID topicId);
 
-    Question createQuestion(QuestionModel questionModel);
+    Question createQuestion(CreateQuestionModel createQuestionModel);
 
     Question updateQuestion(QuestionModel questionModel);
 

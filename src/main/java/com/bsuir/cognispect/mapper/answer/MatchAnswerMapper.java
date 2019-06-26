@@ -2,6 +2,7 @@ package com.bsuir.cognispect.mapper.answer;
 
 import com.bsuir.cognispect.model.answer.MatchAnswerModel;
 import com.bsuir.cognispect.entity.MatchAnswer;
+import com.bsuir.cognispect.model.question.CreateMatchAnswerModel;
 import org.mapstruct.Mapper;
 
 import java.util.Collection;
@@ -15,6 +16,9 @@ public abstract class MatchAnswerMapper {
 
     public abstract MatchAnswer modelToEntity(
             MatchAnswerModel matchAnswerModel);
+
+    public abstract MatchAnswer modelToEntity(
+            CreateMatchAnswerModel createMatchAnswerModel);
 
     public abstract List<MatchAnswerModel> entitiesToModels(
             Collection<MatchAnswer> matchAnswers);

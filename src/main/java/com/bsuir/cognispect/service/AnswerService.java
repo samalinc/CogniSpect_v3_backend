@@ -1,10 +1,13 @@
 package com.bsuir.cognispect.service;
 
-import com.bsuir.cognispect.entity.*;
+import com.bsuir.cognispect.entity.ChooseAnswer;
+import com.bsuir.cognispect.entity.MatchAnswer;
+import com.bsuir.cognispect.entity.Question;
+import com.bsuir.cognispect.entity.SortAnswer;
 import com.bsuir.cognispect.model.answer.ChooseAnswerModel;
 import com.bsuir.cognispect.model.answer.MatchAnswerModel;
 import com.bsuir.cognispect.model.answer.SortAnswerModel;
-import com.bsuir.cognispect.model.question.SubstitutionModel;
+import com.bsuir.cognispect.model.question.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -12,19 +15,19 @@ import java.util.UUID;
 
 public interface AnswerService {
     List<ChooseAnswer> createChooseAnswers(
-            List<ChooseAnswerModel> chooseAnswerModels,
+            List<CreateChooseAnswerModel> createChooseAnswerModels,
             Question question);
 
     List<ChooseAnswer> createSubstitutionAnswers(
-            List<ChooseAnswerModel> chooseAnswerModels,
-            List<SubstitutionModel> substitutionModels,
+            List<CreateChooseAnswerModel> createChooseAnswerModels,
+            List<CreateSubstitutionModel> substitutionModels,
             Question question);
 
     List<MatchAnswer> createMatchAnswers(
-            List<MatchAnswerModel> matchAnswerModels, Question question);
+            List<CreateMatchAnswerModel> createMatchAnswerModels, Question question);
 
     List<SortAnswer> createSortAnswers(
-            List<SortAnswerModel> sortAnswerModels, Question question);
+            List<CreateSortAnswerModel> createSortAnswerModels, Question question);
 
     ChooseAnswer createChooseAnswer(ChooseAnswerModel chooseAnswerModel, Question question);
 

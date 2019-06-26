@@ -7,6 +7,7 @@ import com.bsuir.cognispect.exception.ResourceNotFoundException;
 import com.bsuir.cognispect.model.answer.ChooseAnswerModel;
 import com.bsuir.cognispect.model.answer.MatchAnswerModel;
 import com.bsuir.cognispect.model.answer.SortAnswerModel;
+import com.bsuir.cognispect.model.question.CreateQuestionModel;
 import com.bsuir.cognispect.model.question.QuestionModel;
 import com.bsuir.cognispect.repository.QuestionRepository;
 import com.bsuir.cognispect.repository.SubjectRepository;
@@ -40,46 +41,48 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Question createQuestion(final QuestionModel questionModel) {
+    public Question createQuestion(final CreateQuestionModel createQuestionModel) {
         Question question = new Question();
 
-        question.setDescription(questionModel.getDescription());
-        question.setTopic(topicRepository.findTopicById(questionModel.getTopic().getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Topic", questionModel.getTopic().getId())));
-        question.setType(questionModel.getType());
+        question.setDescription(createQuestionModel.getDescription());
+        question.setTopic(topicRepository.findTopicById(createQuestionModel.getTopicId())
+                .orElseThrow(() -> new ResourceNotFoundException("Topic", createQuestionModel.getTopicId())));
+        question.setType(createQuestionModel.getType());
+        questionRepository.save(question);
+
         List<Answer> answerList = null;
 
-        switch (questionModel.getType()) {
+        switch (createQuestionModel.getType()) {
             case CHOOSE:
             case MULTICHOOSE:
                 answerList = ((List<Answer>) (List<?>)
                         answerService.createChooseAnswers(
-                                questionModel.getChooseAnswers(),
+                                createQuestionModel.getChooseAnswers(),
                                 question));
                 break;
             case MATCH:
                 answerList = ((List<Answer>) (List<?>)
                         answerService.createMatchAnswers(
-                                questionModel.getMatchAnswers(),
+                                createQuestionModel.getMatchAnswers(),
                                 question));
                 break;
             case SORT:
                 answerList = ((List<Answer>) (List<?>)
                         answerService.createSortAnswers(
-                                questionModel.getSortAnswers(),
+                                createQuestionModel.getSortAnswers(),
                                 question));
                 break;
             case SUBSTITUTION:
                 answerList = ((List<Answer>) (List<?>)
                         answerService.createSubstitutionAnswers(
-                                questionModel.getChooseAnswers(),
-                                questionModel.getSubstitutions(),
+                                createQuestionModel.getChooseAnswers(),
+                                createQuestionModel.getSubstitutions(),
                                 question));
                 break;
         }
         question.setAnswers(answerList);
 
-        return questionRepository.save(question);
+        return question;
     }
 
     @Override

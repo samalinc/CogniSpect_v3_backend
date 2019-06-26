@@ -2,6 +2,7 @@ package com.bsuir.cognispect.controller;
 
 import com.bsuir.cognispect.mapper.question.QuestionMapper;
 import com.bsuir.cognispect.model.RestResponsePage;
+import com.bsuir.cognispect.model.question.CreateQuestionModel;
 import com.bsuir.cognispect.model.question.QuestionModel;
 import com.bsuir.cognispect.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,10 @@ public class QuestionController {
 
     @PostMapping
     public ResponseEntity<QuestionModel> createQuestion(
-            @Valid @RequestBody final QuestionModel questionModel) {
+            @Valid @RequestBody final CreateQuestionModel createQuestionModel) {
 
         return new ResponseEntity<>(questionMapper.entityToModel(
-                questionService.createQuestion(questionModel)),
+                questionService.createQuestion(createQuestionModel)),
                 HttpStatus.CREATED
         );
     }
