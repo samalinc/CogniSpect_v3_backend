@@ -7,6 +7,10 @@ import com.bsuir.cognispect.entity.SortAnswer;
 import com.bsuir.cognispect.model.answer.ChooseAnswerModel;
 import com.bsuir.cognispect.model.answer.MatchAnswerModel;
 import com.bsuir.cognispect.model.answer.SortAnswerModel;
+import com.bsuir.cognispect.model.create.answer.CreateChooseAnswerModel;
+import com.bsuir.cognispect.model.create.answer.CreateMatchAnswerModel;
+import com.bsuir.cognispect.model.create.answer.CreateSortAnswerModel;
+import com.bsuir.cognispect.model.create.answer.CreateSubstitutionModel;
 import com.bsuir.cognispect.model.question.*;
 
 import java.util.List;

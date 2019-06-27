@@ -2,7 +2,7 @@ package com.bsuir.cognispect.mapper.answer;
 
 import com.bsuir.cognispect.entity.SortAnswer;
 import com.bsuir.cognispect.model.answer.SortAnswerModel;
-import com.bsuir.cognispect.model.question.CreateSortAnswerModel;
+import com.bsuir.cognispect.model.create.answer.CreateSortAnswerModel;
 import org.mapstruct.Mapper;
 
 import java.util.Collection;

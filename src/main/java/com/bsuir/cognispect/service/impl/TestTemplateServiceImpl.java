@@ -5,6 +5,7 @@ import com.bsuir.cognispect.entity.Teacher;
 import com.bsuir.cognispect.entity.TestTemplate;
 import com.bsuir.cognispect.entity.TestTemplateQuestion;
 import com.bsuir.cognispect.exception.ResourceNotFoundException;
+import com.bsuir.cognispect.model.create.CreateTestTemplateModel;
 import com.bsuir.cognispect.model.test.TestTemplateModel;
 import com.bsuir.cognispect.model.test.TestTemplateQuestionModel;
 import com.bsuir.cognispect.repository.QuestionRepository;
@@ -31,17 +32,18 @@ public class TestTemplateServiceImpl implements TestTemplateService {
     private QuestionRepository questionRepository;
 
     @Override
-    public TestTemplate createTestTemplate(TestTemplateModel testTemplateModel) {
+    public TestTemplate createTestTemplate(CreateTestTemplateModel createTestTemplateModel) {
         TestTemplate testTemplate = new TestTemplate();
 
         Teacher teacher = teacherRepository
-                .findTeacherById(testTemplateModel.getCreator().getId())
+                .findTeacherById(createTestTemplateModel.getCreatorId())
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        "Teacher", testTemplateModel.getCreator().getId()));
+                        "Teacher", createTestTemplateModel.getCreatorId()));
 
+        testTemplate.setName(createTestTemplateModel.getName());
         testTemplate.setCreator(teacher);
         testTemplate.setTestTemplateQuestions(createTestTemplateQuestions(
-                testTemplateModel.getTestTemplateQuestions(), testTemplate));
+                createTestTemplateModel.getTestTemplateQuestions(), testTemplate));
 
         testTemplateRepository.save(testTemplate);
 
@@ -72,7 +74,7 @@ public class TestTemplateServiceImpl implements TestTemplateService {
 
     @Override
     public Page<TestTemplate> getTestTemplates(String name, int page, int pageSize) {
-        return testTemplateRepository.findByName(name, PageRequest.of(page, pageSize));
+        return testTemplateRepository.findByNameContaining(name, PageRequest.of(page, pageSize));
     }
 
     @Override

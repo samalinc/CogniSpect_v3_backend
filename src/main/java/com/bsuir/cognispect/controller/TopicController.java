@@ -3,7 +3,7 @@ package com.bsuir.cognispect.controller;
 import com.bsuir.cognispect.entity.Topic;
 import com.bsuir.cognispect.mapper.question.TopicMapper;
 import com.bsuir.cognispect.model.RestResponsePage;
-import com.bsuir.cognispect.model.question.CreateTopicModel;
+import com.bsuir.cognispect.model.create.CreateTopicModel;
 import com.bsuir.cognispect.model.question.TopicModel;
 import com.bsuir.cognispect.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;

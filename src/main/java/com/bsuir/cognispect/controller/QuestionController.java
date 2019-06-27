@@ -2,7 +2,7 @@ package com.bsuir.cognispect.controller;
 
 import com.bsuir.cognispect.mapper.question.QuestionMapper;
 import com.bsuir.cognispect.model.RestResponsePage;
-import com.bsuir.cognispect.model.question.CreateQuestionModel;
+import com.bsuir.cognispect.model.create.question.CreateQuestionModel;
 import com.bsuir.cognispect.model.question.QuestionModel;
 import com.bsuir.cognispect.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;

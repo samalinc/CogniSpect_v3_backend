@@ -1,5 +1,6 @@
-package com.bsuir.cognispect.model.question;
+package com.bsuir.cognispect.model.create;
 
+import com.bsuir.cognispect.entity.enums.TestSessionStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,9 +15,13 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CreateTopicModel {
+public class CreateTestSessionModel {
+    @NotNull
+    private String[] routers;
     @NotBlank
     private String name;
     @NotNull
-    private UUID subjectId;
+    private UUID creatorId;
+    @NotNull
+    private TestSessionStatusEnum status;
 }

@@ -1,4 +1,4 @@
-package com.bsuir.cognispect.model.question;
+package com.bsuir.cognispect.model.create.answer;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

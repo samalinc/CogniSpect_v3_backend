@@ -1,7 +1,7 @@
 package com.bsuir.cognispect.mapper.test;
 
-import com.bsuir.cognispect.model.test.TestSessionModel;
 import com.bsuir.cognispect.entity.TestSession;
+import com.bsuir.cognispect.model.test.TestSessionModel;
 import org.mapstruct.Mapper;
 
 import java.util.Collection;

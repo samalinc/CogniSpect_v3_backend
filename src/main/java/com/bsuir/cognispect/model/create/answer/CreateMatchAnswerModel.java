@@ -1,11 +1,10 @@
-package com.bsuir.cognispect.model.question;
+package com.bsuir.cognispect.model.create.answer;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
 
@@ -13,9 +12,9 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CreateSortAnswerModel {
+public class CreateMatchAnswerModel {
     @NotBlank
-    private String text;
-    @Min(0)
-    private int position;
+    private String key;
+    @NotBlank
+    private String value;
 }

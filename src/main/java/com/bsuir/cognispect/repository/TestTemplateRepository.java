@@ -15,5 +15,5 @@ public interface TestTemplateRepository
         extends JpaRepository<TestTemplate, UUID> {
     Optional<TestTemplate> findById(UUID uuid);
 
-    Page<TestTemplate> findByName(String name, Pageable pageable);
+    Page<TestTemplate> findByNameContaining(String name, Pageable pageable);
 }

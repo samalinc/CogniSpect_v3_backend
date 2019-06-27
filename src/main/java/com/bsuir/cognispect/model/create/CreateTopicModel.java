@@ -1,4 +1,4 @@
-package com.bsuir.cognispect.model.question;
+package com.bsuir.cognispect.model.create;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,14 +6,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class CreateChooseAnswerModel {
+public class CreateTopicModel {
     @NotBlank
-    private String text;
-    boolean isCorrect;
+    private String name;
+    @NotNull
+    private UUID subjectId;
 }

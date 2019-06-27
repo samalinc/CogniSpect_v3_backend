@@ -6,6 +6,7 @@ import com.bsuir.cognispect.mapper.test.TestTemplateMapper;
 import com.bsuir.cognispect.mapper.test.TestVariantMapper;
 import com.bsuir.cognispect.model.GenerateTestVariantsModel;
 import com.bsuir.cognispect.model.RestResponsePage;
+import com.bsuir.cognispect.model.create.CreateTestTemplateModel;
 import com.bsuir.cognispect.model.test.TestTemplateModel;
 import com.bsuir.cognispect.model.test.TestVariantModel;
 import com.bsuir.cognispect.service.TestTemplateService;
@@ -34,11 +35,11 @@ public class TestTemplateController {
 
     @PostMapping
     public ResponseEntity<TestTemplateModel> createTestTemplate(
-            @Valid @RequestBody TestTemplateModel testTemplateModel) {
+            @Valid @RequestBody CreateTestTemplateModel createTestTemplateModel) {
 
         return new ResponseEntity<>(
                 testTemplateMapper.entityToModel(
-                        testTemplateService.createTestTemplate(testTemplateModel)),
+                        testTemplateService.createTestTemplate(createTestTemplateModel)),
                 HttpStatus.CREATED);
     }
 
@@ -72,15 +73,5 @@ public class TestTemplateController {
 
         return ResponseEntity.ok(testTemplateMapper
                 .entityToModel(testTemplate));
-    }
-
-    @PostMapping("/generate")
-    public ResponseEntity<List<TestVariantModel>> generateTestVariants(
-            @Valid @RequestBody GenerateTestVariantsModel generateTestVariantsModel) {
-        TestTemplate testTemplate = testTemplateService
-                .getTestTemplateById(generateTestVariantsModel.getTestTemplateId());
-
-        return ResponseEntity.ok(testVariantMapper.entitiesToModels(testTemplateGeneratorService
-                .generateTestVariants(testTemplate, generateTestVariantsModel.getNumOfVariants())));
     }
 }

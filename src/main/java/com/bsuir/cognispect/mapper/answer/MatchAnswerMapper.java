@@ -2,7 +2,7 @@ package com.bsuir.cognispect.mapper.answer;
 
 import com.bsuir.cognispect.model.answer.MatchAnswerModel;
 import com.bsuir.cognispect.entity.MatchAnswer;
-import com.bsuir.cognispect.model.question.CreateMatchAnswerModel;
+import com.bsuir.cognispect.model.create.answer.CreateMatchAnswerModel;
 import org.mapstruct.Mapper;
 
 import java.util.Collection;

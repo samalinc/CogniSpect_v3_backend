@@ -1,18 +1,24 @@
 package com.bsuir.cognispect.controller;
 
+import com.bsuir.cognispect.entity.TestTemplate;
 import com.bsuir.cognispect.entity.enums.QuestionTypeEnum;
 import com.bsuir.cognispect.entity.enums.TestVariantStatusEnum;
+import com.bsuir.cognispect.generator.TestTemplateGeneratorService;
 import com.bsuir.cognispect.mapper.test.TestVariantMapper;
+import com.bsuir.cognispect.model.GenerateTestVariantsModel;
 import com.bsuir.cognispect.model.answer.ChooseAnswerVariantForTestModel;
 import com.bsuir.cognispect.model.answer.test.UserAnswerModel;
 import com.bsuir.cognispect.model.question.QuestionVariantForTestModel;
 import com.bsuir.cognispect.model.test.TestVariantForTestModel;
+import com.bsuir.cognispect.model.test.TestVariantModel;
 import com.bsuir.cognispect.service.AnswerVariantService;
+import com.bsuir.cognispect.service.TestTemplateService;
 import com.bsuir.cognispect.service.TestVariantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -28,8 +34,12 @@ public class TestVariantController {
     private TestVariantMapper testVariantMapper;
     @Autowired
     private AnswerVariantService answerVariantService;
+    @Autowired
+    private TestTemplateService testTemplateService;
+    @Autowired
+    private TestTemplateGeneratorService testTemplateGeneratorService;
 
-    @GetMapping
+    @GetMapping("/student")
     public ResponseEntity<TestVariantForTestModel> getTestVariantForStudent(
             @RequestParam(name = "testSessionId") UUID testSessionId) {
         /*Student student = ((UserDetailsImpl) SecurityContextHolder.getContext()
@@ -68,6 +78,11 @@ public class TestVariantController {
         return ResponseEntity.ok(testVariantForTestModel);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<TestVariantModel> getTestVariantById(@PathVariable(name = "id") UUID testVariantId) {
+        return ResponseEntity.ok(testVariantMapper.entityToModel(testVariantService.getTestVariantById(testVariantId)));
+    }
+
     @PutMapping("/submitAnswer")
     public ResponseEntity<?> submitTestVariantAnswer(
             @RequestBody UserAnswerModel userAnswerModel) {
@@ -79,5 +94,15 @@ public class TestVariantController {
     @PutMapping("/finish/{id}")
     public void finishTestVariant(@PathVariable(name = "id") UUID testVariantId) {
         testVariantService.changeTestVariantStatus(testVariantId, TestVariantStatusEnum.FINISHED);
+    }
+
+    @PostMapping("/generate")
+    public ResponseEntity<List<TestVariantModel>> generateTestVariants(
+            @Valid @RequestBody GenerateTestVariantsModel generateTestVariantsModel) {
+        TestTemplate testTemplate = testTemplateService
+                .getTestTemplateById(generateTestVariantsModel.getTestTemplateId());
+
+        return ResponseEntity.ok(testVariantMapper.entitiesToModels(testTemplateGeneratorService
+                .generateTestVariants(testTemplate, generateTestVariantsModel.getUserIds())));
     }
 }

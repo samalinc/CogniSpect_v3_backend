@@ -1,12 +1,11 @@
 package com.bsuir.cognispect.service;
 
-import com.bsuir.cognispect.model.question.CreateTopicModel;
-import com.bsuir.cognispect.model.question.TopicModel;
 import com.bsuir.cognispect.entity.Subject;
 import com.bsuir.cognispect.entity.Topic;
+import com.bsuir.cognispect.model.create.CreateTopicModel;
+import com.bsuir.cognispect.model.question.TopicModel;
 import org.springframework.data.domain.Page;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 

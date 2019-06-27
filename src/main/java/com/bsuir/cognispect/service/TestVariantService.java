@@ -9,4 +9,6 @@ public interface TestVariantService {
     TestVariant getTestVariantForStudent(UUID testSessionId, UUID studentId);
 
     TestVariant changeTestVariantStatus(UUID testVariantId, TestVariantStatusEnum testVariantStatus);
+
+    TestVariant getTestVariantById(UUID testVariantId);
 }

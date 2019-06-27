@@ -22,7 +22,7 @@ public class TestTemplate {
             strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String name;
 
     @ManyToOne

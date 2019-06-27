@@ -7,7 +7,7 @@ import com.bsuir.cognispect.exception.ResourceNotFoundException;
 import com.bsuir.cognispect.model.answer.ChooseAnswerModel;
 import com.bsuir.cognispect.model.answer.MatchAnswerModel;
 import com.bsuir.cognispect.model.answer.SortAnswerModel;
-import com.bsuir.cognispect.model.question.CreateQuestionModel;
+import com.bsuir.cognispect.model.create.question.CreateQuestionModel;
 import com.bsuir.cognispect.model.question.QuestionModel;
 import com.bsuir.cognispect.repository.QuestionRepository;
 import com.bsuir.cognispect.repository.SubjectRepository;

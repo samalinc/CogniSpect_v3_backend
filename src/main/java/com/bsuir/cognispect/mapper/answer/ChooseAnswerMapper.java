@@ -2,8 +2,7 @@ package com.bsuir.cognispect.mapper.answer;
 
 import com.bsuir.cognispect.entity.ChooseAnswer;
 import com.bsuir.cognispect.model.answer.ChooseAnswerModel;
-import com.bsuir.cognispect.entity.Answer;
-import com.bsuir.cognispect.model.question.CreateChooseAnswerModel;
+import com.bsuir.cognispect.model.create.answer.CreateChooseAnswerModel;
 import org.mapstruct.Mapper;
 
 import java.util.Collection;

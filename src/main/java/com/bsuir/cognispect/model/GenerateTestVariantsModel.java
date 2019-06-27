@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -15,8 +16,8 @@ import java.util.UUID;
 @Getter
 @Setter
 public class GenerateTestVariantsModel {
-    @Min(1)
-    private long numOfVariants;
+    @NotNull
+    List<UUID> userIds;
     @NotNull
     private UUID testTemplateId;
 }

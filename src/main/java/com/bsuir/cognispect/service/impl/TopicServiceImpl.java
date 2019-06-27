@@ -4,7 +4,7 @@ import com.bsuir.cognispect.entity.Subject;
 import com.bsuir.cognispect.entity.Topic;
 import com.bsuir.cognispect.exception.ResourceNotFoundException;
 import com.bsuir.cognispect.exception.UniqueException;
-import com.bsuir.cognispect.model.question.CreateTopicModel;
+import com.bsuir.cognispect.model.create.CreateTopicModel;
 import com.bsuir.cognispect.model.question.TopicModel;
 import com.bsuir.cognispect.repository.SubjectRepository;
 import com.bsuir.cognispect.repository.TopicRepository;

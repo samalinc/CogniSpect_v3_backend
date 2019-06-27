@@ -1,6 +1,6 @@
 package com.bsuir.cognispect.service;
 
-import com.bsuir.cognispect.model.question.CreateQuestionModel;
+import com.bsuir.cognispect.model.create.question.CreateQuestionModel;
 import com.bsuir.cognispect.model.question.QuestionModel;
 import com.bsuir.cognispect.entity.Question;
 import org.springframework.data.domain.Page;

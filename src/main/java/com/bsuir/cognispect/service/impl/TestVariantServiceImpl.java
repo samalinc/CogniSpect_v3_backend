@@ -33,4 +33,10 @@ public class TestVariantServiceImpl implements TestVariantService {
 
         return testVariantRepository.save(testVariant);
     }
+
+    @Override
+    public TestVariant getTestVariantById(UUID testVariantId) {
+        return testVariantRepository.findById(testVariantId).orElseThrow(
+                () -> new ResourceNotFoundException("TestVariant", testVariantId));
+    }
 }

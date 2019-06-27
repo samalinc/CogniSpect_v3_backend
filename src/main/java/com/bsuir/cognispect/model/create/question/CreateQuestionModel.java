@@ -1,12 +1,15 @@
-package com.bsuir.cognispect.model.question;
+package com.bsuir.cognispect.model.create.question;
 
 import com.bsuir.cognispect.entity.enums.QuestionTypeEnum;
+import com.bsuir.cognispect.model.create.answer.CreateChooseAnswerModel;
+import com.bsuir.cognispect.model.create.answer.CreateMatchAnswerModel;
+import com.bsuir.cognispect.model.create.answer.CreateSortAnswerModel;
+import com.bsuir.cognispect.model.create.answer.CreateSubstitutionModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.UUID;
