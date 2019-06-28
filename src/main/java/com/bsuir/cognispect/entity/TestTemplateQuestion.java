@@ -17,13 +17,11 @@ public class TestTemplateQuestion {
     private TestTemplateQuestionId id;
 
     @ManyToOne
-    //@MapsId("testTemplateId")
-    @JoinColumn(name = "test_template_id", nullable = false, insertable = false, updatable = false)
+    @MapsId("testTemplateId")
     private TestTemplate testTemplate;
 
     @ManyToOne
-    //@MapsId("questionId")
-    @JoinColumn(name = "question_id", nullable = false, insertable = false, updatable = false)
+    @MapsId("questionId")
     private Question question;
 
     @Column(name = "question_cost")

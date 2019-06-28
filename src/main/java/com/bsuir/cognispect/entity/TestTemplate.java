@@ -29,9 +29,9 @@ public class TestTemplate {
     @JoinColumn(name = "creator_id")
     private Teacher creator;
 
-    @OneToMany(mappedBy = "testTemplate")
+    @OneToMany(mappedBy = "testTemplate", cascade = CascadeType.ALL)
     private List<TestTemplateQuestion> testTemplateQuestions;
 
-    @OneToMany(mappedBy = "testTemplate")
+    @OneToMany(mappedBy = "testTemplate", cascade = CascadeType.ALL)
     private List<TestTemplateTopic> testTemplateTopics;
 }
