@@ -32,9 +32,8 @@ public class SubjectController {
             @RequestParam(name = "pageSize", required = false, defaultValue = "1")
             @Min(1) Integer pageSize) {
 
-        return ResponseEntity.ok(new RestResponsePage<>(
-                subjectService.getSubjectsByFilter(subjectName, page, pageSize)
-                        .map(subjectMapper::entityToModel)));
+        return ResponseEntity.ok(new RestResponsePage<>(subjectService
+                .getSubjectsByFilter(subjectName, page, pageSize).map(subjectMapper::entityToModel)));
     }
 
     @PostMapping
@@ -42,9 +41,7 @@ public class SubjectController {
             @RequestBody @Valid final SubjectModel subjectModel) {
         Subject subject = subjectService.createSubject(subjectModel);
 
-        return new ResponseEntity<>(
-                subjectMapper.entityToModel(subject),
-                HttpStatus.CREATED);
+        return new ResponseEntity<>(subjectMapper.entityToModel(subject), HttpStatus.CREATED);
     }
 
     @PutMapping

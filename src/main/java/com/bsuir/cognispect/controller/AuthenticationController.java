@@ -59,7 +59,6 @@ public class AuthenticationController {
         return ResponseEntity.ok(new AuthorizationResponseModel(
                 tokenAuthentication.getName(), userMapper.entityToModel(
                 ((UserDetailsImpl) tokenAuthentication.getDetails())
-                        .getAccount())
-        ));
+                        .getAccount())));
     }
 }

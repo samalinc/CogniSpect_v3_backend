@@ -11,7 +11,6 @@ import com.bsuir.cognispect.model.RestResponsePage;
 import com.bsuir.cognispect.model.test.TestVariantForTestModel;
 import com.bsuir.cognispect.model.test.TestVariantModel;
 import com.bsuir.cognispect.security.details.UserDetailsImpl;
-import com.bsuir.cognispect.service.AnswerVariantService;
 import com.bsuir.cognispect.service.TestTemplateService;
 import com.bsuir.cognispect.service.TestVariantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,11 +69,6 @@ public class TestVariantController {
                         testVariantMapper::entityToModel)));
     }
 
-    @PutMapping("/finish/{id}")
-    public void finishTestVariant(@PathVariable(name = "id") UUID testVariantId) {
-        testVariantService.changeTestVariantStatus(testVariantId, TestVariantStatusEnum.FINISHED);
-    }
-
     @PostMapping("/generate")
     public ResponseEntity<List<TestVariantModel>> generateTestVariants(
             @Valid @RequestBody GenerateTestVariantsModel generateTestVariantsModel) {
@@ -83,5 +77,10 @@ public class TestVariantController {
 
         return ResponseEntity.ok(testVariantMapper.entitiesToModels(testTemplateGeneratorService
                 .generateTestVariants(testTemplate, new TestSession(), generateTestVariantsModel.getUserIds())));
+    }
+
+    @PutMapping("/finish/{id}")
+    public void finishTestVariant(@PathVariable(name = "id") UUID testVariantId) {
+        testVariantService.changeTestVariantStatus(testVariantId, TestVariantStatusEnum.FINISHED);
     }
 }
