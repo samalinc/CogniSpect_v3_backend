@@ -4,8 +4,8 @@ import com.bsuir.cognispect.entity.Teacher;
 import com.bsuir.cognispect.entity.TestSession;
 import com.bsuir.cognispect.entity.TestVariant;
 import com.bsuir.cognispect.exception.ResourceNotFoundException;
-import com.bsuir.cognispect.mapper.test.TestSessionMapper;
 import com.bsuir.cognispect.model.create.CreateTestSessionModel;
+import com.bsuir.cognispect.model.test.TestSessionSimpleModel;
 import com.bsuir.cognispect.repository.TeacherRepository;
 import com.bsuir.cognispect.repository.TestSessionRepository;
 import com.bsuir.cognispect.repository.TestVariantRepository;
@@ -58,5 +58,22 @@ public class TestSessionServiceImpl implements TestSessionService {
     @Override
     public Page<TestSession> getTestSessionsByFilter(String name, int page, int pageSize) {
         return testSessionRepository.findByNameContaining(name, PageRequest.of(page, pageSize));
+    }
+
+    @Override
+    public TestSession deleteTestSessionById(UUID testSessionId) {
+        return testSessionRepository.deleteTestSessionById(testSessionId).orElseThrow(
+                () -> new ResourceNotFoundException("TestSession", testSessionId));
+    }
+
+    @Override
+    public TestSession updateTestSession(TestSessionSimpleModel testSessionSimpleModel) {
+        TestSession testSession = testSessionRepository.getOne(testSessionSimpleModel.getId());
+
+        testSession.setName(testSessionSimpleModel.getName());
+        testSession.setRouters(testSessionSimpleModel.getRouters());
+        testSession.setTestSessionStatus(testSessionSimpleModel.getTestSessionStatus());
+
+        return testSessionRepository.save(testSession);
     }
 }

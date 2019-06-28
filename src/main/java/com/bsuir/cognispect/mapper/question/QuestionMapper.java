@@ -1,16 +1,17 @@
 package com.bsuir.cognispect.mapper.question;
 
-import com.bsuir.cognispect.entity.ChooseAnswer;
-import com.bsuir.cognispect.entity.MatchAnswer;
-import com.bsuir.cognispect.entity.Question;
-import com.bsuir.cognispect.entity.SortAnswer;
+import com.bsuir.cognispect.entity.*;
 import com.bsuir.cognispect.mapper.answer.ChooseAnswerMapper;
 import com.bsuir.cognispect.mapper.answer.MatchAnswerMapper;
 import com.bsuir.cognispect.mapper.answer.SortAnswerMapper;
 import com.bsuir.cognispect.model.question.QuestionModel;
+import com.bsuir.cognispect.repository.ChooseAnswerRepository;
+import com.bsuir.cognispect.repository.MatchAnswerRepository;
+import com.bsuir.cognispect.repository.SortAnswerRepository;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -27,6 +28,12 @@ public abstract class QuestionMapper {
     private SortAnswerMapper sortAnswerMapper;
     @Autowired
     private MatchAnswerMapper matchAnswerMapper;
+    @Autowired
+    private ChooseAnswerRepository chooseAnswerRepository;
+    @Autowired
+    private SortAnswerRepository sortAnswerRepository;
+    @Autowired
+    private MatchAnswerRepository matchAnswerRepository;
 
     public QuestionModel entityToModel(Question question) {
         if (question == null) {
@@ -44,16 +51,28 @@ public abstract class QuestionMapper {
             case CHOOSE:
             case MULTICHOOSE:
             case SUBSTITUTION:
-                questionModel.setChooseAnswers(chooseAnswerMapper.entitiesToModels(
-                        (List<ChooseAnswer>) (List<?>) question.getAnswers()));
+                List<ChooseAnswer> chooseAnswers = new ArrayList<>();
+
+                for (Answer answer : question.getAnswers()) {
+                    chooseAnswers.add(chooseAnswerRepository.findById(answer.getId()).get());
+                }
+                questionModel.setChooseAnswers(chooseAnswerMapper.entitiesToModels(chooseAnswers));
                 break;
             case SORT:
-                questionModel.setSortAnswers(sortAnswerMapper.entitiesToModels(
-                        (List<SortAnswer>) (List<?>) question.getAnswers()));
+                List<SortAnswer> sortAnswers = new ArrayList<>();
+
+                for (Answer answer : question.getAnswers()) {
+                    sortAnswers.add(sortAnswerRepository.findById(answer.getId()).get());
+                }
+                questionModel.setSortAnswers(sortAnswerMapper.entitiesToModels(sortAnswers));
                 break;
             case MATCH:
-                questionModel.setMatchAnswers(matchAnswerMapper.entitiesToModels(
-                        (List<MatchAnswer>) (List<?>) question.getAnswers()));
+                List<MatchAnswer> matchAnswers = new ArrayList<>();
+
+                for (Answer answer : question.getAnswers()) {
+                    matchAnswers.add(matchAnswerRepository.findById(answer.getId()).get());
+                }
+                questionModel.setMatchAnswers(matchAnswerMapper.entitiesToModels(matchAnswers));
                 break;
         }
         return questionModel;

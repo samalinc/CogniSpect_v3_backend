@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -18,4 +19,5 @@ public class TestSessionModel {
     private TestSessionStatusEnum testSessionStatus;
     private String name;
     private String[] routers;
+    private List<TestVariantModel> testVariants;
 }

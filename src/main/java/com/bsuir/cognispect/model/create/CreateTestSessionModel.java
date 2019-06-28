@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -24,4 +25,8 @@ public class CreateTestSessionModel {
     private UUID creatorId;
     @NotNull
     private TestSessionStatusEnum status;
+    @NotNull
+    private List<UUID> studentIds;
+    @NotNull
+    private UUID testTemplateId;
 }

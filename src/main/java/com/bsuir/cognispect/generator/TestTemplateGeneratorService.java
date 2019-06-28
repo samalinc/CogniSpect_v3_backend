@@ -1,8 +1,10 @@
 package com.bsuir.cognispect.generator;
 
 import com.bsuir.cognispect.entity.*;
+import com.bsuir.cognispect.entity.enums.TestVariantStatusEnum;
 import com.bsuir.cognispect.exception.ResourceNotFoundException;
-import com.bsuir.cognispect.repository.AccountRepository;
+import com.bsuir.cognispect.repository.QuestionVariantRepository;
+import com.bsuir.cognispect.repository.StudentRepository;
 import com.bsuir.cognispect.repository.TestVariantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,9 +21,12 @@ public class TestTemplateGeneratorService {
     @Autowired
     private TestVariantRepository testVariantRepository;
     @Autowired
-    private AccountRepository accountRepository;
+    private QuestionVariantRepository questionVariantRepository;
+    @Autowired
+    private StudentRepository studentRepository;
 
-    public List<TestVariant> generateTestVariants(TestTemplate testTemplate, List<UUID> userIds) {
+    public List<TestVariant> generateTestVariants(
+            TestTemplate testTemplate, TestSession testSession, List<UUID> userIds) {
         if (userIds.size() == 0) {
             throw new RuntimeException("Юзеров для генерации не может быть 0");
         }
@@ -29,14 +34,17 @@ public class TestTemplateGeneratorService {
         List<TestTemplateQuestion> testTemplateQuestions = testTemplate.getTestTemplateQuestions();
         for (UUID userId : userIds) {
             TestVariant testVariant = createTestVariant(testTemplateQuestions);
-            Student student = accountRepository.findById(userId).get().getStudent();
-            if (student == null) {
-                throw new ResourceNotFoundException("Student", userId);
-            }
+            Student student = studentRepository.findById(userId).orElseThrow(
+                    () -> new ResourceNotFoundException("Student", userId));
             testVariant.setStudent(student);
-            testVariants.add(createTestVariant(testTemplateQuestions));
+            testVariant.setTestSession(testSession);
+            testVariant.setTestVariantStatus(TestVariantStatusEnum.STARTED);
+            testVariant.getQuestionVariants().forEach(questionVariant -> questionVariant.setTestVariant(testVariant));
+            testVariantRepository.save(testVariant);
+            questionVariantRepository.saveAll(testVariant.getQuestionVariants());
+            testVariants.add(testVariant);
         }
-        return testVariantRepository.saveAll(testVariants);
+        return testVariants;
     }
 
     private TestVariant createTestVariant(List<TestTemplateQuestion> testTemplateQuestions) {

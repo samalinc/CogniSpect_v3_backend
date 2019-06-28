@@ -5,6 +5,7 @@ import com.bsuir.cognispect.generator.answers.answersGenerators.AnswerChooseGene
 import com.bsuir.cognispect.generator.answers.answersGenerators.MatchAnswerGeneratorImpl;
 import com.bsuir.cognispect.generator.answers.answersGenerators.SortAnswerGeneratorImpl;
 
+
 public class AnswerFactory {
 
     public AnswerGenerator getAnswerGeneratorType(Question question) {

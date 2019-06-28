@@ -1,16 +1,11 @@
 package com.bsuir.cognispect.service.impl;
 
-import com.bsuir.cognispect.entity.Question;
-import com.bsuir.cognispect.entity.Teacher;
-import com.bsuir.cognispect.entity.TestTemplate;
-import com.bsuir.cognispect.entity.TestTemplateQuestion;
+import com.bsuir.cognispect.entity.*;
 import com.bsuir.cognispect.exception.ResourceNotFoundException;
 import com.bsuir.cognispect.model.create.CreateTestTemplateModel;
 import com.bsuir.cognispect.model.test.TestTemplateModel;
 import com.bsuir.cognispect.model.test.TestTemplateQuestionModel;
-import com.bsuir.cognispect.repository.QuestionRepository;
-import com.bsuir.cognispect.repository.TeacherRepository;
-import com.bsuir.cognispect.repository.TestTemplateRepository;
+import com.bsuir.cognispect.repository.*;
 import com.bsuir.cognispect.service.TestTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,12 +22,22 @@ public class TestTemplateServiceImpl implements TestTemplateService {
     @Autowired
     private TestTemplateRepository testTemplateRepository;
     @Autowired
+    private TestTemplateTopicRepository testTemplateTopicRepository;
+    @Autowired
+    private TestTemplateQuestionRepository testTemplateQuestionRepository;
+    @Autowired
     private TeacherRepository teacherRepository;
     @Autowired
     private QuestionRepository questionRepository;
+    @Autowired
+    private TopicRepository topicRepository;
 
     @Override
     public TestTemplate createTestTemplate(CreateTestTemplateModel createTestTemplateModel) {
+        if (createTestTemplateModel.getTestTemplateQuestions().size() == 0) {
+            throw new RuntimeException("Test template should have more than 0 questions");
+        }
+
         TestTemplate testTemplate = new TestTemplate();
 
         Teacher teacher = teacherRepository
@@ -42,12 +47,31 @@ public class TestTemplateServiceImpl implements TestTemplateService {
 
         testTemplate.setName(createTestTemplateModel.getName());
         testTemplate.setCreator(teacher);
+        testTemplateRepository.save(testTemplate);
         testTemplate.setTestTemplateQuestions(createTestTemplateQuestions(
                 createTestTemplateModel.getTestTemplateQuestions(), testTemplate));
-
-        testTemplateRepository.save(testTemplate);
+        testTemplate.setTestTemplateTopics(createTestTemplateTopics(
+                createTestTemplateModel.getTopicIds(), testTemplate));
 
         return testTemplate;
+    }
+
+    private List<TestTemplateTopic> createTestTemplateTopics(List<UUID> topicIds, TestTemplate testTemplate) {
+        List<TestTemplateTopic> testTemplateTopics = new ArrayList<>();
+
+        for (UUID topicId : topicIds) {
+            Topic topic = topicRepository.findTopicById(topicId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Topic", topicId));
+            TestTemplateTopic testTemplateTopic = new TestTemplateTopic();
+
+            testTemplateTopic.setId(new TestTemplateTopicId(testTemplate.getId(), topic.getId()));
+            testTemplateTopic.setTopic(topic);
+            testTemplateTopic.setTestTemplate(testTemplate);
+
+            testTemplateTopics.add(testTemplateTopic);
+        }
+
+        return testTemplateTopicRepository.saveAll(testTemplateTopics);
     }
 
     private List<TestTemplateQuestion> createTestTemplateQuestions(
@@ -62,6 +86,9 @@ public class TestTemplateServiceImpl implements TestTemplateService {
 
             TestTemplateQuestion testTemplateQuestion = new TestTemplateQuestion();
 
+            testTemplateQuestion.setId(new TestTemplateQuestionId(testTemplate.getId(),
+                    question.getId()));
+
             testTemplateQuestion.setQuestion(question);
             testTemplateQuestion.setTestTemplate(testTemplate);
             testTemplateQuestion.setQuestionCost(testTemplateQuestionModel.getQuestionCost());
@@ -69,7 +96,7 @@ public class TestTemplateServiceImpl implements TestTemplateService {
             testTemplateQuestions.add(testTemplateQuestion);
         }
 
-        return testTemplateQuestions;
+        return testTemplateQuestionRepository.saveAll(testTemplateQuestions);
     }
 
     @Override

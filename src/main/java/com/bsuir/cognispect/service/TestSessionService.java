@@ -2,6 +2,7 @@ package com.bsuir.cognispect.service;
 
 import com.bsuir.cognispect.entity.TestSession;
 import com.bsuir.cognispect.model.create.CreateTestSessionModel;
+import com.bsuir.cognispect.model.test.TestSessionSimpleModel;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -14,4 +15,8 @@ public interface TestSessionService {
     TestSession createTestSession(CreateTestSessionModel createTestSessionModel);
 
     Page<TestSession> getTestSessionsByFilter(String name, int page, int pageSize);
+
+    TestSession deleteTestSessionById(UUID testSessionId);
+
+    TestSession updateTestSession(TestSessionSimpleModel testSessionSimpleModel);
 }

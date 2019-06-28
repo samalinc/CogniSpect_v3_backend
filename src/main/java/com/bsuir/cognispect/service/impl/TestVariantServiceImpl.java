@@ -6,6 +6,8 @@ import com.bsuir.cognispect.exception.ResourceNotFoundException;
 import com.bsuir.cognispect.repository.TestVariantRepository;
 import com.bsuir.cognispect.service.TestVariantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -38,5 +40,11 @@ public class TestVariantServiceImpl implements TestVariantService {
     public TestVariant getTestVariantById(UUID testVariantId) {
         return testVariantRepository.findById(testVariantId).orElseThrow(
                 () -> new ResourceNotFoundException("TestVariant", testVariantId));
+    }
+
+    @Override
+    public Page<TestVariant> getTestVariantsByFilter(UUID studentId, int page, int pageSize) {
+        return testVariantRepository.findTestVariantsByStudentId(
+                studentId, PageRequest.of(page, pageSize));
     }
 }

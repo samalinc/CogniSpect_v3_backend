@@ -1,17 +1,18 @@
 package com.bsuir.cognispect.mapper.question;
 
-import com.bsuir.cognispect.entity.ChooseAnswerVariant;
-import com.bsuir.cognispect.entity.MatchAnswerVariant;
-import com.bsuir.cognispect.entity.QuestionVariant;
-import com.bsuir.cognispect.entity.SortAnswerVariant;
+import com.bsuir.cognispect.entity.*;
 import com.bsuir.cognispect.mapper.answer.ChooseAnswerVariantMapper;
 import com.bsuir.cognispect.mapper.answer.MatchAnswerVariantMapper;
 import com.bsuir.cognispect.mapper.answer.SortAnswerVariantMapper;
 import com.bsuir.cognispect.model.question.QuestionVariantForTestModel;
 import com.bsuir.cognispect.model.question.QuestionVariantModel;
+import com.bsuir.cognispect.repository.ChooseAnswerVariantRepository;
+import com.bsuir.cognispect.repository.MatchAnswerVariantRepository;
+import com.bsuir.cognispect.repository.SortAnswerVariantRepository;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -24,6 +25,12 @@ public abstract class QuestionVariantMapper {
     private SortAnswerVariantMapper sortAnswerVariantMapper;
     @Autowired
     private MatchAnswerVariantMapper matchAnswerVariantMapper;
+    @Autowired
+    private ChooseAnswerVariantRepository chooseAnswerVariantRepository;
+    @Autowired
+    private SortAnswerVariantRepository sortAnswerVariantRepository;
+    @Autowired
+    private MatchAnswerVariantRepository matchAnswerVariantRepository;
 
     public QuestionVariantModel entityToModel(
             QuestionVariant questionVariant) {
@@ -42,19 +49,31 @@ public abstract class QuestionVariantMapper {
             case CHOOSE:
             case MULTICHOOSE:
             case SUBSTITUTION:
-                questionVariantModel.setChooseAnswers(chooseAnswerVariantMapper
-                        .entitiesToModels(
-                                (List<ChooseAnswerVariant>) (List<?>) questionVariant.getAnswers()));
+                List<ChooseAnswerVariant> chooseAnswerVariants = new ArrayList<>();
+
+                for (AnswerVariant answerVariant : questionVariant.getAnswers()) {
+                    chooseAnswerVariants.add(chooseAnswerVariantRepository.findById(answerVariant.getId()).get());
+                }
+                questionVariantModel.setChooseAnswers(
+                        chooseAnswerVariantMapper.entitiesToModels(chooseAnswerVariants));
                 break;
             case SORT:
-                questionVariantModel.setSortAnswers(sortAnswerVariantMapper
-                        .entitiesToModels(
-                                (List<SortAnswerVariant>) (List<?>) questionVariant.getAnswers()));
+                List<SortAnswerVariant> sortAnswerVariants = new ArrayList<>();
+
+                for (AnswerVariant answerVariant : questionVariant.getAnswers()) {
+                    sortAnswerVariants.add(sortAnswerVariantRepository.findById(answerVariant.getId()).get());
+                }
+                questionVariantModel.setSortAnswers(
+                        sortAnswerVariantMapper.entitiesToModels(sortAnswerVariants));
                 break;
             case MATCH:
-                questionVariantModel.setMatchAnswers(matchAnswerVariantMapper
-                        .entitiesToModels(
-                                (List<MatchAnswerVariant>) (List<?>) questionVariant.getAnswers()));
+                List<MatchAnswerVariant> matchAnswerVariants = new ArrayList<>();
+
+                for (AnswerVariant answerVariant : questionVariant.getAnswers()) {
+                    matchAnswerVariants.add(matchAnswerVariantRepository.findById(answerVariant.getId()).get());
+                }
+                questionVariantModel.setMatchAnswers(
+                        matchAnswerVariantMapper.entitiesToModels(matchAnswerVariants));
                 break;
         }
 
@@ -80,19 +99,31 @@ public abstract class QuestionVariantMapper {
             case CHOOSE:
             case MULTICHOOSE:
             case SUBSTITUTION:
-                questionVariantForTestModel.setChooseAnswers(chooseAnswerVariantMapper
-                        .entitiesToModelsForTest(
-                                (List<ChooseAnswerVariant>) (List<?>) questionVariant.getAnswers()));
+                List<ChooseAnswerVariant> chooseAnswerVariants = new ArrayList<>();
+
+                for (AnswerVariant answerVariant : questionVariant.getAnswers()) {
+                    chooseAnswerVariants.add(chooseAnswerVariantRepository.findById(answerVariant.getId()).get());
+                }
+                questionVariantForTestModel.setChooseAnswers(
+                        chooseAnswerVariantMapper.entitiesToModelsForTest(chooseAnswerVariants));
                 break;
             case SORT:
-                questionVariantForTestModel.setSortAnswers(sortAnswerVariantMapper
-                        .entitiesToModelsForTest(
-                                (List<SortAnswerVariant>) (List<?>) questionVariant.getAnswers()));
+                List<SortAnswerVariant> sortAnswerVariants = new ArrayList<>();
+
+                for (AnswerVariant answerVariant : questionVariant.getAnswers()) {
+                    sortAnswerVariants.add(sortAnswerVariantRepository.findById(answerVariant.getId()).get());
+                }
+                questionVariantForTestModel.setSortAnswers(
+                        sortAnswerVariantMapper.entitiesToModelsForTest(sortAnswerVariants));
                 break;
             case MATCH:
-                questionVariantForTestModel.setMatchAnswers(matchAnswerVariantMapper
-                        .entitiesToModelsForTest(
-                                (List<MatchAnswerVariant>) (List<?>) questionVariant.getAnswers()));
+                List<MatchAnswerVariant> matchAnswerVariants = new ArrayList<>();
+
+                for (AnswerVariant answerVariant : questionVariant.getAnswers()) {
+                    matchAnswerVariants.add(matchAnswerVariantRepository.findById(answerVariant.getId()).get());
+                }
+                questionVariantForTestModel.setMatchAnswers(
+                        matchAnswerVariantMapper.entitiesToModelsForTest(matchAnswerVariants));
                 break;
         }
 
