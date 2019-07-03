@@ -7,8 +7,8 @@ import com.bsuir.cognispect.generator.TestTemplateGeneratorService;
 import com.bsuir.cognispect.mapper.test.TestSessionMapper;
 import com.bsuir.cognispect.model.RestResponsePage;
 import com.bsuir.cognispect.model.create.CreateTestSessionModel;
-import com.bsuir.cognispect.model.test.TestSessionSimpleModel;
 import com.bsuir.cognispect.model.test.TestSessionModel;
+import com.bsuir.cognispect.model.test.TestSessionSimpleModel;
 import com.bsuir.cognispect.security.details.UserDetailsImpl;
 import com.bsuir.cognispect.service.TestSessionService;
 import com.bsuir.cognispect.service.TestTemplateService;
@@ -47,8 +47,7 @@ public class TestSessionController {
         }
 
         return ResponseEntity.ok(testSessionMapper.entitiesToModelsForStudent(
-                testSessionService
-                        .getEnabledTestSessionsForStudent(student.getId())));
+                testSessionService.getEnabledTestSessionsForStudent(student.getId())));
     }
 
     @GetMapping
@@ -60,9 +59,8 @@ public class TestSessionController {
             @RequestParam(name = "pageSize", required = false, defaultValue = "1")
             @Min(1) Integer pageSize) {
 
-        return ResponseEntity.ok(new RestResponsePage<>(
-                testSessionService.getTestSessionsByFilter(name, page, pageSize).map(
-                        testSessionMapper::entityToModel)));
+        return ResponseEntity.ok(new RestResponsePage<>(testSessionService
+                .getTestSessionsByFilter(name, page, pageSize).map(testSessionMapper::entityToModel)));
     }
 
     @PostMapping
@@ -75,8 +73,7 @@ public class TestSessionController {
         testSession.setTestVariants(testTemplateGeneratorService
                 .generateTestVariants(testTemplate, testSession, createTestSessionModel.getStudentIds()));
 
-        return new ResponseEntity<>(
-                testSessionMapper.entityToModel(testSession),
+        return new ResponseEntity<>(testSessionMapper.entityToModel(testSession),
                 HttpStatus.CREATED);
     }
 

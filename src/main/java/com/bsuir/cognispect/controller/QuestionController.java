@@ -24,38 +24,11 @@ public class QuestionController {
     @Autowired
     private QuestionMapper questionMapper;
 
-    @PostMapping
-    public ResponseEntity<QuestionModel> createQuestion(
-            @Valid @RequestBody final CreateQuestionModel createQuestionModel) {
-
-        return new ResponseEntity<>(questionMapper.entityToModel(
-                questionService.createQuestion(createQuestionModel)),
-                HttpStatus.CREATED
-        );
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<QuestionModel> getQuestionById(
             @PathVariable(name = "id") UUID questionId) {
 
-        return ResponseEntity.ok(questionMapper.entityToModel(
-                questionService.getQuestionById(questionId)));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<QuestionModel> deleteQuestionById(
-            @PathVariable(name = "id") UUID questionId) {
-
-        return ResponseEntity.ok(questionMapper.entityToModel(questionService
-                .deleteQuestionById(questionId)));
-    }
-
-    @PutMapping
-    public ResponseEntity<QuestionModel> updateQuestion(
-            @Valid @RequestBody final QuestionModel questionModel) {
-
-        return ResponseEntity.ok(questionMapper.entityToModel(
-                questionService.updateQuestion(questionModel)));
+        return ResponseEntity.ok(questionMapper.entityToModel(questionService.getQuestionById(questionId)));
     }
 
     @GetMapping
@@ -79,8 +52,7 @@ public class QuestionController {
             @PathVariable(name = "id") UUID topicId) {
 
         return ResponseEntity.ok(questionMapper.entitiesToModels(
-                questionService.getQuestionsByTopicId(topicId)
-        ));
+                questionService.getQuestionsByTopicId(topicId)));
     }
 
     @GetMapping("/subject/{id}")
@@ -88,7 +60,31 @@ public class QuestionController {
             @PathVariable(name = "id") UUID subjectId) {
 
         return ResponseEntity.ok(questionMapper.entitiesToModels(
-                questionService.getQuestionsBySubjectId(subjectId)
-        ));
+                questionService.getQuestionsBySubjectId(subjectId)));
+    }
+
+    @PostMapping
+    public ResponseEntity<QuestionModel> createQuestion(
+            @Valid @RequestBody final CreateQuestionModel createQuestionModel) {
+
+        return new ResponseEntity<>(questionMapper.entityToModel(
+                questionService.createQuestion(createQuestionModel)),
+                HttpStatus.CREATED);
+    }
+
+    @PutMapping
+    public ResponseEntity<QuestionModel> updateQuestion(
+            @Valid @RequestBody final QuestionModel questionModel) {
+
+        return ResponseEntity.ok(questionMapper.entityToModel(
+                questionService.updateQuestion(questionModel)));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<QuestionModel> deleteQuestionById(
+            @PathVariable(name = "id") UUID questionId) {
+
+        return ResponseEntity.ok(questionMapper.entityToModel(questionService
+                .deleteQuestionById(questionId)));
     }
 }
