@@ -31,7 +31,7 @@ public class TestTemplate {
 
     @OneToMany(mappedBy = "testTemplate")
     private List<TestTemplateQuestion> testTemplateQuestions;
-
+/*
     @OneToMany(mappedBy = "testTemplate")
-    private List<TestTemplateTopic> testTemplateTopics;
+    private List<TestTemplateTopic> testTemplateTopics;*/
 }

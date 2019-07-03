@@ -1,3 +1,4 @@
+/*
 package com.bsuir.cognispect.entity;
 
 import lombok.AllArgsConstructor;
@@ -21,3 +22,4 @@ public class TestTemplateTopicId implements Serializable {
     @Column(name = "topic_id")
     private UUID topicId;
 }
+*/

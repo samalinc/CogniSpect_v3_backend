@@ -21,8 +21,8 @@ import java.util.UUID;
 public class TestTemplateServiceImpl implements TestTemplateService {
     @Autowired
     private TestTemplateRepository testTemplateRepository;
-    @Autowired
-    private TestTemplateTopicRepository testTemplateTopicRepository;
+    /*@Autowired
+    private TestTemplateTopicRepository testTemplateTopicRepository;*/
     @Autowired
     private TestTemplateQuestionRepository testTemplateQuestionRepository;
     @Autowired
@@ -50,13 +50,13 @@ public class TestTemplateServiceImpl implements TestTemplateService {
         testTemplateRepository.save(testTemplate);
         testTemplate.setTestTemplateQuestions(createTestTemplateQuestions(
                 createTestTemplateModel.getTestTemplateQuestions(), testTemplate));
-        testTemplate.setTestTemplateTopics(createTestTemplateTopics(
-                createTestTemplateModel.getTopicIds(), testTemplate));
+        /*testTemplate.setTestTemplateTopics(createTestTemplateTopics(
+                createTestTemplateModel.getTopicIds(), testTemplate));*/
 
         return testTemplate;
     }
 
-    private List<TestTemplateTopic> createTestTemplateTopics(List<UUID> topicIds, TestTemplate testTemplate) {
+    /*private List<TestTemplateTopic> createTestTemplateTopics(List<UUID> topicIds, TestTemplate testTemplate) {
         List<TestTemplateTopic> testTemplateTopics = new ArrayList<>();
 
         for (UUID topicId : topicIds) {
@@ -72,7 +72,7 @@ public class TestTemplateServiceImpl implements TestTemplateService {
         }
 
         return testTemplateTopicRepository.saveAll(testTemplateTopics);
-    }
+    }*/
 
     private List<TestTemplateQuestion> createTestTemplateQuestions(
             List<TestTemplateQuestionModel> testTemplateQuestionModelList, TestTemplate testTemplate) {

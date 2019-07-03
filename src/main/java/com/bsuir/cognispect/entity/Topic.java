@@ -34,7 +34,7 @@ public class Topic {
     @ManyToOne
     @JoinColumn(name = "subject_id", nullable = false)
     private Subject subject;
-
+/*
     @OneToMany(mappedBy = "topic")
-    private List<TestTemplateTopic> testTemplateTopics;
+    private List<TestTemplateTopic> testTemplateTopics;*/
 }

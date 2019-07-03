@@ -24,6 +24,6 @@ public class CreateTestTemplateModel {
     private List<TestTemplateQuestionModel> testTemplateQuestions;
     @NotBlank
     private String name;
-    @NotNull
-    private List<UUID> topicIds;
+/*    @NotNull
+    private List<UUID> topicIds;*/
 }

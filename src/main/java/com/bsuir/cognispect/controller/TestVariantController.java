@@ -10,8 +10,8 @@ import com.bsuir.cognispect.model.GenerateTestVariantsModel;
 import com.bsuir.cognispect.model.RestResponsePage;
 import com.bsuir.cognispect.model.test.TestVariantForTestModel;
 import com.bsuir.cognispect.model.test.TestVariantModel;
+import com.bsuir.cognispect.model.test.TestVariantResultModel;
 import com.bsuir.cognispect.security.details.UserDetailsImpl;
-import com.bsuir.cognispect.service.AnswerVariantService;
 import com.bsuir.cognispect.service.TestTemplateService;
 import com.bsuir.cognispect.service.TestVariantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,5 +83,10 @@ public class TestVariantController {
 
         return ResponseEntity.ok(testVariantMapper.entitiesToModels(testTemplateGeneratorService
                 .generateTestVariants(testTemplate, new TestSession(), generateTestVariantsModel.getUserIds())));
+    }
+
+    @GetMapping("/statistic/{id}")
+    public ResponseEntity<TestVariantResultModel> getStatisticOfTestVariant(@PathVariable(name = "id") UUID testVariantId) {
+        return ResponseEntity.ok(testVariantService.countStudentTestVariantPoints(testVariantId));
     }
 }

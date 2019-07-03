@@ -27,6 +27,9 @@ public class QuestionVariant {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column
+    private int cost;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "type", columnDefinition = "QUESTION_TYPE")
     @Type(type = "pgsql_enum")

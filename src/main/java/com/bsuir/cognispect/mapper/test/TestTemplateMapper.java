@@ -4,6 +4,7 @@ import com.bsuir.cognispect.mapper.user.UserMapper;
 import com.bsuir.cognispect.model.test.TestTemplateModel;
 import com.bsuir.cognispect.entity.TestTemplate;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.Collection;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
         uses = {TestTemplateQuestionMapper.class,
                 UserMapper.class})
 public abstract class TestTemplateMapper {
+    @Mapping(source = "testTemplate.testTemplateQuestions", target = "questions")
     public abstract TestTemplateModel entityToModel(TestTemplate testTemplate);
 
     public abstract List<TestTemplateModel> entitiesToModels(

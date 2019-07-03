@@ -1,3 +1,4 @@
+/*
 package com.bsuir.cognispect.entity;
 
 import lombok.*;
@@ -26,3 +27,4 @@ public class TestTemplateTopic {
     @JoinColumn(name = "topic_id", nullable = false, insertable = false, updatable = false)
     private Topic topic;
 }
+*/

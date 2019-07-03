@@ -1,3 +1,4 @@
+/*
 package com.bsuir.cognispect.repository;
 
 import com.bsuir.cognispect.entity.TestTemplateTopic;
@@ -11,3 +12,4 @@ import java.util.UUID;
 public interface TestTemplateTopicRepository
         extends JpaRepository<TestTemplateTopic, UUID> {
 }
+*/
